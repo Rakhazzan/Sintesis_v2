@@ -1,0 +1,124 @@
+/* Reset & base */
+body, html, #root, .main-app {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #f9fafe;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: #222;
+}
+
+.main-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f9fafe;
+}
+
+.main-content {
+  flex: 1 1 auto;
+  padding: 16px 0 68px 0; /* espacio para nav inferior */
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Sección bienvenida */
+.welcome-section {
+  margin-bottom: 18px;
+}
+.welcome-section h2 {
+  margin: 0 0 2px 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+.welcome-section .date {
+  color: #8a8fa7;
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+.summary-cards {
+  display: flex;
+  gap: 16px;
+}
+.summary-card {
+  flex: 1;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+  padding: 16px 0;
+  text-align: center;
+}
+.summary-title {
+  color: #8a8fa7;
+  font-size: 1rem;
+  margin-bottom: 3px;
+}
+.summary-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #222;
+}
+
+/* Estadísticas */
+.stats-section {
+  margin: 24px 0 18px 0;
+}
+.stats-section h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.stats-placeholder {
+  background: #ecebff;
+  border-radius: 13px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5a4ff3;
+  font-weight: 500;
+}
+
+/* Próximas citas */
+.appointments-section {
+  margin: 18px 0 80px 0;
+}
+.appointments-section h3 {
+  font-size: 1.13rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.appointment-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+  padding: 13px 16px;
+  font-size: 1rem;
+  color: #222;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .main-content {
+    padding: 12px 0 68px 0;
+    max-width: 100vw;
+  }
+  .summary-cards {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

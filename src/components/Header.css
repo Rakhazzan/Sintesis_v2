@@ -1,0 +1,45 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px 10px 20px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.header__logo {
+  font-family: 'Segoe Script', 'Pacifico', cursive;
+  font-size: 2rem;
+  color: #5a4ff3;
+  letter-spacing: 1px;
+}
+.header__icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.header__bell {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.header__dot {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 8px;
+  height: 8px;
+  background: #f44336;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+.header__avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(44, 62, 80, 0.08);
+}

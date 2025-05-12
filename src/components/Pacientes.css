@@ -1,0 +1,82 @@
+.pacientes-main {
+  padding: 14px 0 72px 0;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.pacientes-filtros {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+}
+.pacientes-filtro {
+  border: none;
+  background: #ecebff;
+  color: #5a4ff3;
+  border-radius: 14px;
+  padding: 6px 18px;
+  font-size: 0.97rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.pacientes-filtro.active, .pacientes-filtro:hover {
+  background: #5a4ff3;
+  color: #fff;
+}
+.pacientes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.paciente-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+  padding: 11px 14px;
+  position: relative;
+}
+.paciente-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(44,62,80,0.08);
+}
+.paciente-info {
+  flex: 1;
+}
+.paciente-nombre {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+.paciente-detalle {
+  color: #8a8fa7;
+  font-size: 0.97rem;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.paciente-genero {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.paciente-etiqueta {
+  border-radius: 10px;
+  padding: 5px 14px;
+  font-size: 0.97rem;
+  font-weight: 500;
+  color: #222;
+  margin-left: 10px;
+}
+@media (max-width: 600px) {
+  .pacientes-main {
+    max-width: 100vw;
+    padding: 8px 0 72px 0;
+  }
+}
