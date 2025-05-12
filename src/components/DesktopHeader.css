@@ -1,0 +1,132 @@
+.desktop-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  padding: 0 20px 0 260px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07); /* más contraste con fondo blanco */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 25;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background: #f0f2f5; /* más contraste que #f7f8fb */
+  border-radius: 25px;
+  padding: 0 15px;
+  width: 400px;
+  height: 40px;
+}
+
+.search-icon {
+  margin-right: 10px;
+  color: #555555; /* asegurar visibilidad */
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 15px;
+  color: #333;
+}
+
+.search-input::placeholder {
+  color: #999; /* más visible en fondo claro */
+}
+
+.desktop-header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.notification-btn {
+  position: relative;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.notification-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.notification-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background: #e14c4c;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.profile-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.profile-btn:hover .profile-avatar {
+  transform: scale(1.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .desktop-header {
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .search-container {
+    background: rgb(255, 255, 255);
+  }
+
+  .search-input {
+    color: #555555;
+  }
+
+  .search-input::placeholder {
+    color: #555555;
+  }
+
+  .notification-btn svg {
+    stroke: #555555;
+  }
+
+  .notification-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .profile-avatar {
+    border-color: #383c4a;
+  }
+}

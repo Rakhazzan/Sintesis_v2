@@ -4,102 +4,522 @@ body, html, #root, .main-app {
   margin: 0;
   padding: 0;
   background: #f9fafe;
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-  color: #222;
 }
 
+/* Layout principal */
 .main-app {
+  min-height: 100vh;
+  background: var(--bg-color);
+}
+
+/* Contenido principal para móvil */
+.main-content {
+  padding: 16px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+/* Versión desktop del contenido principal */
+.main-content.desktop {
+  padding-top: calc(var(--header-height) + 20px);
+  padding-left: calc(var(--sidebar-width) + 20px);
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+/* Sección de bienvenida */
+.welcome-section {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background: #f9fafe;
+  margin-bottom: 24px;
 }
 
-.main-content {
-  flex: 1 1 auto;
-  padding: 16px 0 68px 0; /* espacio para nav inferior */
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-/* Sección bienvenida */
-.welcome-section {
-  margin-bottom: 18px;
-}
 .welcome-section h2 {
-  margin: 0 0 2px 0;
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 8px;
 }
-.welcome-section .date {
-  color: #8a8fa7;
-  font-size: 1rem;
-  margin-bottom: 14px;
+
+.date {
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  font-size: 0.95rem;
 }
+
 .summary-cards {
   display: flex;
   gap: 16px;
 }
+
 .summary-card {
   flex: 1;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
-  padding: 16px 0;
-  text-align: center;
-}
-.summary-title {
-  color: #8a8fa7;
-  font-size: 1rem;
-  margin-bottom: 3px;
-}
-.summary-value {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #222;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  box-shadow: var(--card-shadow);
 }
 
-/* Estadísticas */
-.stats-section {
-  margin: 24px 0 18px 0;
-}
-.stats-section h3 {
-  font-size: 1.15rem;
-  font-weight: 600;
+.summary-title {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
   margin-bottom: 8px;
 }
+
+.summary-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Sección de estadísticas para móvil */
+.stats-section {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: var(--card-shadow);
+}
+
+.stats-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+
 .stats-placeholder {
-  background: #ecebff;
-  border-radius: 13px;
-  min-height: 120px;
+  height: 150px;
+  background: #f5f6fa;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #5a4ff3;
+  color: var(--text-secondary);
+}
+
+/* Sección de citas para móvil */
+.appointments-section {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  box-shadow: var(--card-shadow);
+}
+
+.appointments-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+
+.appointment-card {
+  padding: 12px;
+  background: #f5f6fa;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+/* ======= ESTILOS DESKTOP ======= */
+
+/* Grid para el dashboard en desktop */
+.desktop-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.stats-section {
+  grid-column: 1 / 3;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.period-selector {
+  background: var(--primary-light);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: var(--primary-color);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Gráfico de barras */
+.stats-chart {
+  display: flex;
+  height: 180px;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 10px;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40px;
+}
+
+.chart-bar {
+  width: 24px;
+  background: var(--primary-color);
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+}
+
+.chart-label {
+  margin-top: 8px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+/* Fila de métricas */
+.metrics-row {
+  grid-column: 1 / 3;
+  display: flex;
+  gap: 20px;
+}
+
+.metric-card {
+  flex: 1;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: center;
+}
+
+.metric-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-icon.appointments {
+  background: rgba(90, 79, 243, 0.1);
+  color: var(--primary-color);
+}
+
+.metric-icon.patients {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--positive-color);
+}
+
+.metric-icon.time {
+  background: rgba(225, 76, 76, 0.1);
+  color: var(--negative-color);
+}
+
+.metric-data {
+  flex: 1;
+}
+
+.metric-title {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.metric-trend {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+}
+
+.metric-trend.positive {
+  color: var(--positive-color);
+}
+
+.metric-trend.negative {
+  color: var(--negative-color);
+}
+
+/* Fila inferior con tabla y calendario */
+.bottom-row {
+  grid-column: 1 / 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Tabla de citas recientes */
+.recent-appointments {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+}
+
+.view-all {
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 0.9rem;
   font-weight: 500;
 }
 
-/* Próximas citas */
-.appointments-section {
-  margin: 18px 0 80px 0;
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
 }
-.appointments-section h3 {
-  font-size: 1.13rem;
+
+.appointments-table th {
+  text-align: left;
+  padding: 12px 16px;
+  color: var(--text-secondary);
   font-weight: 600;
-  margin-bottom: 8px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(44, 62, 80, 0.05);
 }
-.appointments-list {
+
+.appointments-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(44, 62, 80, 0.05);
+}
+
+.patient-cell {
+  display: flex;
+  align-items: center;
+}
+
+.patient-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status.confirmed {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--positive-color);
+}
+
+.status.pending {
+  background: rgba(249, 169, 38, 0.1);
+  color: #f59e0b;
+}
+
+.status.completed {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.status.cancelled {
+  background: rgba(225, 76, 76, 0.1);
+  color: var(--negative-color);
+}
+
+/* Sección de calendario */
+.calendar-section {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
+}
+
+.calendar-controls {
+  display: flex;
   gap: 10px;
 }
-.appointment-card {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
-  padding: 13px 16px;
+
+.calendar-nav {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary-color);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mini-calendar {
+  margin-top: 16px;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-days div {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  border-radius: 50%;
+  margin: 2px auto;
+}
+
+.calendar-days .current-day {
+  background: var(--primary-color);
+  color: white;
+  font-weight: 600;
+}
+
+.calendar-days .prev-month,
+.calendar-days .next-month {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+/* Próximas citas en panel lateral */
+.upcoming-appointments {
+  margin-top: 20px;
+}
+
+.upcoming-appointments h4 {
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+}
+
+.appointment-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: #f9fafe;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.patient-small-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.appointment-details {
+  flex: 1;
+}
+
+.appointment-name {
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.appointment-type {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.appointment-time {
+  font-weight: 500;
+  margin: 0 12px;
+  white-space: nowrap;
+}
+
+.appointment-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   font-size: 1rem;
-  color: #222;
+}
+
+.action-btn.message {
+  background: var(--primary-light);
+  color: var(--primary-color);
+}
+
+.action-btn.call {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--positive-color);
+}
+
+/* Soporte para modo oscuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #e5e7eb;
+    --text-secondary: #9ca3af;
+    --bg-color: #111827;
+    --card-bg: #1f2937;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .stats-placeholder,
+  .appointment-card {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .appointment-item {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+/* Estilos base para todos los dispositivos */
+:root {
+  --primary-color: #5a4ff3;
+  --primary-light: #ecebff;
+  --text-color: #222;
+  --text-secondary: #8a8fa7;
+  --bg-color: #f9fafe;
+  --card-bg: #ffffff;
+  --card-shadow: 0 2px 10px rgba(44, 62, 80, 0.07);
+  --border-radius: 16px;
+  --positive-color: #22c55e;
+  --negative-color: #e14c4c;
+  --sidebar-width: 240px;
+  --header-height: 70px;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: var(--text-color);
 }
 
 /* Responsive */
