@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Mensajes.css";
 import { ReactComponent as ChatIcon } from "./svg/chat.svg";
 
@@ -42,7 +42,15 @@ const mensajes = [
   }
 ];
 
-const Mensajes = () => (
+const Mensajes = () => {
+  const [busqueda, setBusqueda] = useState("");
+  
+  // Filtrar mensajes por nombre
+  const mensajesFiltrados = mensajes.filter(mensaje => 
+    mensaje.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  );
+  
+  return (
   <div className="mensajes-main">
     <div className="mensajes-header">
       <h2>Mensajes</h2>
@@ -50,9 +58,14 @@ const Mensajes = () => (
         <ChatIcon width={22} /> Nuevo
       </button>
     </div>
-    <input className="mensajes-buscar" placeholder="Buscar conversación..." />
+    <input 
+      className="mensajes-buscar" 
+      placeholder="Buscar conversación..." 
+      value={busqueda}
+      onChange={(e) => setBusqueda(e.target.value)}
+    />
     <div className="mensajes-list">
-      {mensajes.map((m, idx) => (
+      {mensajesFiltrados.map((m, idx) => (
         <div className={`mensaje-card${!m.leidos ? " unread" : ""}`} key={idx}>
           <img className="mensaje-avatar" src={m.avatar} alt={m.nombre} />
           <div className="mensaje-info">
@@ -67,6 +80,7 @@ const Mensajes = () => (
       ))}
     </div>
   </div>
-);
+  );
+};
 
 export default Mensajes;

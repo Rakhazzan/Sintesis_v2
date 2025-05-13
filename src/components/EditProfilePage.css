@@ -6,6 +6,17 @@
   flex-direction: column;
   align-items: center;
 }
+
+/* Estilo para el modo integrado en el panel principal */
+.edit-profile-main.inline-mode {
+  background-color: var(--card-bg, #fff);
+  border-radius: 16px;
+  box-shadow: var(--card-shadow, 0 2px 8px rgba(44,62,80,0.10));
+  padding: 30px;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 500px;
+}
 .edit-profile-avatar-wrap {
   background: #ecebff;
   border-radius: 50%;

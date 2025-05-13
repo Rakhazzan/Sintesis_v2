@@ -1,0 +1,31 @@
+import React from 'react';
+import './ChartBar.css';
+
+/**
+ * Componente para mostrar una barra individual en el gráfico
+ * @param {Object} props - Propiedades del componente
+ * @param {string} props.label - Etiqueta de la barra (día, mes, año)
+ * @param {number} props.value - Valor numérico representado por la barra
+ * @param {number} props.maxValue - Valor máximo para calcular la altura proporcional
+ * @param {boolean} props.isActive - Indica si la barra está activa (destacada)
+ */
+const ChartBar = ({ label, value, maxValue, isActive = false }) => {
+  // Calcular altura proporcional (entre 0% y 100%)
+  const heightPercentage = maxValue > 0 ? Math.round((value / maxValue) * 100) : 0;
+  
+  return (
+    <div className="chart-bar">
+      <div className="chart-bar-container">
+        <div 
+          className={`chart-bar-fill ${isActive ? 'active' : ''}`}
+          style={{ height: `${heightPercentage}%` }}
+        >
+          {value > 0 && <span className="chart-bar-value">{value}</span>}
+        </div>
+      </div>
+      <div className="chart-bar-label">{label}</div>
+    </div>
+  );
+};
+
+export default ChartBar;

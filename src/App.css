@@ -118,14 +118,66 @@ body, html, #root, .main-app {
 /* Grid para el dashboard en desktop */
 .desktop-dashboard-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto auto;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "stats"
+    "metrics-section";
   gap: 20px;
   margin-top: 20px;
 }
 
+@media (min-width: 1200px) {
+  .desktop-dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "stats"
+      "metrics-section"
+      "bottom-sections";
+  }
+}
+
+/* Segunda fila con métricas y calendario */
+.metrics-section {
+  grid-area: metrics-section;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 1024px) {
+  .metrics-section {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+/* Contenedor para citas recientes y calendario */
+.bottom-sections {
+  grid-area: bottom-sections;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 1024px) {
+  .bottom-sections {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.recent-appointments-section {
+  grid-area: initial;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+}
+
 .stats-section {
-  grid-column: 1 / 3;
+  grid-area: stats;
+  margin-bottom: 0;
+  overflow: hidden;
 }
 
 .section-header {
@@ -146,32 +198,14 @@ body, html, #root, .main-app {
 }
 
 /* Gráfico de barras */
-.stats-chart {
-  display: flex;
-  height: 180px;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 0 10px;
-}
+/* Los estilos para el gráfico ahora están en StatisticsChart.css */
 
-.chart-container {
+/* Listado de próximas citas */
+.upcoming-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 40px;
-}
-
-.chart-bar {
-  width: 24px;
-  background: var(--primary-color);
-  border-radius: 4px 4px 0 0;
-  transition: height 0.3s ease;
-}
-
-.chart-label {
-  margin-top: 8px;
-  color: var(--text-secondary);
-  font-size: 0.8rem;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 /* Fila de métricas */

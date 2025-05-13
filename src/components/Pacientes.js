@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Pacientes.css";
 import { ReactComponent as MaleIcon } from "./svg/male.svg";
 import { ReactComponent as FemaleIcon } from "./svg/female.svg";
@@ -46,16 +46,62 @@ const pacientes = [
   }
 ];
 
-const Pacientes = () => (
+const Pacientes = () => {
+  const [filtroActivo, setFiltroActivo] = useState("Todos");
+  
+  // Función para filtrar pacientes según la categoría seleccionada
+  const getPacientesFiltrados = () => {
+    switch(filtroActivo) {
+      case "Todos":
+        return pacientes;
+      case "Recientes":
+        // Simulamos pacientes recientes (últimos 2)
+        return pacientes.slice(0, 2);
+      case "Crónicos":
+        // Filtramos pacientes con condiciones crónicas (diabetes, hipertensión, cardiopatía)
+        return pacientes.filter(p => 
+          ["Diabetes", "Hipertensión", "Cardiopatía"].includes(p.etiqueta)
+        );
+      case "Urgentes":
+        // Simulamos pacientes urgentes
+        return pacientes.filter((_, idx) => idx === 2 || idx === 4);
+      default:
+        return pacientes;
+    }
+  };
+  
+  const pacientesFiltrados = getPacientesFiltrados();
+  
+  return (
   <div className="pacientes-main">
     <div className="pacientes-filtros">
-      <button className="pacientes-filtro active">Todos</button>
-      <button className="pacientes-filtro">Recientes</button>
-      <button className="pacientes-filtro">Favoritos</button>
-      <button className="pacientes-filtro">Urgentes</button>
+      <button 
+        className={`pacientes-filtro ${filtroActivo === "Todos" ? "active" : ""}`}
+        onClick={() => setFiltroActivo("Todos")}
+      >
+        Todos
+      </button>
+      <button 
+        className={`pacientes-filtro ${filtroActivo === "Recientes" ? "active" : ""}`}
+        onClick={() => setFiltroActivo("Recientes")}
+      >
+        Recientes
+      </button>
+      <button 
+        className={`pacientes-filtro ${filtroActivo === "Crónicos" ? "active" : ""}`}
+        onClick={() => setFiltroActivo("Crónicos")}
+      >
+        Crónicos
+      </button>
+      <button 
+        className={`pacientes-filtro ${filtroActivo === "Urgentes" ? "active" : ""}`}
+        onClick={() => setFiltroActivo("Urgentes")}
+      >
+        Urgentes
+      </button>
     </div>
     <div className="pacientes-list">
-      {pacientes.map((p, idx) => (
+      {pacientesFiltrados.map((p, idx) => (
         <div className="paciente-card" key={idx}>
           <img className="paciente-avatar" src={p.avatar} alt={p.nombre} />
           <div className="paciente-info">
@@ -72,6 +118,7 @@ const Pacientes = () => (
       ))}
     </div>
   </div>
-);
+  );
+};
 
 export default Pacientes;

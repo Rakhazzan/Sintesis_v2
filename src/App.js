@@ -14,6 +14,7 @@ import RegisterPage from "./pages/RegisterPage";
 import Citas from "./components/Citas";
 import AppointmentControls from "./components/AppointmentControls";
 import Calendar from "./components/Calendar";
+import StatisticsChart from "./components/StatisticsChart";
 import { useScreenType } from "./utils/screenUtils";
 import { saveAuthData, getAuthData, clearAuthData, hasActiveSession } from "./utils/authUtils";
 import "./App.css";
@@ -147,9 +148,7 @@ function App() {
     }
     return <LoginPage onLogin={handleLogin} onRegister={() => setRegistering(true)} />;
   }
-  if (editingProfile) {
-    return <EditProfilePage user={user} onSave={handleSaveProfile} onCancel={() => setEditingProfile(false)} />;
-  }
+  // La edición de perfil ahora se mostrará en el panel principal
 
   // Determina qué layout usar - mobile o desktop
   const appClass = isDesktop ? "main-app desktop-layout" : "main-app mobile-layout";
@@ -159,11 +158,25 @@ function App() {
       {/* Componentes condicionales según tipo de pantalla */}
       {isDesktop ? (
         <>
-          <Sidebar active={pantalla} onChange={setPantalla} />
+          <Sidebar 
+        active={pantalla} 
+        onChange={(screen) => {
+          if (screen === "logout") {
+            handleLogout();
+          } else {
+            setPantalla(screen);
+          }
+        }} 
+        onEditProfile={() => {
+          setEditingProfile(true);
+          setPantalla("configuracion");
+        }}
+      />
           <DesktopHeader
             user={user}
             onProfileClick={() => setProfileMenuOpen((v) => !v)}
             onBellClick={() => {}}
+            isDesktop={isDesktop}
           />
         </>
       ) : (
@@ -171,7 +184,7 @@ function App() {
           <Header
             user={user}
             onProfileClick={() => setProfileMenuOpen((v) => !v)}
-            onBellClick={() => {}}
+            onBellClick={() => setPantalla("mensajes")}
           />
           <BottomNav active={pantalla} onChange={setPantalla} />
         </>
@@ -184,6 +197,9 @@ function App() {
         onEditProfile={() => {
           setEditingProfile(true);
           setProfileMenuOpen(false);
+          if (!isDesktop) {
+            setPantalla("configuracion");
+          }
         }}
         onLogout={handleLogout}
       />
@@ -211,77 +227,45 @@ function App() {
             {/* Layout de escritorio con grid para dashboard */}
             {isDesktop && (
               <div className="desktop-dashboard-grid">
+                {/* Estadísticas (parte superior) */}
                 <section className="stats-section">
-                  <div className="section-header">
-                    <h3>Estadísticas semanales</h3>
-                    <select className="period-selector">
-                      <option>Esta semana</option>
-                      <option>Este mes</option>
-                      <option>Este año</option>
-                    </select>
-                  </div>
-                  <div className="stats-chart">
-                    {/* Simulación de gráfico de barras */}
-                    <div className="chart-container">
-                      <div className="chart-label">Lun</div>
-                      <div className="chart-bar" style={{height: '50px'}}></div>
-                    </div>
-                    <div className="chart-container">
-                      <div className="chart-label">Mar</div>
-                      <div className="chart-bar" style={{height: '70px'}}></div>
-                    </div>
-                    <div className="chart-container">
-                      <div className="chart-label">Mié</div>
-                      <div className="chart-bar" style={{height: '60px'}}></div>
-                    </div>
-                    <div className="chart-container">
-                      <div className="chart-label">Jue</div>
-                      <div className="chart-bar" style={{height: '100px'}}></div>
-                    </div>
-                    <div className="chart-container">
-                      <div className="chart-label">Vie</div>
-                      <div className="chart-bar" style={{height: '85px'}}></div>
-                    </div>
-                    <div className="chart-container">
-                      <div className="chart-label">Sáb</div>
-                      <div className="chart-bar" style={{height: '30px'}}></div>
-                    </div>
-                    <div className="chart-container">
-                      <div className="chart-label">Dom</div>
-                      <div className="chart-bar" style={{height: '20px'}}></div>
-                    </div>
-                  </div>
+                  <StatisticsChart />
                 </section>
                 
-                <div className="metrics-row">
-                  <div className="metric-card">
-                    <div className="metric-icon appointments"></div>
-                    <div className="metric-data">
-                      <div className="metric-title">Citas totales</div>
-                      <div className="metric-value">42</div>
-                      <div className="metric-trend positive">+12% vs semana anterior</div>
+                {/* Fila de métricas */}
+                <div className="metrics-section">
+                  <div className="metrics-row">
+                    <div className="metric-card">
+                      <div className="metric-icon appointments"></div>
+                      <div className="metric-data">
+                        <div className="metric-title">Citas totales</div>
+                        <div className="metric-value">42</div>
+                        <div className="metric-trend positive">+12% vs semana anterior</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="metric-card">
-                    <div className="metric-icon patients"></div>
-                    <div className="metric-data">
-                      <div className="metric-title">Pacientes nuevos</div>
-                      <div className="metric-value">8</div>
-                      <div className="metric-trend positive">+5% vs semana anterior</div>
+                    <div className="metric-card">
+                      <div className="metric-icon patients"></div>
+                      <div className="metric-data">
+                        <div className="metric-title">Pacientes nuevos</div>
+                        <div className="metric-value">8</div>
+                        <div className="metric-trend positive">+5% vs semana anterior</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="metric-card">
-                    <div className="metric-icon time"></div>
-                    <div className="metric-data">
-                      <div className="metric-title">Tiempo promedio</div>
-                      <div className="metric-value">24 min</div>
-                      <div className="metric-trend negative">-3% vs semana anterior</div>
+                    <div className="metric-card">
+                      <div className="metric-icon time"></div>
+                      <div className="metric-data">
+                        <div className="metric-title">Tiempo promedio</div>
+                        <div className="metric-value">24 min</div>
+                        <div className="metric-trend negative">-3% vs semana anterior</div>
+                      </div>
                     </div>
                   </div>
                 </div>
                 
-                <div className="bottom-row">
-                  <section className="recent-appointments">
+                {/* Contenedor para citas recientes y calendario */}
+                <div className="bottom-sections">
+                  {/* Tabla de citas recientes */}
+                  <section className="recent-appointments-section">
                     <div className="section-header">
                       <h3>Citas recientes</h3>
                       <button 
@@ -331,6 +315,7 @@ function App() {
                     </table>
                   </section>
                   
+                  {/* Sección de calendario y próximas citas */}
                   <section className="calendar-section">
                     <Calendar 
                       currentDate={currentDate}
@@ -340,32 +325,34 @@ function App() {
                     
                     <div className="upcoming-appointments">
                       <h4>Próximas citas</h4>
-                      {appointments.map((appointment) => (
-                      <div className="appointment-item" key={appointment.id}>
-                        <img src={appointment.patient.img} alt={appointment.patient.name} className="patient-small-img" />
-                        <div className="appointment-details">
-                          <div className="appointment-name">{appointment.patient.name}</div>
-                          <div className="appointment-type">{appointment.type}</div>
+                      <div className="upcoming-list">
+                        {appointments.slice(0, 3).map((appointment) => (
+                        <div className="appointment-item" key={appointment.id}>
+                          <img src={appointment.patient.img} alt={appointment.patient.name} className="patient-small-img" />
+                          <div className="appointment-details">
+                            <div className="appointment-name">{appointment.patient.name}</div>
+                            <div className="appointment-type">{appointment.type}</div>
+                          </div>
+                          <div className="appointment-time">{appointment.time}</div>
+                          <div className="appointment-actions">
+                            <button 
+                              className="action-btn message" 
+                              aria-label="Mensaje" 
+                              onClick={() => setPantalla("chat")}
+                            >
+                              💬
+                            </button>
+                            <button 
+                              className="action-btn call" 
+                              aria-label="Llamar" 
+                              onClick={() => alert(`Llamando a ${appointment.patient.name}...`)}
+                            >
+                              📞
+                            </button>
+                          </div>
                         </div>
-                        <div className="appointment-time">{appointment.time}</div>
-                        <div className="appointment-actions">
-                          <button 
-                            className="action-btn message" 
-                            aria-label="Mensaje" 
-                            onClick={() => setPantalla("chat")}
-                          >
-                            💬
-                          </button>
-                          <button 
-                            className="action-btn call" 
-                            aria-label="Llamar" 
-                            onClick={() => alert(`Llamando a ${appointment.patient.name}...`)}
-                          >
-                            📞
-                          </button>
-                        </div>
+                        ))}
                       </div>
-                      ))}
                     </div>
                   </section>
                 </div>
@@ -395,6 +382,23 @@ function App() {
         {pantalla === "mensajes" && <MensajesPage />}
         {pantalla === "perfil" && <PersonPage user={user} onEdit={() => setEditingProfile(true)} />}
         {pantalla === "chat" && <ChatPage user={user} />}
+        {((pantalla === "configuracion" && editingProfile) || (editingProfile && !isDesktop && pantalla === "configuracion")) && 
+          <div className="main-content-section">
+            <EditProfilePage 
+              user={user} 
+              onSave={(updatedProfile) => {
+                handleSaveProfile(updatedProfile);
+                setEditingProfile(false);
+                setPantalla("inicio");
+              }} 
+              onCancel={() => {
+                setEditingProfile(false);
+                setPantalla("inicio");
+              }} 
+              inlineMode={true} 
+            />
+          </div>
+        }
       </main>
     </div>
   );

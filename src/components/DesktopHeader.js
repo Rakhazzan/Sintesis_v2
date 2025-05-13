@@ -1,7 +1,7 @@
 import React from "react";
 import "./DesktopHeader.css";
 
-const DesktopHeader = ({ user, onProfileClick, onBellClick }) => {
+const DesktopHeader = ({ user, onProfileClick, onBellClick, isDesktop }) => {
   return (
     <header className="desktop-header">
       <div className="search-container">
@@ -29,8 +29,9 @@ const DesktopHeader = ({ user, onProfileClick, onBellClick }) => {
         
         <button
           className="profile-btn"
-          onClick={onProfileClick}
+          onClick={isDesktop ? null : onProfileClick}
           aria-label="Menú de perfil"
+          style={isDesktop ? { cursor: 'default' } : {}}
         >
           <img 
             className="profile-avatar" 

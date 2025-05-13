@@ -1,0 +1,53 @@
+.statistics-chart {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+  gap: 8px;
+  height: 100%;
+  margin-top: 10px;
+  padding: 0 10px;
+}
+
+/* Responsive adjustments */
+@media (min-width: 1280px) {
+  .chart {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .statistics-chart {
+    padding: 15px;
+  }
+  
+  .chart {
+    gap: 4px;
+  }
+}
+
+/* Animation for chart bars */
+@keyframes barGrow {
+  from {
+    height: 0;
+  }
+}
+
+.chart-bar-fill {
+  animation: barGrow 0.8s ease-out;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .statistics-chart {
+    background: var(--card-bg);
+  }
+}

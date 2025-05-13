@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import "../components/EditProfilePage.css";
 
-const EditProfilePage = ({ user, onSave, onCancel }) => {
+const EditProfilePage = ({ user, onSave, onCancel, inlineMode = false }) => {
   const [name, setName] = useState(user.name || "");
   const [email, setEmail] = useState(user.email || "");
   const [avatar, setAvatar] = useState(user.avatar || "");
 
   return (
-    <div className="edit-profile-main">
+    <div className={`edit-profile-main${inlineMode ? " inline-mode" : ""}`}>
       <h2>Editar perfil</h2>
       <div className="edit-profile-avatar-wrap">
         <img className="edit-profile-avatar" src={avatar} alt={name} />

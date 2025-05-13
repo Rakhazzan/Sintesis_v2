@@ -5,7 +5,7 @@ import EventIcon from "./icons/EventIcon";
 import PatientIcon from "./icons/PatientIcon";
 import MessageIcon from "./icons/MessageIcon";
 
-const Sidebar = ({ active, onChange }) => {
+const Sidebar = ({ active, onChange, onEditProfile }) => {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">logo</div>
@@ -93,7 +93,7 @@ const Sidebar = ({ active, onChange }) => {
         
         <button
           className={`sidebar-item${active === "configuracion" ? " active" : ""}`}
-          onClick={() => onChange && onChange("configuracion")}
+          onClick={() => onEditProfile ? onEditProfile() : (onChange && onChange("configuracion"))}
           aria-label="Configuración"
         >
           <div className="sidebar-icon">
