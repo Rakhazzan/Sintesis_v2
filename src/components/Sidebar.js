@@ -8,7 +8,7 @@ import MessageIcon from "./icons/MessageIcon";
 const Sidebar = ({ active, onChange, onEditProfile }) => {
   return (
     <aside className="sidebar">
-      <div className="sidebar-logo">logo</div>
+      <div className="sidebar-logo">DOCSALUT</div>
       
       <nav className="sidebar-nav">
         <button

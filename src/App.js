@@ -4,6 +4,7 @@ import BottomNav from "./components/BottomNav";
 import Sidebar from "./components/Sidebar";
 import DesktopHeader from "./components/DesktopHeader";
 import ProfileMenu from "./components/ProfileMenu";
+import StatisticsChart from "./components/StatisticsChart";
 import PacientesPage from "./pages/PacientesPage";
 import MensajesPage from "./pages/MensajesPage";
 import PersonPage from "./pages/PersonPage";
@@ -14,7 +15,6 @@ import RegisterPage from "./pages/RegisterPage";
 import Citas from "./components/Citas";
 import AppointmentControls from "./components/AppointmentControls";
 import Calendar from "./components/Calendar";
-import StatisticsChart from "./components/StatisticsChart";
 import { useScreenType } from "./utils/screenUtils";
 import { saveAuthData, getAuthData, clearAuthData, hasActiveSession } from "./utils/authUtils";
 import "./App.css";
@@ -361,11 +361,56 @@ function App() {
             
             {/* Versión móvil de estadísticas y citas */}
             {!isDesktop && (
-              <>
+              <div className="mobile-dashboard">
                 <section className="stats-section">
-                  <h3>Estadísticas semanales</h3>
-                  <div className="stats-placeholder">[Gráfico de barras aquí]</div>
+                  <StatisticsChart />
                 </section>
+                
+                <section className="calendar-section mobile-calendar">
+                  <div className="calendar-component">
+                    <div className="section-header">
+                      <h3>Mayo 2025</h3>
+                      <div className="calendar-controls">
+                        <button className="calendar-nav prev" aria-label="Mes anterior">←</button>
+                        <button className="calendar-nav next" aria-label="Mes siguiente">→</button>
+                      </div>
+                    </div>
+                    {/* Mini calendario similar al de desktop */}
+                    <div className="mini-calendar">
+                      <div className="calendar-header">
+                        <div>L</div>
+                        <div>M</div>
+                        <div>X</div>
+                        <div>J</div>
+                        <div>V</div>
+                        <div>S</div>
+                        <div>D</div>
+                      </div>
+                      <div className="calendar-days">
+                        {/* Se generará dinámicamente con JavaScript */}
+                        {Array(42).fill(null).map((_, i) => {
+                          const day = i - 2; // Ajuste para Mayo 2025
+                          const currentDay = day === 13; // Día actual
+                          const prevMonth = day < 1;
+                          const nextMonth = day > 31;
+                          let className = "";
+                          if (prevMonth) className = "prev-month ";
+                          if (nextMonth) className = "next-month ";
+                          if (currentDay) className += "current-day";
+                          
+                          // Valor a mostrar
+                          let value;
+                          if (prevMonth) value = 28 + day;
+                          else if (nextMonth) value = day - 31;
+                          else value = day;
+                          
+                          return <div className={className} key={i}>{value}</div>;
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                
                 <section className="appointments-section">
                   <h3>Próximas citas</h3>
                   <div className="appointments-list">
@@ -373,7 +418,7 @@ function App() {
                     <div className="appointment-card">Ana Martín (12:00 - 12:30)</div>
                   </div>
                 </section>
-              </>
+              </div>
             )}
           </>
         )}

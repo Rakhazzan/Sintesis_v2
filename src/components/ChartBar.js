@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ChartBar.css';
 
 /**
@@ -10,6 +10,9 @@ import './ChartBar.css';
  * @param {boolean} props.isActive - Indica si la barra está activa (destacada)
  */
 const ChartBar = ({ label, value, maxValue, isActive = false }) => {
+  // Estado para controlar cuando mostrar el valor (para dispositivos sin hover)
+  const [showValue, setShowValue] = useState(false);
+  
   // Calcular altura proporcional (entre 0% y 100%)
   const heightPercentage = maxValue > 0 ? Math.round((value / maxValue) * 100) : 0;
   
@@ -19,8 +22,16 @@ const ChartBar = ({ label, value, maxValue, isActive = false }) => {
         <div 
           className={`chart-bar-fill ${isActive ? 'active' : ''}`}
           style={{ height: `${heightPercentage}%` }}
+          onMouseEnter={() => setShowValue(true)}
+          onMouseLeave={() => setShowValue(false)}
+          onTouchStart={() => setShowValue(true)}
+          onClick={() => setShowValue(!showValue)}
         >
-          {value > 0 && <span className="chart-bar-value">{value}</span>}
+          {value > 0 && (
+            <span className={`chart-bar-value ${showValue ? 'visible' : ''}`}>
+              {value}
+            </span>
+          )}
         </div>
       </div>
       <div className="chart-bar-label">{label}</div>
