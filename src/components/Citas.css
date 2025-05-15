@@ -3,6 +3,8 @@
   max-width: 480px;
   margin: 0 auto;
   position: relative;
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
 }
 
 .calendar-header-main {
@@ -15,11 +17,12 @@
 .calendar-header-main h3 {
   font-size: 1.2rem;
   margin: 0;
-  color: #2c3e50;
+  color: var(--text-color, #2c3e50);
+  transition: color 0.3s ease;
 }
 
 .add-cita-btn {
-  background: #5a4ff3;
+  background: var(--primary-color, #5a4ff3);
   color: white;
   border: none;
   border-radius: 10px;
@@ -39,10 +42,11 @@
   margin-bottom: 18px;
 }
 .calendar {
-  background: #fff;
+  background: var(--card-bg, #fff);
   border-radius: 18px;
-  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+  box-shadow: var(--card-shadow, 0 2px 8px rgba(44,62,80,0.06));
   padding: 18px 12px 10px 12px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 .calendar-header-container {
   display: flex;
@@ -53,8 +57,9 @@
 
 .calendar-header {
   font-weight: 600;
-  color: #5a4ff3;
+  color: var(--primary-color, #5a4ff3);
   font-size: 1.1rem;
+  transition: color 0.3s ease;
 }
 
 .calendar-nav {
@@ -92,7 +97,8 @@
   text-align: center;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #8a8fa7;
+  color: var(--text-secondary, #8a8fa7);
+  transition: color 0.3s ease;
 }
 
 .calendar-grid {
@@ -101,17 +107,17 @@
   gap: 3px;
 }
 .calendar-day {
-  background: #f3f3fa;
+  background: var(--card-bg-alt, #f3f3fa);
   border-radius: 7px;
   text-align: center;
   padding: 4px 0;
   font-size: 0.95rem;
-  color: #888;
+  color: var(--text-secondary, #888);
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, background-color 0.3s ease;
 }
 .calendar-day.active {
-  background: #5a4ff3;
+  background: var(--primary-color, #5a4ff3);
   color: #fff;
   font-weight: 700;
 }
@@ -125,6 +131,8 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin: 14px 0 8px 0;
+  color: var(--text-color, #2c3e50);
+  transition: color 0.3s ease;
 }
 .citas-list {
   display: flex;
@@ -134,11 +142,12 @@
 .cita-card {
   display: flex;
   align-items: center;
-  background: #fff;
+  background: var(--card-bg, #fff);
   border-radius: 15px;
-  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+  box-shadow: var(--card-shadow, 0 2px 8px rgba(44,62,80,0.06));
   padding: 10px 14px;
   position: relative;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 .cita-card.cancelada {
   opacity: 0.65;
@@ -161,24 +170,27 @@
   font-size: 1.05rem;
 }
 .cita-tipo {
-  color: #8a8fa7;
+  color: var(--text-secondary, #8a8fa7);
   font-size: 0.98rem;
+  transition: color 0.3s ease;
 }
 .cita-hora {
   font-size: 0.96rem;
-  color: #5a4ff3;
+  color: var(--primary-color, #5a4ff3);
   margin-top: 2px;
+  transition: color 0.3s ease;
 }
 
 .cita-pronostico {
   font-size: 0.92rem;
-  color: #666;
+  color: var(--text-secondary, #666);
   margin-top: 2px;
-  background: #f8f8f8;
+  background: var(--card-bg-alt, #f8f8f8);
   display: inline-block;
   padding: 2px 6px;
   border-radius: 4px;
   margin-top: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .cita-actions {
   display: flex;
@@ -223,14 +235,15 @@
 }
 
 .popup-container {
-  background: white;
+  background: var(--card-bg, white);
   border-radius: 15px;
   padding: 20px;
   width: 90%;
   max-width: 450px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--card-shadow, 0 5px 20px rgba(0, 0, 0, 0.2));
   max-height: 85vh;
   overflow-y: auto;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .popup-container h2 {
@@ -339,4 +352,40 @@
     flex-direction: column;
     gap: 8px;
   }
+}
+
+/* Soporte para tema oscuro */
+.dark-theme .cita-nombre {
+  color: var(--text-color, #e5e7eb);
+}
+
+.dark-theme .cita-avatar {
+  border-color: var(--card-bg, #1f2937);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .form-group label {
+  color: var(--text-color, #e5e7eb);
+}
+
+.dark-theme .form-group input,
+.dark-theme .form-group select {
+  background-color: var(--card-bg-alt, #2a3544);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color, #e5e7eb);
+}
+
+.dark-theme .cancel-btn {
+  background: #2a3544;
+  color: var(--text-color, #e5e7eb);
+}
+
+.dark-theme .popup-container h2 {
+  color: var(--text-color, #e5e7eb);
+}
+
+.dark-theme .calendar-day.other-month {
+  opacity: 0.4;
+  background: #2a3544;
+  color: var(--text-secondary, #9ca3af);
 }

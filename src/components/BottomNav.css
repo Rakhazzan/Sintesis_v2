@@ -3,7 +3,7 @@
   left: 0;
   bottom: 0;
   width: 100vw;
-  background: #ffffff;
+  background: var(--card-bg, #ffffff);
   box-shadow: 0 -4px 20px rgba(90, 79, 243, 0.15);
   display: flex;
   justify-content: space-evenly;
@@ -12,6 +12,7 @@
   z-index: 20;
   border-radius: 24px 24px 0 0;
   height: 75px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 .nav-item {
   display: flex;
@@ -21,7 +22,7 @@
   border: none;
   background: transparent;
   text-decoration: none;
-  color: #8a8fa7;
+  color: var(--text-secondary, #8a8fa7);
   font-size: 13px;
   flex: 0 0 auto;
   margin: 0 2%;
@@ -34,13 +35,13 @@
   border-radius: 16px;
 }
 .nav-item.active {
-  color: #5a4ff3;
-  background-color: #f0effe;
+  color: var(--primary-color, #5a4ff3);
+  background-color: var(--primary-light, #f0effe);
   transform: translateY(-20px);
   box-shadow: 0 4px 12px rgba(90, 79, 243, 0.2);
 }
 .nav-item:hover {
-  color: #5a4ff3;
+  color: var(--primary-color, #5a4ff3);
 }
 .nav-icon {
   display: flex;
@@ -79,16 +80,22 @@
   font-weight: 600;
 }
 
-@media (prefers-color-scheme: dark) {
-  .bottom-nav {
-    background: #ffffff;
-    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.2);
-  }
-  .nav-item {
-    color: #9ca3af;
-  }
-  .nav-item.active,
-  .nav-item:hover {
-    color: #5a4ff3;
-  }
+/* Estilos para tema oscuro */
+.dark-theme .bottom-nav {
+  background: var(--card-bg, #1f2937);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .nav-item {
+  color: var(--text-secondary, #9ca3af);
+}
+
+.dark-theme .nav-item.active {
+  background-color: var(--primary-light, #313169);
+  color: var(--primary-color, #5a4ff3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .nav-item:hover {
+  color: var(--primary-color, #5a4ff3);
 }

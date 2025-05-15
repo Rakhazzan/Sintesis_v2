@@ -3,7 +3,8 @@ body, html, #root, .main-app {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background: #f9fafe;
+  background: var(--bg-color, #f9fafe);
+  transition: background-color 0.3s ease;
 }
 
 /* Layout principal */
@@ -32,17 +33,32 @@ body, html, #root, .main-app {
   display: flex;
   flex-direction: column;
   margin-bottom: 24px;
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
 }
 
 .welcome-section h2 {
   font-size: 1.5rem;
   margin-bottom: 8px;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.dark-theme h2,
+h2.dark-theme {
+  color: var(--text-color, #e5e7eb);
 }
 
 .date {
   color: var(--text-secondary);
   margin-bottom: 16px;
   font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.dark-theme .date,
+.date.dark-theme {
+  color: var(--text-secondary, #9ca3af);
 }
 
 .summary-cards {
@@ -610,23 +626,64 @@ body, html, #root, .main-app {
 }
 
 /* Soporte para modo oscuro */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text-color: #e5e7eb;
-    --text-secondary: #9ca3af;
-    --bg-color: #111827;
-    --card-bg: #1f2937;
-    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
-  
-  .stats-placeholder,
-  .appointment-card {
-    background: rgba(255, 255, 255, 0.05);
-  }
-  
-  .appointment-item {
-    background: rgba(255, 255, 255, 0.03);
-  }
+.dark-theme {
+  --text-color: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --bg-color: #111827;
+  --card-bg: #1f2937;
+  --card-bg-alt: #2a3544;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --primary-light: #313169;
+}
+
+.dark-theme,
+.dark-theme body,
+.dark-theme #root,
+.dark-theme .app,
+.dark-theme .main-app,
+.dark-theme .main-content {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.dark-theme .stats-placeholder,
+.dark-theme .appointment-card {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .appointment-item {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.dark-theme .summary-card,
+.dark-theme .stats-section,
+.dark-theme .appointments-section,
+.dark-theme .calendar-section,
+.dark-theme .mobile-dashboard .stats-section,
+.dark-theme .mobile-dashboard .appointments-section,
+.dark-theme .mobile-dashboard .calendar-section.mobile-calendar,
+.dark-theme .metrics-section,
+.dark-theme .metric-card {
+  background: var(--card-bg);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .summary-value,
+.dark-theme .section-header h3,
+.dark-theme .metric-value,
+.dark-theme .appointment-name {
+  color: var(--text-color);
+}
+
+.dark-theme .mobile-calendar .calendar-days > div,
+.dark-theme .calendar-days div {
+  color: var(--text-color);
+}
+
+.dark-theme .mobile-calendar .calendar-days > div.prev-month,
+.dark-theme .mobile-calendar .calendar-days > div.next-month {
+  color: var(--text-secondary);
+  opacity: 0.5;
 }
 
 /* Estilos base para todos los dispositivos */
