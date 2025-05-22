@@ -11,9 +11,31 @@ const imapController = {
       console.log('Iniciando verificación de correos no leídos...');
       const emails = await imapService.fetchUnreadEmails();
       
+      // Contar mensajes guardados correctamente
+      const savedEmails = emails.filter(email => email.savedToDb === true);
+      const failedEmails = emails.filter(email => email.savedToDb === false);
+      
+      // Mensaje detallado para el cliente
+      let message = `Se han procesado ${emails.length} correos nuevos`;
+      if (savedEmails.length > 0) {
+        message += `, ${savedEmails.length} guardados en la base de datos`;
+      }
+      if (failedEmails.length > 0) {
+        message += `, ${failedEmails.length} no pudieron guardarse`;
+      }
+      
+      // Si no hay correos, mensaje claro
+      if (emails.length === 0) {
+        message = 'No hay correos nuevos disponibles';
+      }
+      
       res.status(200).json({
-        message: `Se han procesado ${emails.length} correos nuevos`,
-        count: emails.length
+        message: message,
+        count: emails.length,
+        savedCount: savedEmails.length,
+        failedCount: failedEmails.length,
+        // Solo incluimos IDs para referencia, no contenido completo por seguridad
+        savedIds: savedEmails.map(email => email.messageId || null).filter(Boolean)
       });
     } catch (error) {
       console.error('Error al verificar correos:', error);
