@@ -1,0 +1,349 @@
+.pacientes-main {
+  padding: 14px 0 72px 0;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
+.pacientes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.pacientes-filtros {
+  display: flex;
+  flex: 1;
+}
+
+.pacientes-select-filtro {
+  width: 100%;
+  max-width: 250px;
+  padding: 10px 14px;
+  border: 1px solid #e0e0f0;
+  border-radius: 10px;
+  background-color: var(--card-bg-alt, #f8f8fd);
+  color: var(--primary-color, #5a4ff3);
+  font-size: 0.97rem;
+  font-weight: 500;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%235a4ff3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s ease, color 0.3s ease;
+}
+
+.pacientes-select-filtro:focus {
+  outline: none;
+  border-color: #5a4ff3;
+  box-shadow: 0 0 0 2px rgba(90, 79, 243, 0.15);
+}
+
+/* Mantener los estilos de los botones antiguos para referencia */
+.pacientes-filtro {
+  border: none;
+  background: var(--primary-light, #ecebff);
+  color: var(--primary-color, #5a4ff3);
+  border-radius: 14px;
+  padding: 6px 18px;
+  font-size: 0.97rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, background-color 0.3s ease;
+}
+.pacientes-filtro.active, .pacientes-filtro:hover {
+  background: var(--primary-color, #5a4ff3);
+  color: #fff;
+}
+.pacientes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.paciente-card {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg, #fff);
+  border-radius: 15px;
+  box-shadow: var(--card-shadow, 0 2px 8px rgba(44,62,80,0.06));
+  padding: 11px 14px;
+  position: relative;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.paciente-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid var(--card-bg, #fff);
+  box-shadow: var(--card-shadow, 0 2px 6px rgba(44,62,80,0.08));
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.paciente-info {
+  flex: 1;
+}
+.paciente-nombre {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text-color, #222);
+  transition: color 0.3s ease;
+}
+.paciente-detalle {
+  color: var(--text-secondary, #8a8fa7);
+  font-size: 0.97rem;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+.paciente-genero {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.paciente-etiqueta {
+  border-radius: 10px;
+  padding: 5px 14px;
+  font-size: 0.97rem;
+  font-weight: 500;
+  color: #222;
+  margin-left: 10px;
+}
+/* Estilos para el botón de añadir paciente */
+.add-paciente-btn {
+  background: var(--primary-color, #5a4ff3);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;    /* Igualado al padding del select */
+  height: 41px;           /* Altura similar al select */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.97rem;     /* Igualado al tamaño de fuente del select */
+  transition: background 0.2s, transform 0.15s;
+  margin-left: 10px;
+  box-sizing: border-box; /* Asegura que padding no afecte la altura total */
+}
+
+.add-paciente-btn:hover {
+  background: #4a41d0;
+  transform: translateY(-1px);
+}
+
+.add-paciente-btn:active {
+  transform: translateY(0px);
+}
+
+/* Estilos para el icono SVG dentro del botón */
+.add-paciente-btn svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 2px;
+}
+
+/* Estilos para el popup y formulario */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-container {
+  background: var(--card-bg, white);
+  border-radius: 15px;
+  padding: 20px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: var(--card-shadow, 0 5px 20px rgba(0, 0, 0, 0.2));
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.popup-container h2 {
+  margin-top: 0;
+  color: var(--text-color, #2c3e50);
+  margin-bottom: 15px;
+  transition: color 0.3s ease;
+  font-size: 1.4rem;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: var(--text-secondary, #555);
+  transition: color 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: var(--card-bg, white);
+  color: var(--text-color, #222);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.cancel-btn {
+  background: #f1f1f1;
+  color: #333;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.save-btn {
+  background: var(--primary-color, #5a4ff3);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.save-btn:hover {
+  background: #4a41d0;
+}
+
+@media (max-width: 600px) {
+  .pacientes-main {
+    max-width: 100vw;
+    padding: 8px 0 72px 0;
+  }
+  
+  .pacientes-header {
+    padding: 0 10px;
+  }
+  
+  .popup-container {
+    width: 95%;
+    padding: 15px;
+  }
+}
+
+/* Soporte para tema oscuro */
+.dark-theme .pacientes-select-filtro {
+  border-color: rgba(255, 255, 255, 0.1);
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23e5e7eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+}
+
+.dark-theme .paciente-card {
+  background: var(--card-bg, #1f2937);
+}
+
+.dark-theme .paciente-avatar {
+  border-color: var(--card-bg, #1f2937);
+}
+
+.dark-theme .form-group input,
+.dark-theme .form-group select {
+  background-color: var(--card-bg-alt, #2a3544);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color, #e5e7eb);
+}
+
+.dark-theme .cancel-btn {
+  background: #2a3544;
+  color: var(--text-color, #e5e7eb);
+}
+
+/* Estilos para la carga de imágenes */
+.avatar-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.avatar-preview {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--primary-light, #ecebff);
+}
+
+.avatar-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-input {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.avatar-upload-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--primary-light, #ecebff);
+  color: var(--primary-color, #5a4ff3);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.avatar-upload-btn:hover {
+  background: var(--primary-color, #5a4ff3);
+  color: white;
+}
+
+.avatar-note {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary, #8a8fa7);
+  margin-top: 4px;
+}
+
+/* Soporte para tema oscuro */
+.dark-theme .avatar-upload-btn {
+  background: #2a3544;
+  color: var(--text-color, #e5e7eb);
+}
+
+.dark-theme .avatar-upload-btn:hover {
+  background: var(--primary-color, #5a4ff3);
+  color: white;
+}
+
+.dark-theme .avatar-note {
+  color: #a0aec0;
+}

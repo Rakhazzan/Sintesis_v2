@@ -1,0 +1,131 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  height: 100vh;
+  background: var(--card-bg, white);
+  border-right: 1px solid rgba(44, 62, 80, 0.07);
+  box-shadow: 1px 0 10px rgba(44, 62, 80, 0.05);
+  padding: 20px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  transition: all 0.3s ease;
+}
+
+.sidebar-logo {
+  padding: 10px 24px 30px;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-color, #5a4ff3);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 24px;
+  margin: 2px 12px;
+  border-radius: 10px;
+  color: var(--text-secondary, #8a8fa7);
+  font-size: 15px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  text-align: left;
+}
+
+.sidebar-item:hover {
+  background: rgba(90, 79, 243, 0.04);
+  color: #5a4ff3;
+}
+
+.sidebar-item.active {
+  background: rgba(90, 79, 243, 0.1);
+  color: #5a4ff3;
+  font-weight: 500;
+}
+
+.sidebar-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.sidebar-label {
+  font-size: 15px;
+}
+
+.sidebar-logout {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+  padding: 14px 24px;
+  color: #e14c4c;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+  text-align: left;
+  margin: 20px 12px 10px;
+  border-radius: 10px;
+}
+
+.sidebar-logout:hover {
+  background: rgba(225, 76, 76, 0.07);
+}
+
+.sidebar-label.logout {
+  font-weight: 500;
+}
+
+/* Para dispositivos pequeños o cuando se contrae el sidebar */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar.collapsed .sidebar-label {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-item, 
+.sidebar.collapsed .sidebar-logout {
+  justify-content: center;
+  padding: 14px 0;
+}
+
+.sidebar.collapsed .sidebar-icon {
+  margin-right: 0;
+}
+
+/* Soporte para modo oscuro */
+.dark-theme .sidebar {
+  background: var(--card-bg, #1f2937);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 1px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .sidebar-item {
+  color: var(--text-secondary, #9ca3af);
+}
+
+.dark-theme .sidebar-item:hover {
+  background: rgba(90, 79, 243, 0.15);
+  color: var(--primary-color, #5a4ff3);
+}
+
+.dark-theme .sidebar-item.active {
+  background: rgba(90, 79, 243, 0.2);
+  color: var(--primary-color, #5a4ff3);
+}

@@ -1,0 +1,102 @@
+.login-main {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 60px 0 72px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+}
+.login-form input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ecebff;
+  font-size: 1rem;
+}
+/* Contenedor para el mensaje de error y el enlace de reenvío */
+.login-error-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+/* Estilo para el mensaje de error */
+.login-error-message {
+  background-color: #fff0f0;
+  border-left: 4px solid #f44336;
+  padding: 10px 15px;
+  margin: 0;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: #d32f2f;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(244, 67, 54, 0.1);
+  opacity: 0; /* Comienza invisible para la animación */
+  /* Estos estilos serán controlados por GSAP */
+}
+
+/* Estilo para el botón de reenvío de correo */
+.login-resend-link {
+  background: none;
+  border: none;
+  color: #5a4ff3;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: auto;
+  margin-right: 5px;
+  transition: color 0.2s ease;
+  align-self: flex-end;
+}
+
+.login-resend-link:hover {
+  color: #4339d4;
+}
+
+.login-resend-link:disabled {
+  color: #a8a8a8;
+  cursor: not-allowed;
+}
+
+/* Para tema oscuro */
+.dark-theme .login-error-message {
+  background-color: #3d2121;
+  color: #ff8a80;
+  border-color: #f44336;
+  box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2);
+}
+
+.login-btn {
+  background: #5a4ff3;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 12px;
+}
+.login-register-link {
+  margin-top: 22px;
+  color: #8a8fa7;
+  font-size: 1rem;
+}
+.login-register-link button {
+  background: none;
+  border: none;
+  color: #5a4ff3;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  text-decoration: underline;
+}

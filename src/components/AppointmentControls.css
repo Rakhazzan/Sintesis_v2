@@ -1,0 +1,49 @@
+.appointment-control-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.control-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.control-btn.complete {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--positive-color, #22c55e);
+}
+
+.control-btn.complete:hover {
+  background: rgba(34, 197, 94, 0.25);
+  transform: scale(1.1);
+}
+
+.control-btn.cancel {
+  background: rgba(225, 76, 76, 0.15);
+  color: var(--negative-color, #e14c4c);
+}
+
+.control-btn.cancel:hover {
+  background: rgba(225, 76, 76, 0.25);
+  transform: scale(1.1);
+}
+
+/* Soporte para modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .control-btn.complete {
+    background: rgba(34, 197, 94, 0.2);
+  }
+  
+  .control-btn.cancel {
+    background: rgba(225, 76, 76, 0.2);
+  }
+}

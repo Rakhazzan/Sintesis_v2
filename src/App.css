@@ -1,0 +1,729 @@
+/* Reset & base */
+body, html, #root, .main-app {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-color, #f9fafe);
+  transition: background-color 0.3s ease;
+}
+
+/* Layout principal */
+.main-app {
+  min-height: 100vh;
+  background: var(--bg-color);
+}
+
+/* Contenido principal para móvil */
+.main-content {
+  padding: 16px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+/* Versión desktop del contenido principal */
+.main-content.desktop {
+  padding-top: calc(var(--header-height) + 20px);
+  padding-left: calc(var(--sidebar-width) + 20px);
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+/* Sección de bienvenida */
+.welcome-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
+}
+
+.welcome-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.dark-theme h2,
+h2.dark-theme {
+  color: var(--text-color, #e5e7eb);
+}
+
+.date {
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.dark-theme .date,
+.date.dark-theme {
+  color: var(--text-secondary, #9ca3af);
+}
+
+.summary-cards {
+  display: flex;
+  gap: 16px;
+}
+
+.summary-card {
+  flex: 1;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  box-shadow: var(--card-shadow);
+}
+
+.summary-title {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.summary-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Estilos para la vista móvil */
+@media (max-width: 768px) {
+  .desktop-header, .sidebar {
+    display: none;
+  }
+  .main-app .main-content {
+    padding: 15px;
+    padding-bottom: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* Contenedor general del dashboard móvil */
+  .mobile-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 10px;
+  }
+  
+  /* Secciones de estadísticas, calendario y citas */
+  .stats-section,
+  .appointments-section,
+  .calendar-section.mobile-calendar {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--card-shadow);
+    margin: 0;
+  }
+  
+  /* Para las estadísticas reemplazamos el placeholder */
+  .stats-section {
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  /* Calendario móvil adaptado similar al de desktop */
+  .mobile-calendar .calendar-component {
+    width: 100%;
+  }
+  
+  .mobile-calendar .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 16px 16px 0;
+  }
+  
+  .mobile-calendar .calendar-controls {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .mobile-calendar .calendar-nav {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-color-light, #f0effe);
+    color: var(--primary-color, #5a4ff3);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+  }
+  
+  .mobile-calendar .mini-calendar {
+    margin-top: 10px;
+    padding: 0 10px 10px;
+  }
+  
+  .mobile-calendar .calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text-muted, #888);
+    margin-bottom: 12px;
+  }
+  
+  .mobile-calendar .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 4px;
+    text-align: center;
+  }
+  
+  .mobile-calendar .calendar-days > div {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  
+  .mobile-calendar .prev-month,
+  .mobile-calendar .next-month {
+    color: var(--text-muted-light, #ccc);
+  }
+  
+  .mobile-calendar .current-day {
+    background-color: var(--primary-color, #5a4ff3);
+    color: white;
+    font-weight: 500;
+  }
+  
+  /* Tarjetas de citas más atractivas */
+  .appointments-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  
+  .appointments-list {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .appointment-card {
+    background: var(--card-bg-alt, #f7f7f9);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-left: 4px solid var(--primary-color, #5a4ff3);
+  }
+}
+
+/* ======= ESTILOS DESKTOP ======= */
+
+/* Grid para el dashboard en desktop */
+.desktop-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "stats"
+    "metrics-section";
+  gap: 20px;
+  margin-top: 20px;
+}
+
+@media (min-width: 1200px) {
+  .desktop-dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "stats"
+      "metrics-section"
+      "bottom-sections";
+  }
+}
+
+/* Segunda fila con métricas y calendario */
+.metrics-section {
+  grid-area: metrics-section;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 1024px) {
+  .metrics-section {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+/* Contenedor para citas recientes y calendario */
+.bottom-sections {
+  grid-area: bottom-sections;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 1024px) {
+  .bottom-sections {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.recent-appointments-section {
+  grid-area: initial;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+}
+
+.stats-section {
+  grid-area: stats;
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.period-selector {
+  background: var(--primary-light);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: var(--primary-color);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Gráfico de barras */
+/* Los estilos para el gráfico ahora están en StatisticsChart.css */
+
+/* Listado de próximas citas */
+.upcoming-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Fila de métricas */
+.metrics-row {
+  grid-column: 1 / 3;
+  display: flex;
+  gap: 20px;
+}
+
+.metric-card {
+  flex: 1;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: center;
+}
+
+.metric-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-icon.appointments {
+  background: rgba(90, 79, 243, 0.1);
+  color: var(--primary-color);
+}
+
+.metric-icon.patients {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--positive-color);
+}
+
+.metric-icon.time {
+  background: rgba(225, 76, 76, 0.1);
+  color: var(--negative-color);
+}
+
+.metric-data {
+  flex: 1;
+}
+
+.metric-title {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.metric-trend {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+}
+
+.metric-trend.positive {
+  color: var(--positive-color);
+}
+
+.metric-trend.negative {
+  color: var(--negative-color);
+}
+
+/* Fila inferior con tabla y calendario */
+.bottom-row {
+  grid-column: 1 / 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Tabla de citas recientes */
+.recent-appointments {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+}
+
+.view-all {
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.appointments-table th {
+  text-align: left;
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(44, 62, 80, 0.05);
+}
+
+.appointments-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(44, 62, 80, 0.05);
+}
+
+.patient-cell {
+  display: flex;
+  align-items: center;
+}
+
+.patient-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status.confirmed {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--positive-color);
+}
+
+.status.pending {
+  background: rgba(249, 169, 38, 0.1);
+  color: #f59e0b;
+}
+
+.status.completed {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.status.cancelled {
+  background: rgba(225, 76, 76, 0.1);
+  color: var(--negative-color);
+}
+
+/* Sección de calendario */
+.calendar-section {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.calendar-nav {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary-color);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mini-calendar {
+  margin-top: 16px;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-days div {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  border-radius: 50%;
+  margin: 2px auto;
+}
+
+.calendar-days .current-day {
+  background: var(--primary-color);
+  color: white;
+  font-weight: 600;
+}
+
+.calendar-days .prev-month,
+.calendar-days .next-month {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+/* Próximas citas en panel lateral */
+.upcoming-appointments {
+  margin-top: 20px;
+}
+
+.upcoming-appointments h4 {
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+}
+
+.appointment-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: #f9fafe;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.patient-small-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.appointment-details {
+  flex: 1;
+}
+
+.appointment-name {
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.appointment-type {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.appointment-time {
+  font-weight: 500;
+  margin: 0 12px;
+  white-space: nowrap;
+}
+
+.appointment-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.action-btn.message {
+  background: var(--primary-light);
+  color: var(--primary-color);
+}
+
+.action-btn.call {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--positive-color);
+}
+
+/* Soporte para modo oscuro */
+.dark-theme {
+  --text-color: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --bg-color: #111827;
+  --card-bg: #1f2937;
+  --card-bg-alt: #2a3544;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --primary-light: #313169;
+}
+
+.dark-theme,
+.dark-theme body,
+.dark-theme #root,
+.dark-theme .app,
+.dark-theme .main-app,
+.dark-theme .main-content {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.dark-theme .stats-placeholder,
+.dark-theme .appointment-card {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .appointment-item {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.dark-theme .summary-card,
+.dark-theme .stats-section,
+.dark-theme .appointments-section,
+.dark-theme .calendar-section,
+.dark-theme .mobile-dashboard .stats-section,
+.dark-theme .mobile-dashboard .appointments-section,
+.dark-theme .mobile-dashboard .calendar-section.mobile-calendar,
+.dark-theme .metrics-section,
+.dark-theme .metric-card {
+  background: var(--card-bg);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .summary-value,
+.dark-theme .section-header h3,
+.dark-theme .metric-value,
+.dark-theme .appointment-name {
+  color: var(--text-color);
+}
+
+.dark-theme .mobile-calendar .calendar-days > div,
+.dark-theme .calendar-days div {
+  color: var(--text-color);
+}
+
+.dark-theme .mobile-calendar .calendar-days > div.prev-month,
+.dark-theme .mobile-calendar .calendar-days > div.next-month {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+/* Estilos base para todos los dispositivos */
+:root {
+  --primary-color: #5a4ff3;
+  --primary-light: #ecebff;
+  --text-color: #222;
+  --text-secondary: #8a8fa7;
+  --bg-color: #f9fafe;
+  --card-bg: #ffffff;
+  --card-shadow: 0 2px 10px rgba(44, 62, 80, 0.07);
+  --border-radius: 16px;
+  --positive-color: #22c55e;
+  --negative-color: #e14c4c;
+  --sidebar-width: 240px;
+  --header-height: 70px;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: var(--text-color);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .main-content {
+    padding: 12px 0 68px 0;
+    max-width: 100vw;
+  }
+  .summary-cards {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
