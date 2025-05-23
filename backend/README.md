@@ -4,7 +4,6 @@ Este backend implementa una capa API REST sobre Supabase para la aplicación Cli
 
 ## Estructura del Proyecto
 
-```
 backend/
   ├── controllers/     # Controladores para manejar la lógica de negocio
   ├── db/              # Scripts y configuración de la base de datos
@@ -13,7 +12,6 @@ backend/
   ├── utils/           # Utilidades y configuración
   ├── server.js        # Configuración del servidor Express
   └── index.js         # Punto de entrada
-```
 
 ## Configuración
 
@@ -24,24 +22,20 @@ backend/
 ## Inicializar la Base de Datos
 
 Para crear las tablas y cargar datos iniciales:
-
-```
 # Crea las tablas en Supabase
 # Copia el contenido de db/schema.sql y ejecútalo en el SQL Editor de Supabase
 
 # Carga datos iniciales
 npm run seed
-```
+
 
 ## Desarrollo
 
-```
 # Ejecutar solo el backend
 npm run start:backend
 
 # Ejecutar frontend y backend simultáneamente
 npm run dev
-```
 
 ## Endpoints API
 
