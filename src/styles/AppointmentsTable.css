@@ -1,0 +1,94 @@
+@import './variables.css';
+
+.recent-appointments-section {
+  flex: 1.5;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h3 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.view-all {
+  color: var(--primary-color);
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.appointments-table th {
+  text-align: left;
+  padding: 10px 15px;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.appointments-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.patient-cell {
+  display: flex;
+  align-items: center;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status.confirmed {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--positive-color);
+}
+
+.status.pending {
+  background: rgba(234, 179, 8, 0.1);
+  color: #eab308;
+}
+
+.status.completed {
+  background: rgba(90, 79, 243, 0.1);
+  color: var(--primary-color);
+}
+
+.status.cancelled {
+  background: rgba(225, 76, 76, 0.1);
+  color: var(--negative-color);
+}
+
+/* Modo oscuro */
+.dark-theme .appointments-table th,
+.dark-theme .appointments-table td {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}

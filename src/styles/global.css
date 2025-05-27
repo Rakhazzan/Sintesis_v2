@@ -1,0 +1,41 @@
+/* Reset & base */
+@import './variables.css';
+
+body, html, #root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-color);
+  transition: background-color 0.3s ease;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: var(--text-color);
+}
+
+/* Modo oscuro general */
+.dark-theme,
+.dark-theme body,
+.dark-theme #root,
+.dark-theme .app,
+.dark-theme .main-app,
+.dark-theme .main-content {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive general */
+@media (max-width: 600px) {
+  .main-content {
+    padding: 12px 0 68px 0;
+    max-width: 100vw;
+  }
+}

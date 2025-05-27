@@ -1,0 +1,25 @@
+:root {
+  --primary-color: #5a4ff3;
+  --primary-light: #ecebff;
+  --text-color: #222;
+  --text-secondary: #8a8fa7;
+  --bg-color: #f9fafe;
+  --card-bg: #ffffff;
+  --card-bg-alt: #f7f7f9;
+  --card-shadow: 0 2px 10px rgba(44, 62, 80, 0.07);
+  --border-radius: 16px;
+  --positive-color: #22c55e;
+  --negative-color: #e14c4c;
+  --sidebar-width: 240px;
+  --header-height: 70px;
+}
+
+.dark-theme {
+  --text-color: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --bg-color: #111827;
+  --card-bg: #1f2937;
+  --card-bg-alt: #2a3544;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --primary-light: #313169;
+}

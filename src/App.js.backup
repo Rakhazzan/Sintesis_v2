@@ -1,0 +1,969 @@
+import React, { useState, useEffect, useCallback } from "react";
+import Header from "./components/Header";
+import BottomNav from "./components/BottomNav";
+import Sidebar from "./components/Sidebar";
+import DesktopHeader from "./components/DesktopHeader";
+import ProfileMenu from "./components/ProfileMenu";
+import StatisticsChart from "./components/StatisticsChart";
+import PacientesPage from "./pages/PacientesPage";
+import MensajesPage from "./pages/MensajesPage";
+import PersonPage from "./pages/PersonPage";
+import ChatPage from "./pages/ChatPage";
+import EditProfilePage from "./pages/EditProfilePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import Citas from "./components/Citas";
+import AppointmentControls from "./components/AppointmentControls";
+import Calendar from "./components/Calendar";
+import { useScreenType } from "./utils/screenUtils";
+import { saveAuthData, getAuthData, clearAuthData, hasActiveSessionSync, registerUser, updateUserProfile } from "./utils/authUtils";
+import supabase from "./utils/supabaseUtils";
+import { getThemePreference, saveThemePreference, applyThemeClass } from "./utils/themeUtils";
+import { getAllAppointments, updateAppointmentStatus } from "./utils/appointmentUtils";
+import NotificationManager, { notifyService } from "./components/NotificationManager";
+import "./App.css";
+
+function App() {
+  const wasInAuthScreen = () => {
+    return sessionStorage.getItem('currentScreen') === 'login' || 
+           sessionStorage.getItem('currentScreen') === 'register';
+  };
+
+  const [pantalla, setPantalla] = useState(() => {
+    const savedScreen = sessionStorage.getItem('currentScreen');
+    return savedScreen || "inicio";
+  });
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [user, setUser] = useState();
+  const [editingProfile, setEditingProfile] = useState(false);
+  const [auth, setAuth] = useState(() => !wasInAuthScreen() && hasActiveSessionSync()); // No autenticamos si estaba en login
+  const [registering, setRegistering] = useState(() => sessionStorage.getItem('currentScreen') === 'register');
+  const [loginError, setLoginError] = useState(""); // Estado para el mensaje de error de login
+  
+  // Estado para controlar el tema (claro/oscuro)
+  const [darkMode, setDarkMode] = useState(() => {
+    // Inicialmente usamos la preferencia del sistema como valor por defecto mientras cargamos
+    const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return prefersDarkMode;
+  });
+  
+  // Estado para indicar si estamos cargando datos
+  const [loading, setLoading] = useState(true);
+  
+  // Estado para las notificaciones - utilizado por NotificationManager
+  const [, setNotifications] = useState([]);
+  
+  // Ya no necesitamos el estado para tablas inexistentes, usamos consultas directas
+  
+  // Estado para métricas del dashboard
+  const [dashboardMetrics, setDashboardMetrics] = useState({
+    mensajes: 0,
+    citasHoy: 0,
+    citasTotales: 0,
+    pacientesNuevos: 0,
+    tiempoPromedio: 0,
+    tendenciaCitas: 0,
+    tendenciaPacientes: 0,
+    tendenciaTiempo: 0,
+    fechaActual: ''
+  });
+  
+  // Inicializar el servicio de notificaciones
+  useEffect(() => {
+    console.log('Inicializando servicio de notificaciones');
+    notifyService.init(setNotifications);
+  }, []);
+  
+  // Función para reenviar el correo de confirmación
+  const handleResendConfirmation = async (email) => {
+    try {
+      setLoading(true);
+      // Utilizamos la API de Supabase para reenviar el correo de confirmación
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email: email
+      });
+      
+      if (error) {
+        console.error('Error al reenviar correo de confirmación:', error);
+        notifyService.error('Error al reenviar: ' + error.message);
+        return false;
+      }
+      
+      notifyService.success('¡Correo de confirmación reenviado! Revisa tu bandeja de entrada.');
+      return true;
+    } catch (error) {
+      console.error('Error inesperado al reenviar correo:', error);
+      notifyService.error('Error al reenviar: ' + error.message);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  // Estados para el calendario
+  const [currentDate, setCurrentDate] = useState(new Date(2025, 4, 12)); // 12 de Mayo de 2025
+  
+  // Estados para la tabla de citas
+  const [appointments, setAppointments] = useState([
+    {
+      id: 1,
+      patient: {
+        name: "Mohamed Reda Akhabzan",
+        initials: "MRA",
+        avatar: "https://randomuser.me/api/portraits/men/32.jpg"
+      },
+      date: "2025-05-28",
+      start_time: "10:30:00",
+      end_time: "11:00:00",
+      type: "Consulta general",
+      status: "completed"
+    },
+    {
+      id: 2,
+      patient: {
+        name: "Joel Ortiz",
+        initials: "JO",
+        avatar: "https://randomuser.me/api/portraits/men/45.jpg"
+      },
+      date: "2025-05-28",
+      start_time: "12:00:00",
+      end_time: "12:30:00",
+      type: "Seguimiento tratamiento",
+      status: "pending"
+    },
+    {
+      id: 3,
+      patient: {
+        name: "Laura Gómez",
+        initials: "LG",
+        avatar: null
+      },
+      date: "2025-05-29",
+      start_time: "09:15:00",
+      end_time: "10:00:00",
+      type: "Primera consulta",
+      status: "confirmed"
+    }
+  ]);
+  
+  // Función para cargar citas con datos de pacientes
+  const fetchAppointmentsWithPatients = async () => {
+    try {
+      // Obtener citas con referencia a pacientes
+      const { data, error } = await supabase
+        .from('appointments')
+        .select(`
+          id,
+          date,
+          start_time,
+          end_time,
+          type,
+          status,
+          patient_id,
+          patient:patients(*)
+        `);
+      
+      if (error) {
+        console.error('Error al obtener citas:', error);
+        return;
+      }
+      
+      if (data && data.length > 0) {
+        setAppointments(data);
+      }
+    } catch (error) {
+      console.error('Error general al obtener citas:', error);
+    }
+  };
+
+  // Guardar la pantalla actual en sessionStorage cuando cambia
+  useEffect(() => {
+    sessionStorage.setItem('currentScreen', pantalla);
+  }, [pantalla]);
+
+  // Guardar el estado de registro en sessionStorage
+  useEffect(() => {
+    if (registering) {
+      sessionStorage.setItem('currentScreen', 'register');
+    }
+  }, [registering]);
+
+  // Restaurar sesión y preferencias si existe (sólo al cargar)
+  useEffect(() => {
+    async function initializeApp() {
+      setLoading(true);
+      
+      // No intentar restaurar la sesión si estábamos en login/registro
+      if (!wasInAuthScreen() && hasActiveSessionSync()) {
+        try {
+          // Obtener datos de autenticación
+          const authData = await getAuthData();
+          if (authData && authData.user) {
+            setUser(authData.user);
+            setAuth(true);
+            
+            // Obtener preferencia de tema guardada para este usuario
+            const isDarkMode = await getThemePreference(authData.user.id);
+            setDarkMode(isDarkMode);
+            
+            // Cargar citas con datos de pacientes
+            fetchAppointmentsWithPatients();
+          }
+        } catch (error) {
+          console.error('Error al obtener preferencia de tema:', error);
+        }
+      }
+      
+      setLoading(false);
+    }
+    
+    initializeApp();
+  }, []);
+  
+  // Cargar citas y métricas del dashboard cuando cambia el usuario
+  useEffect(() => {
+    if (user) {
+      // Obtener todas las citas
+      getAllAppointments(user.id)
+        .then(data => {
+          setAppointments(data);
+          setLoading(false);
+          
+          // Contar citas de hoy
+          const today = new Date().toISOString().split('T')[0];
+          const citasHoy = data.filter(cita => cita.date === today).length;
+          
+          // Actualizar métrica de citas hoy
+          setDashboardMetrics(prev => ({ ...prev, citasHoy }));
+        })
+        .catch(error => {
+          console.error("Error al cargar citas:", error);
+          setAppointments([]);
+          setLoading(false);
+        });
+        
+      // Obtener métricas del dashboard directamente de las tablas reales
+      const fetchDashboardMetrics = async () => {
+        try {
+          // Función para formatear fechas para comparación
+          const formatDate = (date) => date.toISOString().split('T')[0];
+          
+          // Valores simulados que se usarán en caso de no haber datos reales
+          const valoresSimulados = {
+            mensajes: 3,
+            citasHoy: 5,
+            citasTotales: 42,
+            pacientesNuevos: 8,
+            tiempoPromedio: 50,
+            tendenciaCitas: 12,
+            tendenciaPacientes: 20,
+            tendenciaTiempo: 8
+          };
+          
+          // 1. Obtener conteo de mensajes no leídos
+          let mensajesCount = 0;
+          try {
+            const { data: mensajesData, error: mensajesError } = await supabase
+              .from('messages')
+              .select('id')
+              .eq('receiver_id', user.id)
+              .eq('read', false);
+            
+            if (!mensajesError && mensajesData) {
+              mensajesCount = mensajesData.length || valoresSimulados.mensajes;
+            } else {
+              mensajesCount = valoresSimulados.mensajes;
+            }
+          } catch (msgError) {
+            console.log('Error al consultar mensajes:', msgError.message);
+            mensajesCount = valoresSimulados.mensajes;
+          }
+          
+          // Obtener fecha actual
+          const hoy = new Date();
+          const fechaHoyStr = formatDate(hoy);
+          
+          // Formatear fecha para mostrar en el dashboard
+          const opcionesFecha = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          };
+          const fechaActualStr = hoy.toLocaleDateString('es-ES', opcionesFecha);
+          // Convertir primera letra a mayúscula
+          const fechaFormateada = fechaActualStr.charAt(0).toUpperCase() + fechaActualStr.slice(1);
+          
+          // 2. Obtener datos de citas
+          let citasData = [];
+          let citasTotales = valoresSimulados.citasTotales;
+          let citasHoy = valoresSimulados.citasHoy;
+          
+          try {
+            const { data, error } = await supabase
+              .from('appointments')
+              .select('id, date, start_time, end_time, created_at, status');
+            
+            if (!error && data && data.length > 0) {
+              citasData = data;
+              citasTotales = data.length;
+              
+              // Calcular citas para hoy que no estén canceladas
+              citasHoy = data.filter(cita => 
+                  cita.date === fechaHoyStr && 
+                  cita.status !== 'cancelled')
+                .length || valoresSimulados.citasHoy;
+            }
+          } catch (error) {
+            console.error('Error al obtener citas:', error);
+          }
+          
+          // 3. Obtener datos de pacientes
+          let pacientesNuevosCont = valoresSimulados.pacientesNuevos;
+          
+          try {
+            const { data, error } = await supabase
+              .from('patients')
+              .select('id, created_at');
+              
+            if (!error && data && data.length > 0) {
+              // Calcular pacientes nuevos (solo si hay datos válidos)
+              const unMesAtras = new Date(hoy);
+              unMesAtras.setDate(hoy.getDate() - 30);
+              
+              pacientesNuevosCont = data.filter(paciente => {
+                if (!paciente.created_at) return false;
+                const fechaCreacion = new Date(paciente.created_at);
+                return fechaCreacion >= unMesAtras && fechaCreacion <= hoy;
+              }).length || valoresSimulados.pacientesNuevos;
+            }
+          } catch (error) {
+            console.error('Error al obtener pacientes:', error);
+          }
+          
+          // 4. Calcular tiempo promedio de citas
+          let tiempoPromedio = valoresSimulados.tiempoPromedio;
+          
+          if (citasData && citasData.length > 0) {
+            // Calcular solo si hay citas con tiempos válidos
+            const citasConTiempos = citasData.filter(cita => cita.start_time && cita.end_time);
+            
+            if (citasConTiempos.length > 0) {
+              const duracionTotal = citasConTiempos.reduce((total, cita) => {
+                const inicio = new Date(`2025-01-01T${cita.start_time}`);
+                const fin = new Date(`2025-01-01T${cita.end_time}`);
+                const duracionMinutos = (fin - inicio) / (1000 * 60);
+                return total + duracionMinutos;
+              }, 0);
+              
+              tiempoPromedio = Math.round(duracionTotal / citasConTiempos.length);
+            }
+          }
+          
+          // 5. Establecer tendencias (siempre positivas para la demo)
+          const tendenciaCitas = valoresSimulados.tendenciaCitas;
+          const tendenciaPacientes = valoresSimulados.tendenciaPacientes;
+          const tendenciaTiempo = valoresSimulados.tendenciaTiempo;
+          
+          // Actualizar el estado con los datos calculados o los valores simulados
+          setDashboardMetrics({
+            mensajes: mensajesCount,
+            citasHoy: citasHoy,
+            citasTotales: citasTotales,
+            pacientesNuevos: pacientesNuevosCont,
+            tiempoPromedio: tiempoPromedio,
+            tendenciaCitas: tendenciaCitas,
+            tendenciaPacientes: tendenciaPacientes,
+            tendenciaTiempo: tendenciaTiempo,
+            fechaActual: fechaFormateada
+          });
+          
+        } catch (error) {
+          console.error('Error general al calcular métricas del dashboard:', error);
+          // En caso de error, usar valores simulados
+          const hoy = new Date();
+          const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          const fechaFormateada = hoy.toLocaleDateString('es-ES', opcionesFecha);
+          
+          setDashboardMetrics({
+            mensajes: 3,
+            citasHoy: 5,
+            citasTotales: 42,
+            pacientesNuevos: 8,
+            tiempoPromedio: 50,
+            tendenciaCitas: 12,
+            tendenciaPacientes: 20,
+            tendenciaTiempo: 8,
+            fechaActual: fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)
+          });
+        }
+      };
+      
+      fetchDashboardMetrics();
+    }
+  }, [user]);
+
+  // Aplicar el tema a toda la aplicación cuando cambia
+  useEffect(() => {
+    // Aplicar el tema visualmente
+    applyThemeClass(darkMode);
+    
+    // Guardar preferencia en Supabase o localStorage (si no hay usuario)
+    if (!loading) {
+      const userId = user?.id;
+      saveThemePreference(userId, darkMode).catch(error => {
+        console.error('Error al guardar preferencia de tema:', error);
+      });
+    }
+  }, [darkMode, loading, user]);
+  
+  // Función para cambiar el tema
+  const handleThemeChange = useCallback(() => {
+    setDarkMode(prevMode => !prevMode);
+  }, []);
+  
+  // Login con Supabase
+  const handleLogin = async (data) => {
+    try {
+      // Limpiar errores anteriores
+      setLoginError("");
+      setLoading(true);
+      
+      const authResponse = await saveAuthData(data);
+      console.log('Respuesta de autenticación completa:', authResponse);
+      
+      if (authResponse && authResponse.user) {
+        // Guardar los datos del usuario en el estado
+        console.log('Estableciendo datos de usuario en estado:', authResponse.user);
+        setUser(authResponse.user);
+        setAuth(true);
+        notifyService.success('¡Bienvenido/a ' + authResponse.user.name + '!');
+      } else {
+        console.error('Respuesta de autenticación incompleta');
+        setLoginError('Error al obtener datos de usuario');
+      }
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      
+      // Verificar si es un error de email no confirmado
+      if (error.message && error.message.includes('Email not confirmed')) {
+        setLoginError('Es necesario confirmar tu correo electrónico para iniciar sesión. Por favor, revisa tu bandeja de entrada.');
+      } else {
+        // Otros errores de inicio de sesión
+        setLoginError('Error al iniciar sesión: ' + error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      await clearAuthData();
+      setAuth(false);
+      setProfileMenuOpen(false);
+      setPantalla("inicio");
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+      alert('Error al cerrar sesión: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const handleRegister = async (data) => {
+    setLoading(true);
+    try {
+      // Crear usuario en Supabase Auth y en la tabla users
+      if (data) {
+        const newUser = {
+          name: data.name || "Usuario",
+          email: data.email,
+          password: data.password, // Importante: ahora necesitamos la contraseña
+          avatar: "" // Ya no usamos URLs aleatorias, se usará la imagen por defecto
+        };
+        
+        // Usar la función registerUser para crear el usuario
+        const { user } = await registerUser(newUser);
+        
+        if (user) {
+          // No autenticamos al usuario automáticamente
+          // Solo lo redirigimos a la pantalla de login
+          setRegistering(false);
+          // Dejar auth en false para que vuelva a la pantalla de login
+          setAuth(false);
+          
+          // Mostrar mensaje de éxito con notificación animada
+          notifyService.success('Registro exitoso. Por favor, inicia sesión con tus credenciales.');
+        }
+      }
+    } catch (error) {
+      console.error('Error al registrar usuario:', error);
+      notifyService.error('Error al registrar: ' + (error.message || 'Intente de nuevo'));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Guardar perfil editado en Supabase
+  const handleSaveProfile = async (data) => {
+    try {
+      setLoading(true);
+      const updatedUser = { ...user, ...data };
+      
+      // Actualizar perfil en Supabase
+      const result = await updateUserProfile(updatedUser);
+      
+      // Si la actualización fue exitosa, actualizar el estado local
+      if (result.success) {
+        setUser(updatedUser);
+        notifyService.success('Perfil actualizado correctamente');
+      }
+    } catch (error) {
+      console.error('Error al actualizar perfil:', error);
+      if (error.message) {
+        notifyService.error('Error al guardar perfil: ' + error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Gestionar el cambio de estado de las citas en Supabase
+  const handleAppointmentStatusChange = async (appointmentId, newStatus) => {
+    try {
+      const { success } = await updateAppointmentStatus(appointmentId, newStatus);
+      if (success) {
+        // Actualizar el estado local para reflejar el cambio
+        setAppointments(prevAppointments => 
+          prevAppointments.map(apt => 
+            apt.id === appointmentId 
+              ? { ...apt, status: newStatus } 
+              : apt
+          )
+        );
+        
+        // Mostrar una notificación del cambio de estado con animación
+        const statusMessages = {
+          confirmed: 'Cita confirmada correctamente',
+          pending: 'Cita marcada como pendiente',
+          completed: 'Cita marcada como completada',
+          cancelled: 'Cita cancelada'
+        };
+        
+        notifyService.info(statusMessages[newStatus] || 'Estado de cita actualizado');
+      }
+    } catch (error) {
+      console.error('Error al actualizar estado de cita:', error);
+      notifyService.error('Error al actualizar estado: ' + error.message);
+    }
+  };
+
+  // Renderizado condicional
+  // Detectar tipo de pantalla para adaptación responsive
+  const { isDesktop } = useScreenType();
+
+  // Inicializar el servicio de notificaciones
+  useEffect(() => {
+    notifyService.init(setNotifications);
+  }, []);
+  
+  if (!auth) {
+    // Actualizar sessionStorage con la pantalla actual
+    sessionStorage.setItem('currentScreen', registering ? 'register' : 'login');
+    
+    if (registering) {
+      return <RegisterPage onRegister={handleRegister} onLogin={() => setRegistering(false)} />;
+    }
+    // Extraer el email del mensaje de error si es un error de "Email not confirmed"
+    let emailFromError = "";
+    if (loginError && loginError.includes('correo electrónico')) {
+      // En este punto ya tenemos emailFromError en el estado del componente App
+      const matches = loginError.match(/[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g);
+      if (matches && matches.length > 0) {
+        emailFromError = matches[0];
+      }
+    }
+    
+    return <LoginPage 
+      onLogin={handleLogin} 
+      onRegister={() => {
+        setRegistering(true);
+        setLoginError(""); // Limpiar errores al cambiar entre pantallas
+      }} 
+      error={loginError}
+      onResendConfirmation={handleResendConfirmation}
+      lastEmail={emailFromError}
+    />;
+  }
+  // La edición de perfil ahora se mostrará en el panel principal
+  
+  return (
+    <div className={`app ${darkMode ? 'dark-theme' : 'light-theme'}`}>
+      {/* Componentes condicionales según tipo de pantalla */}
+      {isDesktop ? (
+        <>
+          <Sidebar 
+            active={pantalla} 
+            onChange={(screen) => {
+              if (screen === "logout") {
+                handleLogout();
+              } else {
+                setPantalla(screen);
+              }
+            }} 
+            onEditProfile={() => {
+              setEditingProfile(true);
+              setPantalla("configuracion");
+            }}
+          />
+          <DesktopHeader 
+            user={user} 
+            onProfileClick={() => setProfileMenuOpen(!profileMenuOpen)} 
+            onBellClick={() => console.log('Notificaciones')} 
+            isDesktop={true}
+            darkMode={darkMode}
+            onThemeChange={handleThemeChange}
+          />
+        </>
+      ) : (
+        <>
+          <Header 
+            user={user} 
+            onProfileClick={() => setProfileMenuOpen(!profileMenuOpen)} 
+            onBellClick={() => console.log('Notificaciones')}
+            darkMode={darkMode}
+            onThemeChange={handleThemeChange}
+          />
+          <BottomNav active={pantalla} onChange={setPantalla} />
+        </>
+      )}
+      
+      {/* Menú de perfil (común para ambos layouts) */}
+      <ProfileMenu 
+        open={profileMenuOpen} 
+        onClose={() => setProfileMenuOpen(false)} 
+        onLogout={handleLogout}
+        onEditProfile={() => {
+          setEditingProfile(true);
+          setPantalla("configuracion");
+          setProfileMenuOpen(false);
+        }}
+      />
+      
+      {/* Contenido principal con clases condicionales */}
+      <main className={isDesktop ? "main-content desktop" : "main-content"}>
+        {pantalla === "inicio" && (
+          <>
+            {/* Sección de bienvenida */}
+            <section className={`welcome-section ${darkMode ? 'dark-theme' : ''}`}>
+              <h2 className={darkMode ? 'dark-theme' : ''}>Hola, {user?.name || 'Usuario'}</h2>
+              <p className={`date ${darkMode ? 'dark-theme' : ''}`}>{dashboardMetrics.fechaActual}</p>
+              <div className="summary-cards">
+                <div className="summary-card">
+                  <div className="summary-title">Citas hoy</div>
+                  <div className="summary-value">{dashboardMetrics.citasHoy}</div>
+                </div>
+                <div className="summary-card">
+                  <div className="summary-title">Mensajes</div>
+                  <div className="summary-value">{dashboardMetrics.mensajes}</div>
+                </div>
+              </div>
+            </section>
+            
+            {/* Layout de escritorio con grid para dashboard */}
+            {isDesktop && (
+              <div className="desktop-dashboard-grid">
+                {/* Estadísticas (parte superior) */}
+                <section className="stats-section">
+                  <StatisticsChart />
+                </section>
+                
+                {/* Fila de métricas */}
+                <div className="metrics-section">
+                  <div className="metrics-row">
+                    <div className="metric-card">
+                      <div className="metric-icon appointments"></div>
+                      <div className="metric-data">
+                        <div className="metric-title">Citas totales</div>
+                        <div className="metric-value">{dashboardMetrics.citasTotales}</div>
+                        <div className="metric-trend positive" style={{color: '#22c55e', fontWeight: 'bold'}}>
+                          +{Math.max(1, dashboardMetrics.tendenciaCitas)}% vs semana anterior
+                        </div>
+                      </div>
+                    </div>
+                    <div className="metric-card">
+                      <div className="metric-icon patients"></div>
+                      <div className="metric-data">
+                        <div className="metric-title">Pacientes nuevos</div>
+                        <div className="metric-value">{dashboardMetrics.pacientesNuevos}</div>
+                        <div className="metric-trend positive" style={{color: '#22c55e', fontWeight: 'bold'}}>
+                          +{Math.max(1, dashboardMetrics.tendenciaPacientes)}% vs semana anterior
+                        </div>
+                      </div>
+                    </div>
+                    <div className="metric-card">
+                      <div className="metric-icon time"></div>
+                      <div className="metric-data">
+                        <div className="metric-title">Tiempo promedio</div>
+                        <div className="metric-value">{dashboardMetrics.tiempoPromedio} min</div>
+                        <div className="metric-trend positive" style={{color: '#22c55e', fontWeight: 'bold'}}>
+                          +{Math.max(1, dashboardMetrics.tendenciaTiempo)}% vs semana anterior
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Contenedor para citas recientes y calendario */}
+                <div className="bottom-sections">
+                  {/* Tabla de citas recientes */}
+                  <section className="recent-appointments-section">
+                    <div className="section-header">
+                      <h3>Citas recientes</h3>
+                      <button 
+                        className="view-all" 
+                        onClick={() => setPantalla("citas")} 
+                        aria-label="Ver todas las citas"
+                      >
+                        Ver todas
+                      </button>
+                    </div>
+                    <table className="appointments-table">
+                      <thead>
+                        <tr>
+                          <th>PACIENTE</th>
+                          <th>FECHA</th>
+                          <th>HORA</th>
+                          <th>TIPO</th>
+                          <th>ESTADO</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {appointments.map((appointment) => (
+                        <tr key={appointment.id}>
+                          <td className="patient-cell">
+                            {appointment.patient.avatar ? (
+                              <img 
+                                src={appointment.patient.avatar} 
+                                alt={appointment.patient.name} 
+                                className="patient-img" 
+                              />
+                            ) : (
+                              <div className="patient-initials">
+                                {appointment.patient.initials || appointment.patient.name.split(' ').map(n => n[0]).join('')}
+                              </div>
+                            )}
+                            {appointment.patient.name}
+                          </td>
+                          <td>{appointment.date}</td>
+                          <td>{appointment.time}</td>
+                          <td>{appointment.type}</td>
+                          <td>
+                            <div className="status-container">
+                              <span className={`status ${appointment.status}`}>
+                                {appointment.status === "confirmed" ? "Confirmada" : 
+                                 appointment.status === "pending" ? "Pendiente" :
+                                 appointment.status === "completed" ? "Completada" : "Cancelada"}
+                              </span>
+                              <AppointmentControls 
+                                appointment={appointment} 
+                                onStatusChange={handleAppointmentStatusChange} 
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </section>
+                  
+                  {/* Sección de calendario y próximas citas */}
+                  <section className="calendar-section">
+                    <Calendar 
+                      currentDate={currentDate}
+                      onDateChange={(newDate) => setCurrentDate(newDate)}
+                      onPeriodChange={(period) => console.log(`Periodo cambiado a: ${period}`)}
+                    />
+                    
+                    <div className="upcoming-appointments">
+                      <h4 className="upcoming-header">
+                        Próximas citas
+                        <span className="appointment-count">
+                          {appointments.filter(cita => {
+                            // Solo mostrar citas pendientes o confirmadas (no completadas ni canceladas)
+                            return cita.status === 'confirmed' || cita.status === 'pending';
+                          }).length}
+                        </span>
+                      </h4>
+                      <div className="upcoming-list">
+                        {appointments.length > 0 ? (
+                          // Mostrar solo citas pendientes o confirmadas (máximo 3)
+                          appointments
+                            .filter(cita => {
+                              return cita.status === 'confirmed' || cita.status === 'pending';
+                            })
+                            .sort((a, b) => {
+                              // Ordenar por fecha y hora
+                              const dateA = new Date(`${a.date}T${a.start_time}`);
+                              const dateB = new Date(`${b.date}T${b.start_time}`);
+                              return dateA - dateB;
+                            })
+                            .slice(0, 3)
+                            .map(cita => (
+                              <div className="appointment-item" key={cita.id}>
+                                {cita.patient.avatar ? (
+                                  <img 
+                                    src={cita.patient.avatar} 
+                                    alt={cita.patient.name} 
+                                    className="patient-small-img" 
+                                  />
+                                ) : (
+                                  <div className="patient-small-initials">
+                                    {cita.patient.initials || cita.patient.name.split(' ').map(n => n[0]).join('')}
+                                  </div>
+                                )}
+                                <div className="appointment-details">
+                                  <div className="appointment-name">{cita.patient.name}</div>
+                                  <div className="appointment-type">{cita.type}</div>
+                                </div>
+                                <div className="appointment-time">
+                                  {cita.start_time ? cita.start_time.substring(0, 5) : ''}
+                                  {cita.end_time ? ' - ' + cita.end_time.substring(0, 5) : ''}
+                                </div>
+                                <div className="appointment-actions">
+                                  <button 
+                                    className="action-btn message" 
+                                    aria-label="Mensaje" 
+                                    onClick={() => setPantalla("chat")}
+                                  >
+                                    💬
+                                  </button>
+                                  <button 
+                                    className="action-btn call" 
+                                    aria-label="Llamar" 
+                                    onClick={() => notifyService.call(`Llamando a ${cita.patient.name}...`)}
+                                  >
+                                    📞
+                                  </button>
+                                </div>
+                              </div>
+                            ))
+                        ) : (
+                          <div className="appointment-card">No hay citas próximas</div>
+                        )}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            )}
+            
+            {/* Versión móvil de estadísticas y citas */}
+            {!isDesktop && (
+              <div className="mobile-dashboard">
+                <section className="stats-section">
+                  <StatisticsChart />
+                </section>
+                
+                <section className="calendar-section mobile-calendar">
+                  <div className="calendar-component">
+                    <div className="section-header">
+                      <h3>Mayo 2025</h3>
+                      <div className="calendar-controls">
+                        <button className="calendar-nav prev" aria-label="Mes anterior">←</button>
+                        <button className="calendar-nav next" aria-label="Mes siguiente">→</button>
+                      </div>
+                    </div>
+                    {/* Mini calendario similar al de desktop */}
+                    <div className="mini-calendar">
+                      <div className="calendar-header">
+                        <div>L</div>
+                        <div>M</div>
+                        <div>X</div>
+                        <div>J</div>
+                        <div>V</div>
+                        <div>S</div>
+                        <div>D</div>
+                      </div>
+                      <div className="calendar-days">
+                        {/* Se generará dinámicamente con JavaScript */}
+                        {Array(42).fill(null).map((_, i) => {
+                          const day = i - 2; // Ajuste para Mayo 2025
+                          const currentDay = day === 13; // Día actual
+                          const prevMonth = day < 1;
+                          const nextMonth = day > 31;
+                          let className = "";
+                          if (prevMonth) className = "prev-month ";
+                          if (nextMonth) className = "next-month ";
+                          if (currentDay) className += "current-day";
+                          
+                          // Valor a mostrar
+                          let value;
+                          if (prevMonth) value = 28 + day;
+                          else if (nextMonth) value = day - 31;
+                          else value = day;
+                          
+                          return <div className={className} key={i}>{value}</div>;
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                
+                <section className="appointments-section">
+                  <h3>Próximas citas</h3>
+                  <div className="appointments-list">
+                    {appointments.length > 0 ? (
+                      // Filtrar y mostrar solo las próximas citas (máximo 3)
+                      appointments
+                        .filter(cita => new Date(cita.date + 'T' + cita.time) >= new Date())
+                        .sort((a, b) => new Date(a.date + 'T' + a.time) - new Date(b.date + 'T' + b.time))
+                        .slice(0, 3)
+                        .map(cita => (
+                          <div className="appointment-card" key={cita.id}>
+                            {cita.patient.name} ({cita.time.substring(0, 5)} - {cita.end_time ? cita.end_time.substring(0, 5) : ''})
+                          </div>
+                        ))
+                    ) : (
+                      <div className="appointment-card">No hay citas próximas</div>
+                    )}
+                  </div>
+                </section>
+              </div>
+            )}
+          </>
+        )}
+        {pantalla === "citas" && <Citas />}
+        {pantalla === "pacientes" && <PacientesPage />}
+        {pantalla === "mensajes" && <MensajesPage />}
+        {pantalla === "perfil" && <PersonPage user={user} onEdit={() => setEditingProfile(true)} />}
+        {pantalla === "chat" && <ChatPage user={user} />}
+        {((pantalla === "configuracion" && editingProfile) || (editingProfile && !isDesktop && pantalla === "configuracion")) && 
+          <div className="main-content-section">
+            <EditProfilePage 
+              user={user} 
+              onSave={(updatedProfile) => {
+                handleSaveProfile(updatedProfile);
+                setEditingProfile(false);
+                setPantalla("inicio");
+              }} 
+              onCancel={() => {
+                setEditingProfile(false);
+                setPantalla("inicio");
+              }} 
+              inlineMode={true} 
+            />
+          </div>
+        }
+      </main>
+      {/* Gestor de notificaciones */}
+      <div className="notifications-wrapper">
+        <NotificationManager />
+      </div>
+  </div>
+  );
+}
+export default App;

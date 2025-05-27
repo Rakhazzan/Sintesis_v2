@@ -377,17 +377,21 @@ h2.dark-theme {
 }
 
 .metric-trend {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
+  margin-top: 4px;
 }
 
 .metric-trend.positive {
-  color: var(--positive-color);
+  color: var(--positive-color, #22c55e) !important;
+  font-weight: bold;
 }
 
 .metric-trend.negative {
-  color: var(--negative-color);
+  color: var(--negative-color, #e14c4c) !important;
+  font-weight: bold;
 }
 
 /* Fila inferior con tabla y calendario */
@@ -557,9 +561,25 @@ h2.dark-theme {
   margin-top: 20px;
 }
 
-.upcoming-appointments h4 {
+.upcoming-appointments h4.upcoming-header {
   margin-bottom: 12px;
   font-size: 1.05rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upcoming-header .appointment-count {
+  background-color: var(--primary-color, #5a4ff3);
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
 }
 
 .appointment-item {
@@ -655,18 +675,6 @@ h2.dark-theme {
   background: rgba(255, 255, 255, 0.03);
 }
 
-.dark-theme .summary-card,
-.dark-theme .stats-section,
-.dark-theme .appointments-section,
-.dark-theme .calendar-section,
-.dark-theme .mobile-dashboard .stats-section,
-.dark-theme .mobile-dashboard .appointments-section,
-.dark-theme .mobile-dashboard .calendar-section.mobile-calendar,
-.dark-theme .metrics-section,
-.dark-theme .metric-card {
-  background: var(--card-bg);
-  border-color: rgba(255, 255, 255, 0.1);
-}
 
 .dark-theme .summary-value,
 .dark-theme .section-header h3,
@@ -687,6 +695,39 @@ h2.dark-theme {
 }
 
 /* Estilos base para todos los dispositivos */
+
+/* Estilos para los círculos de iniciales de pacientes */
+.patient-initials {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4a86e8;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.patient-small-initials {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #4a86e8;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.dark-theme .patient-initials,
+.dark-theme .patient-small-initials {
+  background-color: #2c5aa0;
+}
 :root {
   --primary-color: #5a4ff3;
   --primary-light: #ecebff;

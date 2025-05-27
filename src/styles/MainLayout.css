@@ -1,0 +1,72 @@
+@import './variables.css';
+
+/* Layout principal */
+.app {
+  min-height: 100vh;
+  background: var(--bg-color);
+  transition: background-color 0.3s ease;
+}
+
+/* Contenido principal para móvil */
+.main-content {
+  padding: 16px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+/* Versión desktop del contenido principal */
+.main-content.desktop {
+  padding-top: calc(var(--header-height) + 20px);
+  padding-left: calc(var(--sidebar-width) + 20px);
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+/* Gestor de notificaciones */
+.notifications-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+/* Estilos para la vista móvil */
+@media (max-width: 768px) {
+  .desktop-header, .sidebar {
+    display: none;
+  }
+  
+  .app .main-content {
+    padding: 15px;
+    padding-bottom: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+/* Pantalla de carga */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background: var(--bg-color);
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--primary-light);
+  border-radius: 50%;
+  border-top: 5px solid var(--primary-color);
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

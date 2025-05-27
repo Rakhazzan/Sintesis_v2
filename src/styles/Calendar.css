@@ -1,0 +1,253 @@
+@import './variables.css';
+
+/* Contenedor principal del calendario */
+.calendar-wrapper {
+  width: 100%;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  background-color: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+/* Cabecera del calendario con título y selector */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.month-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+}
+
+/* Botones de navegación del mes */
+.calendar-nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.calendar-nav {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+}
+
+.calendar-nav:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.calendar-nav:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(90, 79, 243, 0.3);
+}
+
+/* Estilizado mejorado para el selector de período */
+.period-selector {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border: none;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235a4ff3'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 28px;
+  transition: all 0.2s ease;
+}
+
+.period-selector:hover {
+  background-color: var(--primary-light);
+  box-shadow: 0 2px 5px rgba(90, 79, 243, 0.2);
+}
+
+.period-selector:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(90, 79, 243, 0.3);
+}
+
+.period-selector option {
+  background-color: white;
+  color: var(--text-color);
+}
+
+/* Cabecera de días de la semana */
+.days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 10px;
+}
+
+.day-name {
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  padding: 8px 0;
+}
+
+/* Rejilla de días del mes */
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 5px;
+}
+
+.day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.day-cell:hover:not(.empty):not(.disabled) {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+}
+
+.day-cell.today {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.day-cell.selected {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.day-cell.other-month {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.day-cell.has-event::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+}
+
+.day-cell.today.has-event::after {
+  background-color: white;
+}
+
+/* Calendario mensual completo */
+.month-view {
+  margin-top: 10px;
+}
+
+/* Vista de año */
+.year-view {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.month-card {
+  padding: 10px;
+  border-radius: var(--border-radius);
+  background-color: var(--card-bg-alt);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.month-card:hover {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+}
+
+.month-card.current {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Modo oscuro */
+.dark-theme .calendar-wrapper {
+  background-color: var(--card-bg);
+}
+
+.dark-theme .month-title {
+  color: var(--text-color);
+}
+
+.dark-theme .day-name {
+  color: var(--text-secondary);
+}
+
+.dark-theme .day-cell {
+  color: var(--text-color);
+}
+
+.dark-theme .day-cell.other-month {
+  color: var(--text-secondary);
+}
+
+.dark-theme .month-card {
+  background-color: var(--card-bg-alt);
+  color: var(--text-color);
+}
+
+.dark-theme .period-selector {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+}
+
+.dark-theme .period-selector option {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .calendar-wrapper {
+    padding: 15px;
+  }
+  
+  .month-title {
+    font-size: 1rem;
+  }
+  
+  .day-name {
+    font-size: 0.75rem;
+  }
+  
+  .day-cell {
+    font-size: 0.8rem;
+  }
+  
+  .year-view {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

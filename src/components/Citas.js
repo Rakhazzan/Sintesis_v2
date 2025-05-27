@@ -93,7 +93,7 @@ const Citas = () => {
           nombre: cita.patients?.name || "Paciente",
           tipo: cita.appointment_type,
           hora: formatearHora(cita.start_time, cita.end_time),
-          avatar: cita.patients?.avatar || "https://randomuser.me/api/portraits/lego/0.jpg",
+          avatar: cita.patients?.img || cita.patients?.avatar,
           video: cita.video_call,
           phone: cita.phone_call,
           pronostico: cita.diagnosis,
@@ -430,7 +430,11 @@ const Citas = () => {
         ) : (
           citasHoy.map((cita, idx) => (
             <div className={`cita-card${cita.cancelada ? " cancelada" : ""}`} key={idx}>
-              <img className="cita-avatar" src={cita.avatar} alt={cita.nombre} />
+              <img 
+                className="cita-avatar" 
+                src={cita.avatar} 
+                alt={cita.nombre} 
+              />
               <div className="cita-info">
                 <div className="cita-nombre">{cita.nombre}</div>
                 <div className="cita-tipo">{cita.tipo}</div>

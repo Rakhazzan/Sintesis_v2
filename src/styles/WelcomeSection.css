@@ -1,0 +1,64 @@
+@import './variables.css';
+
+.welcome-section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
+}
+
+.welcome-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.dark-theme h2,
+h2.dark-theme {
+  color: var(--text-color);
+}
+
+.date {
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.dark-theme .date,
+.date.dark-theme {
+  color: var(--text-secondary);
+}
+
+.summary-cards {
+  display: flex;
+  gap: 16px;
+}
+
+.summary-card {
+  flex: 1;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  box-shadow: var(--card-shadow);
+}
+
+.summary-title {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.summary-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .summary-cards {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

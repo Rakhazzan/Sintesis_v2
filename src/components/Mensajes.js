@@ -76,11 +76,11 @@ const Mensajes = () => {
         } else if (mensaje.receiver_type === 'patient') {
           // Es un mensaje a paciente pero no tenemos sus datos
           nombreMostrado = mensaje.receiver?.name || "Paciente";
-          avatarMostrado = mensaje.receiver?.avatar || "https://randomuser.me/api/portraits/lego/0.jpg";
+          avatarMostrado = mensaje.receiver?.avatar || mensaje.receiver?.img || null;
         } else {
           // Para otros tipos de mensajes
           nombreMostrado = mensaje.receiver?.name || mensaje.sender?.name || "Paciente";
-          avatarMostrado = mensaje.receiver?.avatar || mensaje.sender?.avatar || "https://randomuser.me/api/portraits/lego/0.jpg";
+          avatarMostrado = mensaje.receiver?.avatar || mensaje.receiver?.img || mensaje.sender?.avatar || mensaje.sender?.img || null;
         }
         
         return {
@@ -278,7 +278,7 @@ const Mensajes = () => {
           return {
             id: `simulado-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
             nombre: paciente?.name || 'Paciente',
-            avatar: paciente?.avatar || "https://randomuser.me/api/portraits/lego/0.jpg",
+            avatar: paciente?.avatar || paciente?.img || null,
             mensaje: nuevoMensaje.mensaje,
             asunto: nuevoMensaje.asunto,
             hora: formatearFecha(fechaActual.toISOString()),
@@ -305,7 +305,7 @@ const Mensajes = () => {
         const mensajesFormateados = mensajesActualizados.map(mensaje => ({
           id: mensaje.id,
           nombre: mensaje.receiver?.name || mensaje.sender?.name || "Desconocido",
-          avatar: mensaje.receiver?.avatar || mensaje.sender?.avatar || "https://randomuser.me/api/portraits/lego/0.jpg",
+          avatar: mensaje.receiver?.avatar || mensaje.receiver?.img || mensaje.sender?.avatar || mensaje.sender?.img || null,
           mensaje: mensaje.content,
           asunto: mensaje.subject,
           hora: formatearFecha(mensaje.created_at),
@@ -449,15 +449,17 @@ const Mensajes = () => {
       ) : mensajesFiltrados.length > 0 ? (
         mensajesFiltrados.map((m, idx) => (
           <div className={`mensaje-card${!m.leidos ? " unread" : ""}`} key={idx}>
-            <img 
-              className="mensaje-avatar" 
-              src={m.avatar || "https://randomuser.me/api/portraits/lego/0.jpg"} 
-              alt={m.nombre} 
-              onError={(e) => {
-                e.target.onerror = null; 
-                e.target.src = "https://randomuser.me/api/portraits/lego/0.jpg";
-              }}
-            />
+            {m.avatar ? (
+              <img 
+                className="mensaje-avatar" 
+                src={m.avatar} 
+                alt={m.nombre} 
+              />
+            ) : (
+              <div className="mensaje-avatar-initials">
+                {m.nombre.split(' ').map(n => n[0]).join('')}
+              </div>
+            )}
             <div className="mensaje-info">
               <div className="mensaje-nombre">{m.nombre || "Paciente"}</div>
               <div className="mensaje-texto">
@@ -495,11 +497,17 @@ const Mensajes = () => {
                     className={`destinatario-item ${nuevoMensaje.destinatarios.includes(paciente.id) ? 'selected' : ''}`}
                     onClick={() => togglePacienteSeleccionado(paciente.id)}
                   >
-                    <img 
-                      src={paciente.avatar || "https://randomuser.me/api/portraits/lego/0.jpg"} 
-                      alt={paciente.name} 
-                      className="destinatario-avatar" 
-                    />
+                    {paciente.avatar || paciente.img ? (
+                      <img 
+                        src={paciente.avatar || paciente.img} 
+                        alt={paciente.name} 
+                        className="destinatario-avatar" 
+                      />
+                    ) : (
+                      <div className="destinatario-avatar-initials">
+                        {paciente.name.split(' ').map(n => n[0]).join('')}
+                      </div>
+                    )}
                     <span>{paciente.name}</span>
                     {paciente.email && <span className="tiene-email">📧</span>}
                   </div>
