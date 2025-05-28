@@ -9,6 +9,7 @@ import MensajesPage from "./pages/MensajesPage";
 import PersonPage from "./pages/PersonPage";
 import ChatPage from "./pages/ChatPage";
 import EditProfilePage from "./pages/EditProfilePage";
+import DocumentosPage from "./pages/DocumentosPage";
 import Citas from "./components/Citas";
 import { notifyService } from "./components/NotificationManager";
 import "./styles/global.css";
@@ -62,6 +63,7 @@ function AppContent() {
       {activePage === "citas" && <Citas />}
       {activePage === "pacientes" && <PacientesPage />}
       {activePage === "mensajes" && <MensajesPage />}
+      {activePage === "documentos" && <DocumentosPage />}
       {activePage === "perfil" && (
         <PersonPage 
           user={user} 

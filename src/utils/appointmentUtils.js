@@ -206,14 +206,20 @@ export async function deleteAppointment(id) {
  * Actualiza el estado de una cita
  * @param {string} id - ID de la cita
  * @param {string} status - Nuevo estado (confirmed, pending, cancelled)
- * @returns {Promise<Object>} Promesa que resuelve con la cita actualizada
+ * @returns {Promise<Object>} Promesa que resuelve con {success: true, data} si la operación fue exitosa
  */
 export async function updateAppointmentStatus(id, status) {
   try {
+    // Actualizar timestamp de la última modificación
+    const updatedAt = new Date().toISOString();
+    
     // Versión directa con Supabase
     const { data, error } = await supabase
       .from('appointments')
-      .update({ status })
+      .update({ 
+        status, 
+        updated_at: updatedAt 
+      })
       .eq('id', id)
       .select();
 
@@ -222,7 +228,7 @@ export async function updateAppointmentStatus(id, status) {
       throw error;
     }
     
-    return data[0];
+    return { success: true, data: data[0] };
   } catch (error) {
     console.error(`Error al actualizar estado de cita ${id}:`, error);
     // Fallback a fetch
@@ -232,17 +238,21 @@ export async function updateAppointmentStatus(id, status) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ 
+          status,
+          updated_at: new Date().toISOString() 
+        }),
       });
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
-      return await response.json();
+      const responseData = await response.json();
+      return { success: true, data: responseData };
     } catch (fetchError) {
       console.error('Error al actualizar estado de cita con fetch:', fetchError);
-      throw fetchError;
+      return { success: false, error: fetchError.message };
     }
   }
 }

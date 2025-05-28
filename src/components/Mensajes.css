@@ -161,7 +161,7 @@
 
 .mensaje-asunto {
   font-weight: 500;
-  color: var(--accent-color, #4c1d95);
+  color: var(--accent-color, #699631);
   transition: color 0.3s ease;
 }
 
@@ -286,6 +286,7 @@
   border-radius: 0.375rem;
   background-color: var(--card-bg-secondary, #f9fafb);
   transition: background-color 0.3s ease, border-color 0.3s ease;
+  margin-top: 0.5rem;
 }
 
 .destinatario-item {
@@ -293,25 +294,52 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
-  background-color: var(--card-bg-tertiary, #f9fafb);
+  background-color: var(--card-bg, #f3f4f6);
+  border: 1px solid var(--border-color, #e5e7eb);
   border-radius: 30px;
   cursor: pointer;
   color: var(--text-color, #333);
+  font-weight: 500;
   transition: all 0.15s ease, background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .destinatario-item span {
-  color: var(--text-color, #333);
+  color: var(--primary-dark, #4338ca);
+  font-weight: 500;
   transition: color 0.3s ease;
 }
 
 .destinatario-item:hover {
-  background-color: var(--card-bg-tertiary-hover, #f3f4f6);
+  background-color: var(--primary-color, #4f46e5);
+  color: white;
+  border-color: var(--primary-color, #4f46e5);
+}
+
+.destinatario-item:hover span {
+  color: white;
 }
 
 .destinatario-item.selected {
-  background-color: var(--primary-light, #e0e7ff);
-  border: 1px solid var(--primary-border, #c7d2fe);
+  background-color: var(--primary-color, #4f46e5);
+  border: 1px solid var(--primary-color, #4f46e5);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.destinatario-item.selected:after {
+  content: '✓';
+  position: absolute;
+  right: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.destinatario-item.selected span {
+  color: white;
+  font-weight: 600;
 }
 
 .destinatario-avatar {
@@ -324,6 +352,11 @@
 .tiene-email {
   font-size: 0.75rem;
   margin-left: 0.25rem;
+  background-color: var(--primary-color, #4f46e5);
+  color: white;
+  padding: 0.1rem 0.4rem;
+  border-radius: 10px;
+  display: inline-block;
 }
 
 .modal-footer {
@@ -463,4 +496,20 @@
 
 .dark-theme .mensaje-card.unread {
   background: var(--primary-light, #313169);
+}
+
+.dark-theme .destinatario-item {
+  background-color: var(--primary-dark, #4338ca);
+  color: white;
+  border-color: var(--primary-dark, #4338ca);
+}
+
+.dark-theme .destinatario-item span {
+  color: white;
+}
+
+.dark-theme .destinatario-item:hover,
+.dark-theme .destinatario-item.selected {
+  background-color: var(--primary-color, #6366f1);
+  border-color: var(--primary-color, #6366f1);
 }
