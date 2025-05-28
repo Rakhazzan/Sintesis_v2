@@ -19,26 +19,33 @@
 .pacientes-select-filtro {
   width: 100%;
   max-width: 250px;
-  padding: 10px 14px;
-  border: 1px solid #e0e0f0;
-  border-radius: 10px;
-  background-color: var(--card-bg-alt, #f8f8fd);
+  background-color: var(--primary-light, #ecebff);
   color: var(--primary-color, #5a4ff3);
-  font-size: 0.97rem;
+  border: none;
   font-weight: 500;
-  appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%235a4ff3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 16px;
+  padding: 8px 14px;
+  border-radius: 20px;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s ease, color 0.3s ease;
+  font-size: 0.95rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235a4ff3'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 28px;
+  transition: all 0.2s ease;
+}
+
+.pacientes-select-filtro:hover {
+  background-color: var(--primary-light, #ecebff);
+  box-shadow: 0 2px 5px rgba(90, 79, 243, 0.2);
 }
 
 .pacientes-select-filtro:focus {
   outline: none;
-  border-color: #5a4ff3;
-  box-shadow: 0 0 0 2px rgba(90, 79, 243, 0.15);
+  box-shadow: 0 0 0 2px rgba(90, 79, 243, 0.3);
 }
 
 /* Mantener los estilos de los botones antiguos para referencia */
@@ -255,8 +262,18 @@
 
 /* Soporte para tema oscuro */
 .dark-theme .pacientes-select-filtro {
-  border-color: rgba(255, 255, 255, 0.1);
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23e5e7eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-color: #2a3544;
+  color: var(--text-color, #e5e7eb);
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e5e7eb'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+}
+
+.dark-theme .pacientes-select-filtro:hover {
+  background-color: #323e4f;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .pacientes-select-filtro:focus {
+  box-shadow: 0 0 0 2px rgba(90, 79, 243, 0.5);
 }
 
 .dark-theme .paciente-card {

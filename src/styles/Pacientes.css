@@ -1,0 +1,59 @@
+@import './variables.css';
+
+/* Estilos para el selector de filtros de pacientes */
+.pacientes-select-filtro {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border: none;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235a4ff3'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 28px;
+  transition: all 0.2s ease;
+  min-width: 180px;
+}
+
+.pacientes-select-filtro:hover {
+  background-color: var(--primary-light);
+  box-shadow: 0 2px 5px rgba(90, 79, 243, 0.2);
+}
+
+.pacientes-select-filtro:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(90, 79, 243, 0.3);
+}
+
+.pacientes-select-filtro option {
+  background-color: white;
+  color: var(--text-color);
+  padding: 8px;
+}
+
+/* Modo oscuro */
+.dark-theme .pacientes-select-filtro {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+}
+
+.dark-theme .pacientes-select-filtro option {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pacientes-select-filtro {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+}

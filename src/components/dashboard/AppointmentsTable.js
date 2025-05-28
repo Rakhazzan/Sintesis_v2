@@ -35,7 +35,11 @@ const AppointmentsTable = ({ appointments, onStatusChange, onViewAll }) => {
               </td>
               <td>{appointment.date}</td>
               <td>{appointment.start_time?.substring(0, 5) || appointment.time}</td>
-              <td>{appointment.type}</td>
+              <td>
+                {appointment.appointment_type}
+                {appointment.phone_call && <span className="call-indicator phone">📞</span>}
+                {appointment.video_call && <span className="call-indicator video">📹</span>}
+              </td>
               <td>
                 <div className="status-container">
                   <span className={`status ${appointment.status}`}>

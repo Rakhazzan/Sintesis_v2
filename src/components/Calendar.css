@@ -4,6 +4,57 @@
   width: 100%;
 }
 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.calendar-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Estilizado moderno para el selector de período */
+.period-selector {
+  background-color: var(--primary-light, #ecebff);
+  color: var(--primary-color, #5a4ff3);
+  border: none;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235a4ff3'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 28px;
+  transition: all 0.2s ease;
+}
+
+.period-selector:hover {
+  background-color: var(--primary-light, #ecebff);
+  box-shadow: 0 2px 5px rgba(90, 79, 243, 0.2);
+}
+
+.period-selector:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(90, 79, 243, 0.3);
+}
+
 .calendar-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);

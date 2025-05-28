@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import supabase from '../utils/supabaseUtils';
 import { getAllAppointments, updateAppointmentStatus } from '../utils/appointmentUtils';
 import { notifyService } from '../components/NotificationManager';
@@ -20,8 +20,11 @@ export function useAppointments(userId) {
           date,
           start_time,
           end_time,
-          type,
           status,
+          appointment_type,
+          diagnosis,
+          phone_call,
+          video_call,
           patient_id,
           patient:patients(*)
         `);
@@ -46,8 +49,11 @@ export function useAppointments(userId) {
             date: "2025-05-28",
             start_time: "10:30:00",
             end_time: "11:00:00",
-            type: "Consulta general",
-            status: "completed"
+            appointment_type: "Consulta general",
+            status: "completed",
+            diagnosis: "",
+            phone_call: false,
+            video_call: false
           },
           {
             id: 2,
@@ -59,8 +65,11 @@ export function useAppointments(userId) {
             date: "2025-05-28",
             start_time: "12:00:00",
             end_time: "12:30:00",
-            type: "Seguimiento tratamiento",
-            status: "pending"
+            appointment_type: "Seguimiento tratamiento",
+            status: "pending",
+            diagnosis: "",
+            phone_call: true,
+            video_call: false
           },
           {
             id: 3,
@@ -72,8 +81,11 @@ export function useAppointments(userId) {
             date: "2025-05-29",
             start_time: "09:15:00",
             end_time: "10:00:00",
-            type: "Primera consulta",
-            status: "confirmed"
+            appointment_type: "Primera consulta",
+            status: "confirmed",
+            diagnosis: "",
+            phone_call: false,
+            video_call: true
           }
         ]);
       }
@@ -128,6 +140,11 @@ export function useAppointments(userId) {
     }
   }, []);
 
+    // Cargar citas automáticamente al inicializar el hook
+  useEffect(() => {
+    fetchAppointmentsWithPatients();
+  }, [fetchAppointmentsWithPatients]);
+  
   return {
     appointments,
     loading,

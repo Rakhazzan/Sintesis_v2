@@ -26,7 +26,18 @@ const UpcomingAppointments = ({ appointments, onNavigate, isMobile = false }) =>
           {upcomingAppointments.length > 0 ? (
             upcomingAppointments.map(cita => (
               <div className="appointment-card" key={cita.id}>
-                {cita.patient.name} ({(cita.start_time || cita.time)?.substring(0, 5)} - {cita.end_time ? cita.end_time.substring(0, 5) : ''})
+                <div className="mobile-appointment-info">
+                  {cita.patient.name} ({(cita.start_time || cita.time)?.substring(0, 5)} - {cita.end_time ? cita.end_time.substring(0, 5) : ''})
+                </div>
+                {cita.patient.phone && (
+                  <button 
+                    className="mobile-call-btn" 
+                    aria-label="Llamar" 
+                    onClick={() => window.open(`tel:${cita.patient.phone}`)}
+                  >
+                    📞
+                  </button>
+                )}
               </div>
             ))
           ) : (
@@ -69,7 +80,15 @@ const UpcomingAppointments = ({ appointments, onNavigate, isMobile = false }) =>
                 <button 
                   className="action-btn call" 
                   aria-label="Llamar" 
-                  onClick={() => notifyService.call(`Llamando a ${cita.patient.name}...`)}
+                  onClick={() => {
+                    // Si estamos en un dispositivo móvil, abrimos la app del teléfono
+                    if (isMobile && cita.patient.phone) {
+                      window.open(`tel:${cita.patient.phone}`);
+                    } else {
+                      // En desktop mostramos la notificación
+                      notifyService.call(`Llamando a ${cita.patient.name}...`);
+                    }
+                  }}
                 >
                   📞
                 </button>

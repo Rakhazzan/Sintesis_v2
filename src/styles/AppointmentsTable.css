@@ -87,6 +87,24 @@
   color: var(--negative-color);
 }
 
+/* Estilos para indicadores de tipo de llamada */
+.call-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.call-indicator.phone {
+  color: var(--primary-color);
+}
+
+.call-indicator.video {
+  color: #22c55e;
+}
+
 /* Modo oscuro */
 .dark-theme .appointments-table th,
 .dark-theme .appointments-table td {

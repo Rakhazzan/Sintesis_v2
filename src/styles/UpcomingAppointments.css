@@ -109,6 +109,34 @@
   font-size: 0.95rem;
   font-weight: 500;
   border-left: 4px solid var(--primary-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-appointment-info {
+  flex: 1;
+}
+
+.mobile-call-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--positive-color);
+  margin-left: 8px;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.mobile-call-btn:hover {
+  transform: scale(1.1);
+  background: rgba(34, 197, 94, 0.2);
 }
 
 /* Modo oscuro */
