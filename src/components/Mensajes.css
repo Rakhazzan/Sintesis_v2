@@ -161,7 +161,7 @@
 
 .mensaje-asunto {
   font-weight: 500;
-  color: var(--accent-color, #699631);
+  color: var(--accent-color, #4c1d95);
   transition: color 0.3s ease;
 }
 
