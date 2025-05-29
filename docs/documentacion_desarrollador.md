@@ -1,169 +1,169 @@
-# Documentación para Desarrolladores - Sintesis_v2
+# Documentació per a Desenvolupadors - Sintesis_v2
 
-## Índice
-1. [Introducción](#introducción)
+## Índex
+1. [Introducció](#introducció)
 2. [Arquitectura del Sistema](#arquitectura-del-sistema)
-3. [Estructura de Directorios](#estructura-de-directorios)
-4. [Componentes Principales](#componentes-principales)
-5. [Servicios y Hooks](#servicios-y-hooks)
-6. [API y Conexión con Base de Datos](#api-y-conexión-con-base-de-datos)
-7. [Guía de Estilo y Nomenclatura](#guía-de-estilo-y-nomenclatura)
+3. [Estructura de Directoris](#estructura-de-directoris)
+4. [Components Principals](#components-principals)
+5. [Serveis i Hooks](#serveis-i-hooks)
+6. [API i Connexió amb Base de Dades](#api-i-connexió-amb-base-de-dades)
+7. [Guia d'Estil i Nomenclatura](#guia-destil-i-nomenclatura)
 8. [Testing](#testing)
-9. [Flujos de Trabajo](#flujos-de-trabajo)
-10. [Integración y Despliegue](#integración-y-despliegue)
-11. [Resolución de Problemas Comunes](#resolución-de-problemas-comunes)
+9. [Fluxos de Treball](#fluxos-de-treball)
+10. [Integració i Desplegament](#integració-i-desplegament)
+11. [Resolució de Problemes Comuns](#resolució-de-problemes-comuns)
 
 ---
 
-## Introducción
+## Introducció
 
-Sintesis_v2 es una aplicación de gestión clínica desarrollada en React que permite a los profesionales de la salud administrar pacientes, citas, mensajes y documentación médica. Esta documentación está diseñada para desarrolladores que trabajarán en el mantenimiento y expansión del sistema.
+Sintesis_v2 és una aplicació de gestió clínica desenvolupada en React que permet als professionals de la salut administrar pacients, cites, missatges i documentació mèdica. Aquesta documentació està dissenyada per a desenvolupadors que treballaran en el manteniment i expansió del sistema.
 
-### Tecnologías Utilizadas
+### Tecnologies Utilitzades
 
-- **Frontend**: React.js (Create React App con configuración personalizada)
-- **Backend**: Node.js con Express
-- **Base de Datos**: PostgreSQL (a través de Supabase)
-- **Autenticación**: JWT con Supabase Auth
-- **Estilos**: CSS personalizado con variables para temas
-- **Estado**: React Context API y hooks personalizados
-- **Peticiones HTTP**: Combinación de cliente Supabase y fetch API
+- **Frontend**: React.js (Create React App amb configuració personalitzada)
+- **Backend**: Node.js amb Express
+- **Base de Dades**: PostgreSQL (a través de Supabase)
+- **Autenticació**: JWT amb Supabase Auth
+- **Estils**: CSS personalitzat amb variables per a temes
+- **Estat**: React Context API i hooks personalitzats
+- **Peticions HTTP**: Combinació de client Supabase i fetch API
 
 ---
 
 ## Arquitectura del Sistema
 
-La aplicación sigue un patrón de arquitectura de componentes con separación de responsabilidades:
+L'aplicació segueix un patró d'arquitectura de components amb separació de responsabilitats:
 
 ```
 +-------------------+     +-------------------+     +-------------------+
 |                   |     |                   |     |                   |
-|   Presentación    |<--->|     Lógica de     |<--->|   Servicios de    |
-|   (Componentes)   |     |     Negocio       |     |     Datos         |
+|   Presentació     |<--->|     Lògica de     |<--->|   Serveis de      |
+|   (Components)    |     |     Negoci        |     |     Dades         |
 |                   |     |   (Hooks/Context) |     | (API/Supabase)    |
 +-------------------+     +-------------------+     +-------------------+
 ```
 
-### Patrones de Diseño Implementados
+### Patrons de Disseny Implementats
 
-1. **Provider Pattern**: Para la gestión de estado global (AuthContext, ThemeContext)
-2. **Custom Hooks**: Para la encapsulación de lógica reutilizable
-3. **Componentes Presentacionales vs Contenedores**: Separación clara entre componentes que gestionan datos y los que solo renderizan UI
-4. **Componentes de Alto Orden (HOC)**: Para añadir funcionalidades compartidas como autenticación
+1. **Provider Pattern**: Per a la gestió d'estat global (AuthContext, ThemeContext)
+2. **Custom Hooks**: Per a l'encapsulació de lògica reutilitzable
+3. **Components Presentacionals vs Contenidors**: Separació clara entre components que gestionen dades i els que només renderitzen UI
+4. **Components d'Alt Ordre (HOC)**: Per afegir funcionalitats compartides com autenticació
 
 ---
 
-## Estructura de Directorios
+## Estructura de Directoris
 
 ```
 /src
-  /components        # Componentes de React
-    /dashboard       # Componentes específicos del dashboard
-    /layout          # Componentes estructurales (Header, Sidebar, etc.)
-    /shared          # Componentes reutilizables (PatientAvatar, etc.)
+  /components        # Components de React
+    /dashboard       # Components específics del dashboard
+    /layout          # Components estructurals (Header, Sidebar, etc.)
+    /shared          # Components reutilitzables (PatientAvatar, etc.)
   /context           # Contextos de React (Auth, Theme)
-  /hooks             # Hooks personalizados
-  /pages             # Componentes de página completa
-  /services          # Servicios para conexión a API externa
-  /styles            # Archivos CSS globales y por componente
-  /utils             # Funciones utilitarias
+  /hooks             # Hooks personalitzats
+  /pages             # Components de pàgina completa
+  /services          # Serveis per a connexió a API externa
+  /styles            # Arxius CSS globals i per component
+  /utils             # Funcions utilitàries
 /backend
-  /db                # Scripts de base de datos
-  /routes            # Definición de endpoints API
-  /services          # Lógica de negocio del backend
-  /middlewares       # Middlewares de Express
-/public              # Archivos estáticos
+  /db                # Scripts de base de dades
+  /routes            # Definició d'endpoints API
+  /services          # Lògica de negoci del backend
+  /middlewares       # Middlewares d'Express
+/public              # Arxius estàtics
 ```
 
 ---
 
-## Componentes Principales
+## Components Principals
 
 ### `App.js`
 
-El componente principal de la aplicación que gestiona:
-- Proveedores de contexto
-- Enrutamiento basado en estado
-- Autenticación y redirección
+El component principal de l'aplicació que gestiona:
+- Proveïdors de context
+- Encaminament basat en estat
+- Autenticació i redirecció
 
 ```javascript
-// Pseudocódigo del flujo principal
+// Pseudocodi del flux principal
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <AppContent />  // Componente que muestra contenido según estado de auth
+        <AppContent />  // Component que mostra contingut segons estat d'auth
       </AuthProvider>
     </ThemeProvider>
   );
 }
 ```
 
-### Componentes de Layout
+### Components de Layout
 
 #### `MainLayout`
 
-Encapsula la estructura común para todas las páginas autenticadas:
+Encapsula l'estructura comuna per a totes les pàgines autenticades:
 - Header
 - Sidebar (en desktop)
-- BottomNav (en móvil)
-- Contenido principal
+- BottomNav (en mòbil)
+- Contingut principal
 
-El componente tiene detección inteligente de dispositivo para mostrar la navegación adecuada.
+El component té detecció intel·ligent de dispositiu per mostrar la navegació adequada.
 
 #### `Sidebar`
 
-Navegación principal para versión desktop:
-- Implementa posicionamiento fixed
-- Maneja selección de sección activa
-- Proporciona navegación a todas las áreas principales
+Navegació principal per a versió desktop:
+- Implementa posicionament fixed
+- Gestiona selecció de secció activa
+- Proporciona navegació a totes les àrees principals
 
-**Mejora de UX implementada**: Posicionamiento inteligente del menú desplegable para evitar que quede fuera de la vista.
+**Millora d'UX implementada**: Posicionament intel·ligent del menú desplegable per evitar que quedi fora de la vista.
 
-### Componentes de Funcionalidad
+### Components de Funcionalitat
 
 #### `Citas.js`
 
-Gestiona todas las funcionalidades relacionadas con citas:
-- Calendario visual
-- Formulario de creación/edición
-- Filtros y búsqueda
-- Actualización en tiempo real de estados
+Gestiona totes les funcionalitats relacionades amb cites:
+- Calendari visual
+- Formulari de creació/edició
+- Filtres i cerca
+- Actualització en temps real d'estats
 
 ```javascript
 /**
  * @component Citas
- * @description Componente principal para la gestión de citas médicas
+ * @description Component principal per a la gestió de cites mèdiques
  */
 const Citas = () => {
-  // Estado y hooks
+  // Estat i hooks
   const { appointments, loading, handleAppointmentStatusChange } = useAppointments();
   
-  // Implementación de funcionalidad
+  // Implementació de funcionalitat
   // ...
 }
 ```
 
 #### `DocumentosPage.js`
 
-Generador de informes médicos con las siguientes características:
-- Selección de pacientes
-- Formularios personalizables
-- Vista previa en tiempo real
-- Generación de PDF con formato profesional
-- ID único para cada informe con formato: `INFMED-[timestamp]-[iniciales del paciente]-[código aleatorio]-[fecha].pdf`
+Generador d'informes mèdics amb les següents característiques:
+- Selecció de pacients
+- Formularis personalitzables
+- Vista prèvia en temps real
+- Generació de PDF amb format professional
+- ID únic per a cada informe amb format: `INFMED-[timestamp]-[inicials del pacient]-[codi aleatori]-[data].pdf`
 
 #### `Mensajes.js`
 
-Sistema de mensajería interna con:
-- Listado de conversaciones
-- Selección de destinatarios con alto contraste visual
-- Envío y recepción de mensajes
-- Integración con sistema de email externo
+Sistema de missatgeria interna amb:
+- Llistat de converses
+- Selecció de destinataris amb alt contrast visual
+- Enviament i recepció de missatges
+- Integració amb sistema d'email extern
 
 ---
 
-## Servicios y Hooks
+## Serveis i Hooks
 
 ### Custom Hooks
 
@@ -171,23 +171,23 @@ Sistema de mensajería interna con:
 
 ```javascript
 /**
- * Hook personalizado para gestionar citas
- * @param {string} userId - ID del usuario actual
- * @returns {Object} Métodos y estado para trabajar con citas
+ * Hook personalitzat per gestionar cites
+ * @param {string} userId - ID de l'usuari actual
+ * @returns {Object} Mètodes i estat per treballar amb cites
  */
 export function useAppointments(userId) {
-  // Estado interno
+  // Estat intern
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
   const subscriptionRef = useRef(null);
   
-  // Funciones de carga y manipulación
+  // Funcions de càrrega i manipulació
   const fetchAppointmentsWithPatients = useCallback(async () => {...});
   const fetchAllAppointments = useCallback(async () => {...});
   const handleAppointmentStatusChange = useCallback(async (appointmentId, newStatus) => {...});
   const subscribeToAppointments = useCallback(() => {...});
   
-  // Efectos para inicialización y limpieza
+  // Efectes per a inicialització i neteja
   useEffect(() => {...}, []);
   
   return {
@@ -203,24 +203,24 @@ export function useAppointments(userId) {
 
 #### `useAuth`
 
-Gestiona la autenticación de usuarios con Supabase, incluyendo:
+Gestiona l'autenticació d'usuaris amb Supabase, incloent:
 - Login/Logout
-- Registro
-- Recuperación de contraseña
-- Estado de autenticación
-- Información de perfil
+- Registre
+- Recuperació de contrasenya
+- Estat d'autenticació
+- Informació de perfil
 
 ### Contextos
 
 #### `AuthContext`
 
-Proporciona acceso global al estado de autenticación:
+Proporciona accés global a l'estat d'autenticació:
 
 ```javascript
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  // Estado de autenticación y métodos
+  // Estat d'autenticació i mètodes
   
   const value = {
     user,
@@ -243,22 +243,22 @@ export function AuthProvider({ children }) {
 
 #### `ThemeContext`
 
-Gestiona el tema de la aplicación (claro/oscuro):
+Gestiona el tema de l'aplicació (clar/fosc):
 
 ```javascript
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    // Recuperar tema de localStorage o usar valor por defecto
+    // Recuperar tema de localStorage o usar valor per defecte
   });
   
-  // Cambiar entre temas
+  // Canviar entre temes
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };
   
-  // Aplicar clase CSS según tema
+  // Aplicar classe CSS segons tema
   useEffect(() => {
     document.body.className = theme === 'dark' ? 'dark-theme' : '';
   }, [theme]);
@@ -273,33 +273,33 @@ export function ThemeProvider({ children }) {
 
 ---
 
-## API y Conexión con Base de Datos
+## API i Connexió amb Base de Dades
 
 ### Supabase
 
-La aplicación utiliza Supabase como backend principal, aprovechando sus características:
+L'aplicació utilitza Supabase com a backend principal, aprofitant les seves característiques:
 
-- **Autenticación**: JWT basada en Supabase Auth
-- **Base de datos**: PostgreSQL con acceso directo
-- **Tiempo real**: Suscripciones para actualizaciones en vivo
-- **Almacenamiento**: Para imágenes de pacientes y documentos
+- **Autenticació**: JWT basada en Supabase Auth
+- **Base de dades**: PostgreSQL amb accés directe
+- **Temps real**: Subscripcions per a actualitzacions en viu
+- **Emmagatzematge**: Per a imatges de pacients i documents
 
-#### Esquema de Base de Datos
+#### Esquema de Base de Dades
 
-Las principales tablas son:
+Les principals taules són:
 
-- `users`: Información de usuarios del sistema
-- `patients`: Datos de pacientes
-- `appointments`: Citas médicas
-- `messages`: Sistema de mensajería interna
-- `reports`: Informes médicos generados
+- `users`: Informació d'usuaris del sistema
+- `patients`: Dades de pacients
+- `appointments`: Cites mèdiques
+- `messages`: Sistema de missatgeria interna
+- `reports`: Informes mèdics generats
 
 ### API REST
 
-Para funcionalidades adicionales, se implementa una API REST en Node.js:
+Per a funcionalitats addicionals, s'implementa una API REST en Node.js:
 
 ```javascript
-// Ejemplo de endpoint para obtener citas
+// Exemple d'endpoint per obtenir cites
 app.get('/api/appointments', authenticateJWT, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -311,11 +311,11 @@ app.get('/api/appointments', authenticateJWT, async (req, res) => {
 });
 ```
 
-### Utilidades de Conexión
+### Utilitats de Connexió
 
 #### `supabaseUtils.js`
 
-Inicializa y configura el cliente de Supabase:
+Inicialitza i configura el client de Supabase:
 
 ```javascript
 import { createClient } from '@supabase/supabase-js';
@@ -332,14 +332,14 @@ export default supabase;
 
 #### `appointmentUtils.js`
 
-Contiene funciones para interactuar con las citas:
+Conté funcions per interactuar amb les cites:
 
 ```javascript
 /**
- * Actualiza el estado de una cita
+ * Actualitza l'estat d'una cita
  * @param {string} id - ID de la cita
- * @param {string} status - Nuevo estado (confirmed, pending, cancelled, completed)
- * @returns {Promise<Object>} Promesa que resuelve con {success: true, data} si la operación fue exitosa
+ * @param {string} status - Nou estat (confirmed, pending, cancelled, completed)
+ * @returns {Promise<Object>} Promesa que resol amb {success: true, data} si l'operació ha estat exitosa
  */
 export async function updateAppointmentStatus(id, status) {
   try {
@@ -358,7 +358,7 @@ export async function updateAppointmentStatus(id, status) {
     
     return { success: true, data: data[0] };
   } catch (error) {
-    console.error(`Error al actualizar estado de cita ${id}:`, error);
+    console.error(`Error en actualitzar l'estat de la cita ${id}:`, error);
     return { success: false, error: error.message };
   }
 }
@@ -366,24 +366,24 @@ export async function updateAppointmentStatus(id, status) {
 
 ---
 
-## Guía de Estilo y Nomenclatura
+## Guia d'Estil i Nomenclatura
 
-### Componentes
+### Components
 
-- Nombres en PascalCase: `PatientAvatar`, `AppointmentControls`
-- Un componente por archivo
-- Props destructuradas en la firma de la función
-- PropTypes para documentación y verificación
+- Noms en PascalCase: `PatientAvatar`, `AppointmentControls`
+- Un component per arxiu
+- Props destructurades a la signatura de la funció
+- PropTypes per a documentació i verificació
 
 ```javascript
 import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Muestra avatar de paciente con iniciales o imagen
+ * Mostra avatar de pacient amb inicials o imatge
  */
 const PatientAvatar = ({ patient, size = 'medium' }) => {
-  // Implementación
+  // Implementació
 };
 
 PatientAvatar.propTypes = {
@@ -399,13 +399,13 @@ export default PatientAvatar;
 
 ### CSS
 
-- Archivos CSS para cada componente principal
-- Variables CSS para temas
-- Convención BEM simplificada para nombres de clase
-- Media queries para responsividad
+- Arxius CSS per a cada component principal
+- Variables CSS per a temes
+- Convenció BEM simplificada per a noms de classe
+- Media queries per a responsivitat
 
 ```css
-/* Ejemplo de nomenclatura y variables */
+/* Exemple de nomenclatura i variables */
 :root {
   --primary-color: #5a4ff3;
   --primary-dark: #4338ca;
@@ -432,37 +432,37 @@ export default PatientAvatar;
 
 ### JavaScript
 
-- Hooks y utilidades: camelCase
-- Funciones asíncronas: try/catch con manejo consistente de errores
-- Comentarios JSDoc para funciones exportadas
+- Hooks i utilitats: camelCase
+- Funcions asíncrones: try/catch amb gestió consistent d'errors
+- Comentaris JSDoc per a funcions exportades
 
 ---
 
 ## Testing
 
-El proyecto utiliza Jest para pruebas unitarias y React Testing Library para pruebas de componentes.
+El projecte utilitza Jest per a proves unitàries i React Testing Library per a proves de components.
 
-### Configuración
+### Configuració
 
 ```javascript
 // setupTests.js
 import '@testing-library/jest-dom';
 ```
 
-### Ejemplos de Tests
+### Exemples de Tests
 
 ```javascript
 // App.test.js
 describe('App component', () => {
   test('renders login page when not authenticated', () => {
     render(<App />);
-    const loginTitle = screen.getByText(/iniciar sesión/i);
+    const loginTitle = screen.getByText(/iniciar sessió/i);
     expect(loginTitle).toBeInTheDocument();
   });
 
   test('renders registration link', () => {
     render(<App />);
-    const registerLink = screen.getByText(/regístrate/i);
+    const registerLink = screen.getByText(/registra't/i);
     expect(registerLink).toBeInTheDocument();
   });
 });
@@ -470,58 +470,58 @@ describe('App component', () => {
 
 ---
 
-## Flujos de Trabajo
+## Fluxos de Treball
 
-### Gestión de Citas
+### Gestió de Cites
 
-1. Usuario navega a la sección "Citas"
-2. El hook `useAppointments` carga las citas desde Supabase
-3. Se inicia una suscripción en tiempo real para actualizaciones
-4. El usuario puede:
-   - Ver citas en formato de calendario o lista
-   - Filtrar por fecha/estado
-   - Crear nuevas citas
-   - Actualizar estado (completada/cancelada)
-5. Los cambios se sincronizan con la base de datos y se reflejan en tiempo real
+1. L'usuari navega a la secció "Cites"
+2. El hook `useAppointments` carrega les cites des de Supabase
+3. S'inicia una subscripció en temps real per a actualitzacions
+4. L'usuari pot:
+   - Veure cites en format de calendari o llista
+   - Filtrar per data/estat
+   - Crear noves cites
+   - Actualitzar estat (completada/cancel·lada)
+5. Els canvis es sincronitzen amb la base de dades i es reflecteixen en temps real
 
-### Generación de Documentos
+### Generació de Documents
 
-1. Usuario navega a la sección "Documentos"
-2. Selecciona un paciente del desplegable
-3. Completa el formulario con:
-   - Tipo de informe
-   - Diagnóstico
-   - Tratamiento
-   - Observaciones
-4. Ve una vista previa en tiempo real
-5. Al generar el documento:
-   - Se crea un ID único con formato INFMED-[timestamp]-[iniciales]-[código]-[fecha]
-   - Se abre el diálogo de impresión nativo
-   - Se registra el documento generado en la base de datos
+1. L'usuari navega a la secció "Documents"
+2. Selecciona un pacient del desplegable
+3. Completa el formulari amb:
+   - Tipus d'informe
+   - Diagnòstic
+   - Tractament
+   - Observacions
+4. Veu una vista prèvia en temps real
+5. En generar el document:
+   - Es crea un ID únic amb format INFMED-[timestamp]-[inicials]-[codi]-[data]
+   - S'obre el diàleg d'impressió natiu
+   - Es registra el document generat a la base de dades
 
 ---
 
-## Integración y Despliegue
+## Integració i Desplegament
 
-### Entorno de Desarrollo
+### Entorn de Desenvolupament
 
 ```bash
-# Instalar dependencias
+# Instal·lar dependències
 npm install
 
-# Iniciar servidor de desarrollo con backend
+# Iniciar servidor de desenvolupament amb backend
 npm run dev
 
-# Iniciar solo frontend
+# Iniciar només frontend
 npm start
 
-# Iniciar solo backend
+# Iniciar només backend
 npm run start:backend
 ```
 
-### Variables de Entorno
+### Variables d'Entorn
 
-La aplicación utiliza un archivo `.env` para configurar:
+L'aplicació utilitza un arxiu `.env` per configurar:
 
 ```
 REACT_APP_SUPABASE_URL=https://your-project.supabase.co
@@ -529,28 +529,28 @@ REACT_APP_SUPABASE_ANON_KEY=your-anon-key
 REACT_APP_API_URL=http://localhost:4000/api
 ```
 
-### Build de Producción
+### Build de Producció
 
 ```bash
-# Generar build optimizado
+# Generar build optimitzat
 npm run build
 
-# Desplegar build (depende del servicio de hosting)
+# Desplegar build (depèn del servei d'allotjament)
 ```
 
 ---
 
-## Resolución de Problemas Comunes
+## Resolució de Problemes Comuns
 
-### Problemas de Autenticación
+### Problemes d'Autenticació
 
-- **Síntoma**: Usuario no puede iniciar sesión a pesar de credenciales correctas
-- **Solución**: Verificar que el token de Supabase no ha expirado y que las claves API son correctas
+- **Símptoma**: L'usuari no pot iniciar sessió malgrat les credencials correctes
+- **Solució**: Verificar que el token de Supabase no ha expirat i que les claus API són correctes
 
-### Datos No Actualizados
+### Dades No Actualitzades
 
-- **Síntoma**: Los cambios en citas no se reflejan en tiempo real
-- **Solución**: Verificar que las suscripciones de tiempo real están funcionando correctamente:
+- **Símptoma**: Els canvis en cites no es reflecteixen en temps real
+- **Solució**: Verificar que les subscripcions de temps real estan funcionant correctament:
   ```javascript
   const subscription = supabase
     .channel('appointment-changes')
@@ -560,18 +560,18 @@ npm run build
     .subscribe();
   ```
 
-### Problemas con Generación de PDF
+### Problemes amb Generació de PDF
 
-- **Síntoma**: El documento no se genera o aparece incompleto
-- **Solución**: Utilizar la API de impresión nativa del navegador en lugar de bibliotecas externas:
+- **Símptoma**: El document no es genera o apareix incomplet
+- **Solució**: Utilitzar l'API d'impressió nativa del navegador en lloc de biblioteques externes:
   ```javascript
   const printFrame = document.createElement('iframe');
   // Configurar iframe
   document.body.appendChild(printFrame);
-  printFrame.contentWindow.document.body.innerHTML = contenidoHTML;
+  printFrame.contentWindow.document.body.innerHTML = contingutHTML;
   printFrame.contentWindow.print();
   ```
 
 ---
 
-© 2025 Sintesis_v2 - Documentación para Desarrolladores
+© 2025 Sintesis_v2 - Documentació per a Desenvolupadors

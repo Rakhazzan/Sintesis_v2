@@ -1,371 +1,371 @@
-# Manual de Usuario - Sintesis_v2
+# Manual d'Usuari - Sintesis_v2
 
-## Índice
-1. [Introducción](#introducción)
-2. [Primeros Pasos](#primeros-pasos)
-3. [Interfaz de Usuario](#interfaz-de-usuario)
-4. [Gestión de Pacientes](#gestión-de-pacientes)
-5. [Agenda de Citas](#agenda-de-citas)
-6. [Sistema de Mensajería](#sistema-de-mensajería)
-7. [Generación de Documentos](#generación-de-documentos)
-8. [Estadísticas y Reportes](#estadísticas-y-reportes)
-9. [Configuración de Perfil](#configuración-de-perfil)
-10. [Preguntas Frecuentes](#preguntas-frecuentes)
-11. [Solución de Problemas](#solución-de-problemas)
-
----
-
-## Introducción
-
-Bienvenido a **Sintesis_v2**, la solución integral para la gestión de su consulta médica. Esta aplicación ha sido diseñada específicamente para profesionales de la salud con el objetivo de simplificar la administración diaria de pacientes, citas, documentación médica y comunicaciones.
-
-### Características Principales
-
-- **Gestión completa de pacientes** con historial médico
-- **Agenda inteligente** para programación de citas
-- **Sistema de mensajería** interno con notificaciones
-- **Generación de documentos médicos** con formato profesional
-- **Estadísticas y reportes** para análisis de actividad
-- **Interfaz adaptativa** para dispositivos móviles y escritorio
+## Índex
+1. [Introducció](#introducció)
+2. [Primers Passos](#primers-passos)
+3. [Interfície d'Usuari](#interfície-dusuari)
+4. [Gestió de Pacients](#gestió-de-pacients)
+5. [Agenda de Cites](#agenda-de-cites)
+6. [Sistema de Missatgeria](#sistema-de-missatgeria)
+7. [Generació de Documents](#generació-de-documents)
+8. [Estadístiques i Informes](#estadístiques-i-informes)
+9. [Configuració de Perfil](#configuració-de-perfil)
+10. [Preguntes Freqüents](#preguntes-freqüents)
+11. [Solució de Problemes](#solució-de-problemes)
 
 ---
 
-## Primeros Pasos
+## Introducció
 
-### Requisitos del Sistema
+Benvingut a **Sintesis_v2**, la solució integral per a la gestió de la vostra consulta mèdica. Aquesta aplicació ha estat dissenyada específicament per a professionals de la salut amb l'objectiu de simplificar l'administració diària de pacients, cites, documentació mèdica i comunicacions.
 
-- Navegador web actualizado (Chrome, Firefox, Edge o Safari)
-- Conexión a internet estable
-- Resolución de pantalla mínima recomendada: 1280x720
+### Característiques Principals
 
-### Acceso al Sistema
-
-1. Abra su navegador e ingrese a la dirección proporcionada por su administrador
-2. En la pantalla de inicio de sesión, introduzca sus credenciales:
-   - Correo electrónico
-   - Contraseña
-3. Haga clic en "Iniciar Sesión"
-
-![Pantalla de inicio de sesión](./img/login_screen.png)
-
-### Recuperación de Contraseña
-
-Si ha olvidado su contraseña:
-
-1. En la pantalla de inicio de sesión, haga clic en "¿Olvidó su contraseña?"
-2. Ingrese su correo electrónico
-3. Recibirá un enlace para restablecer su contraseña
-4. Siga las instrucciones en el correo electrónico
+- **Gestió completa de pacients** amb historial mèdic
+- **Agenda intel·ligent** per a programació de cites
+- **Sistema de missatgeria** intern amb notificacions
+- **Generació de documents mèdics** amb format professional
+- **Estadístiques i informes** per a anàlisi d'activitat
+- **Interfície adaptativa** per a dispositius mòbils i escriptori
 
 ---
 
-## Interfaz de Usuario
+## Primers Passos
 
-La interfaz de Sintesis_v2 se adapta automáticamente al dispositivo que esté utilizando.
+### Requisits del Sistema
 
-### Versión Escritorio
+- Navegador web actualitzat (Chrome, Firefox, Edge o Safari)
+- Connexió a internet estable
+- Resolució de pantalla mínima recomanada: 1280x720
 
-![Interfaz de escritorio](./img/desktop_interface.png)
+### Accés al Sistema
 
-1. **Barra lateral (Sidebar)**: Acceso a todas las secciones principales
-2. **Cabecera (Header)**: Muestra información del usuario, búsqueda y notificaciones
-3. **Área principal**: Muestra el contenido de la sección seleccionada
-4. **Panel de información**: Muestra datos relevantes según el contexto
+1. Obriu el vostre navegador i entreu a l'adreça proporcionada pel vostre administrador
+2. A la pantalla d'inici de sessió, introduïu les vostres credencials:
+   - Correu electrònic
+   - Contrasenya
+3. Feu clic a "Iniciar Sessió"
 
-### Versión Móvil
+![Pantalla d'inici de sessió](./img/login_screen.png)
 
-![Interfaz móvil](./img/mobile_interface.png)
+### Recuperació de Contrasenya
 
-1. **Cabecera**: Muestra el título de la sección y menú desplegable
-2. **Área principal**: Contenido adaptado a pantalla móvil
-3. **Barra de navegación inferior**: Acceso a las secciones principales
+Si heu oblidat la vostra contrasenya:
 
-### Navegación
-
-- **Escritorio**: Utilice la barra lateral para navegar entre secciones
-- **Móvil**: Utilice la barra inferior para acceder a las secciones principales
-- En ambas versiones, puede usar el botón de retroceso del navegador para volver a la pantalla anterior
-
----
-
-## Gestión de Pacientes
-
-Esta sección le permite administrar toda la información relacionada con sus pacientes.
-
-### Lista de Pacientes
-
-![Lista de pacientes](./img/patient_list.png)
-
-- Ver todos sus pacientes en una lista organizada
-- Buscar pacientes por nombre, email o número de teléfono
-- Filtrar por estado (activo, inactivo)
-- Ordenar por diferentes criterios (nombre, fecha, etc.)
-
-### Crear Nuevo Paciente
-
-1. Haga clic en el botón "+ Nuevo Paciente"
-2. Complete el formulario con los datos del paciente:
-   - Información personal (nombre, fecha de nacimiento, género)
-   - Información de contacto (teléfono, email, dirección)
-   - Información médica relevante (alergias, medicación actual)
-3. Haga clic en "Guardar" para crear el registro
-
-### Ver y Editar Paciente
-
-1. Haga clic en el nombre del paciente en la lista
-2. Se mostrará la ficha completa del paciente
-3. Para editar la información, haga clic en "Editar"
-4. Modifique los campos necesarios
-5. Haga clic en "Guardar Cambios"
-
-### Historial Médico
-
-Dentro de la ficha de cada paciente:
-
-1. Navegue a la pestaña "Historial"
-2. Podrá ver todas las citas previas, diagnósticos y tratamientos
-3. Para añadir una nueva entrada, haga clic en "+ Nueva Entrada"
+1. A la pantalla d'inici de sessió, feu clic a "Heu oblidat la contrasenya?"
+2. Introduïu el vostre correu electrònic
+3. Rebreu un enllaç per restablir la vostra contrasenya
+4. Seguiu les instruccions al correu electrònic
 
 ---
 
-## Agenda de Citas
+## Interfície d'Usuari
 
-El sistema de agenda le permite gestionar eficientemente su tiempo y las citas de sus pacientes.
+La interfície de Sintesis_v2 s'adapta automàticament al dispositiu que esteu utilitzant.
 
-### Vista de Calendario
+### Versió Escriptori
 
-![Calendario de citas](./img/appointments_calendar.png)
+![Interfície d'escriptori](./img/desktop_interface.png)
 
-- Vista mensual, semanal o diaria
-- Citas codificadas por colores según su estado
-- Vista rápida de información al pasar el cursor sobre cada cita
+1. **Barra lateral (Sidebar)**: Accés a totes les seccions principals
+2. **Capçalera (Header)**: Mostra informació de l'usuari, cerca i notificacions
+3. **Àrea principal**: Mostra el contingut de la secció seleccionada
+4. **Panell d'informació**: Mostra dades rellevants segons el context
 
-### Programar Nueva Cita
+### Versió Mòbil
 
-1. Haga clic en la fecha y hora deseada en el calendario, o en el botón "+ Nueva Cita"
-2. Complete el formulario de cita:
-   - Seleccione el paciente
-   - Establezca fecha y hora
-   - Seleccione duración
-   - Añada motivo de la consulta
-   - Establezca estado inicial (confirmada, pendiente)
-3. Haga clic en "Guardar Cita"
+![Interfície mòbil](./img/mobile_interface.png)
 
-### Gestionar Citas Existentes
+1. **Capçalera**: Mostra el títol de la secció i menú desplegable
+2. **Àrea principal**: Contingut adaptat a pantalla mòbil
+3. **Barra de navegació inferior**: Accés a les seccions principals
 
-Para cada cita puede:
+### Navegació
 
-- **Ver detalles**: Haga clic sobre la cita en el calendario
-- **Editar**: Haga clic en "Editar" dentro de los detalles de la cita
-- **Cancelar**: Cambie el estado a "Cancelada" y añada un motivo opcional
-- **Completar**: Una vez finalizada, cambie el estado a "Completada" y añada notas
-
-### Recordatorios y Notificaciones
-
-El sistema enviará automáticamente:
-
-- Recordatorio al paciente 24 horas antes de la cita
-- Notificación al profesional 15 minutos antes de cada cita
-- Alerta de disponibilidad cuando se soliciten nuevas citas
+- **Escriptori**: Utilitzeu la barra lateral per navegar entre seccions
+- **Mòbil**: Utilitzeu la barra inferior per accedir a les seccions principals
+- En ambdues versions, podeu fer servir el botó de retrocedir del navegador per tornar a la pantalla anterior
 
 ---
 
-## Sistema de Mensajería
+## Gestió de Pacients
 
-La función de mensajería le permite comunicarse de forma segura con pacientes y otros profesionales.
+Aquesta secció us permet administrar tota la informació relacionada amb els vostres pacients.
 
-### Bandeja de Entrada
+### Llista de Pacients
 
-![Bandeja de mensajes](./img/messages_inbox.png)
+![Llista de pacients](./img/patient_list.png)
 
-- Ver todos los mensajes recibidos
-- Mensajes no leídos destacados visualmente
-- Filtrar por tipo (internos, externos)
-- Buscar por remitente o contenido
+- Veure tots els vostres pacients en una llista organitzada
+- Cercar pacients per nom, email o número de telèfon
+- Filtrar per estat (actiu, inactiu)
+- Ordenar per diferents criteris (nom, data, etc.)
 
-### Enviar Nuevo Mensaje
+### Crear Nou Pacient
 
-1. Haga clic en "+ Nuevo Mensaje"
-2. Seleccione el destinatario:
-   - Para pacientes: seleccione de la lista desplegable
-   - Para otros profesionales: seleccione del directorio
-3. Escriba el asunto y el contenido del mensaje
-4. Si es necesario, adjunte archivos (hasta 5MB por archivo)
-5. Haga clic en "Enviar"
+1. Feu clic al botó "+ Nou Pacient"
+2. Completeu el formulari amb les dades del pacient:
+   - Informació personal (nom, data de naixement, gènere)
+   - Informació de contacte (telèfon, email, adreça)
+   - Informació mèdica rellevant (al·lèrgies, medicació actual)
+3. Feu clic a "Desar" per crear el registre
 
-> **Nota**: Los destinatarios seleccionados aparecerán con un fondo azul oscuro y un ✓, mientras que los no seleccionados tendrán un fondo gris claro para mayor contraste visual.
+### Veure i Editar Pacient
 
-### Responder y Reenviar
+1. Feu clic al nom del pacient a la llista
+2. Es mostrarà la fitxa completa del pacient
+3. Per editar la informació, feu clic a "Editar"
+4. Modifiqueu els camps necessaris
+5. Feu clic a "Desar Canvis"
 
-Para cada mensaje recibido:
+### Historial Mèdic
 
-- **Responder**: Haga clic en "Responder" para enviar un mensaje solo al remitente
-- **Responder a todos**: Responde a todos los destinatarios originales
-- **Reenviar**: Envía el mensaje a nuevos destinatarios
+Dins de la fitxa de cada pacient:
+
+1. Navegueu a la pestanya "Historial"
+2. Podreu veure totes les cites prèvies, diagnòstics i tractaments
+3. Per afegir una nova entrada, feu clic a "+ Nova Entrada"
 
 ---
 
-## Generación de Documentos
+## Agenda de Cites
 
-Esta funcionalidad le permite crear informes médicos profesionales para sus pacientes.
+El sistema d'agenda us permet gestionar eficientment el vostre temps i les cites dels vostres pacients.
 
-### Tipos de Documentos Disponibles
+### Vista de Calendari
+
+![Calendari de cites](./img/appointments_calendar.png)
+
+- Vista mensual, setmanal o diària
+- Cites codificades per colors segons el seu estat
+- Vista ràpida d'informació en passar el cursor sobre cada cita
+
+### Programar Nova Cita
+
+1. Feu clic a la data i hora desitjada al calendari, o al botó "+ Nova Cita"
+2. Completeu el formulari de cita:
+   - Seleccioneu el pacient
+   - Establiu data i hora
+   - Seleccioneu durada
+   - Afegiu motiu de la consulta
+   - Establiu estat inicial (confirmada, pendent)
+3. Feu clic a "Desar Cita"
+
+### Gestionar Cites Existents
+
+Per a cada cita podeu:
+
+- **Veure detalls**: Feu clic sobre la cita al calendari
+- **Editar**: Feu clic a "Editar" dins dels detalls de la cita
+- **Cancel·lar**: Canvieu l'estat a "Cancel·lada" i afegiu un motiu opcional
+- **Completar**: Un cop finalitzada, canvieu l'estat a "Completada" i afegiu notes
+
+### Recordatoris i Notificacions
+
+El sistema enviarà automàticament:
+
+- Recordatori al pacient 24 hores abans de la cita
+- Notificació al professional 15 minuts abans de cada cita
+- Alerta de disponibilitat quan es sol·licitin noves cites
+
+---
+
+## Sistema de Missatgeria
+
+La funció de missatgeria us permet comunicar-vos de forma segura amb pacients i altres professionals.
+
+### Safata d'Entrada
+
+![Safata de missatges](./img/messages_inbox.png)
+
+- Veure tots els missatges rebuts
+- Missatges no llegits destacats visualment
+- Filtrar per tipus (interns, externs)
+- Cercar per remitent o contingut
+
+### Enviar Nou Missatge
+
+1. Feu clic a "+ Nou Missatge"
+2. Seleccioneu el destinatari:
+   - Per a pacients: seleccioneu de la llista desplegable
+   - Per a altres professionals: seleccioneu del directori
+3. Escriviu l'assumpte i el contingut del missatge
+4. Si cal, adjunteu arxius (fins a 5MB per arxiu)
+5. Feu clic a "Enviar"
+
+> **Nota**: Els destinataris seleccionats apareixeran amb un fons blau fosc i un ✓, mentre que els no seleccionats tindran un fons gris clar per a major contrast visual.
+
+### Respondre i Reenviar
+
+Per a cada missatge rebut:
+
+- **Respondre**: Feu clic a "Respondre" per enviar un missatge només al remitent
+- **Respondre a tots**: Respon a tots els destinataris originals
+- **Reenviar**: Envia el missatge a nous destinataris
+
+---
+
+## Generació de Documents
+
+Aquesta funcionalitat us permet crear informes mèdics professionals per als vostres pacients.
+
+### Tipus de Documents Disponibles
 
 - Informes de consulta
-- Certificados médicos
-- Recetas médicas
-- Solicitudes de pruebas
-- Informes personalizados
+- Certificats mèdics
+- Receptes mèdiques
+- Sol·licituds de proves
+- Informes personalitzats
 
-### Crear Nuevo Documento
+### Crear Nou Document
 
-![Generador de documentos](./img/document_generator.png)
+![Generador de documents](./img/document_generator.png)
 
-1. Navegue a la sección "Documentos"
-2. Seleccione el tipo de documento
-3. Seleccione el paciente de la lista desplegable
-4. Complete el formulario con la información requerida según el tipo de documento:
-   - Diagnóstico
-   - Tratamiento
-   - Observaciones
-   - Duración (si aplica)
-5. Visualice la vista previa en tiempo real
-6. Haga clic en "Generar PDF"
+1. Navegueu a la secció "Documents"
+2. Seleccioneu el tipus de document
+3. Seleccioneu el pacient de la llista desplegable
+4. Completeu el formulari amb la informació requerida segons el tipus de document:
+   - Diagnòstic
+   - Tractament
+   - Observacions
+   - Durada (si s'escau)
+5. Visualitzeu la vista prèvia en temps real
+6. Feu clic a "Generar PDF"
 
-### Formato de Identificación de Documentos
+### Format d'Identificació de Documents
 
-Cada documento generado recibe un identificador único con el formato:
+Cada document generat rep un identificador únic amb el format:
 
-`INFMED-[timestamp]-[iniciales del paciente]-[código aleatorio]-[fecha].pdf`
+`INFMED-[timestamp]-[inicials del pacient]-[codi aleatori]-[data].pdf`
 
-Por ejemplo: `INFMED-202505291023-MRA-X7Y9Z-20250529.pdf`
+Per exemple: `INFMED-202505291023-MRA-X7Y9Z-20250529.pdf`
 
-Esto garantiza que cada documento sea único y fácilmente identificable.
+Això garanteix que cada document sigui únic i fàcilment identificable.
 
-### Gestión de Documentos
+### Gestió de Documents
 
-Todos los documentos generados se almacenan en el sistema y pueden ser:
+Tots els documents generats s'emmagatzemen al sistema i poden ser:
 
-- Descargados nuevamente
-- Enviados por correo electrónico al paciente
-- Impresos directamente
-- Archivados en el historial del paciente
-
----
-
-## Estadísticas y Reportes
-
-La sección de estadísticas le proporciona información valiosa sobre la actividad de su consulta.
-
-### Panel de Estadísticas
-
-![Panel de estadísticas](./img/statistics_dashboard.png)
-
-- **Citas por período**: Análisis de citas por semana, mes o año
-- **Pacientes activos**: Evolución del número de pacientes
-- **Diagnósticos frecuentes**: Gráfico de diagnósticos más comunes
-- **Ocupación**: Porcentaje de horas ocupadas vs disponibles
-
-### Filtros y Personalización
-
-Puede personalizar la visualización de estadísticas:
-
-1. Seleccione el período (día, semana, mes, año)
-2. Filtre por tipo de cita
-3. Seleccione categorías específicas para analizar
-4. Cambie entre diferentes tipos de gráficos
-
-### Exportar Reportes
-
-Para guardar o compartir los reportes:
-
-1. Configure el reporte según sus necesidades
-2. Haga clic en "Exportar"
-3. Seleccione el formato (PDF, Excel, CSV)
-4. Descargue el archivo o envíelo por correo electrónico
+- Descarregats novament
+- Enviats per correu electrònic al pacient
+- Impresos directament
+- Arxivats a l'historial del pacient
 
 ---
 
-## Configuración de Perfil
+## Estadístiques i Informes
+
+La secció d'estadístiques us proporciona informació valuosa sobre l'activitat de la vostra consulta.
+
+### Panell d'Estadístiques
+
+![Panell d'estadístiques](./img/statistics_dashboard.png)
+
+- **Cites per període**: Anàlisi de cites per setmana, mes o any
+- **Pacients actius**: Evolució del nombre de pacients
+- **Diagnòstics freqüents**: Gràfic de diagnòstics més comuns
+- **Ocupació**: Percentatge d'hores ocupades vs disponibles
+
+### Filtres i Personalització
+
+Podeu personalitzar la visualització d'estadístiques:
+
+1. Seleccioneu el període (dia, setmana, mes, any)
+2. Filtreu per tipus de cita
+3. Seleccioneu categories específiques per analitzar
+4. Canvieu entre diferents tipus de gràfics
+
+### Exportar Informes
+
+Per desar o compartir els informes:
+
+1. Configureu l'informe segons les vostres necessitats
+2. Feu clic a "Exportar"
+3. Seleccioneu el format (PDF, Excel, CSV)
+4. Descarregueu l'arxiu o envieu-lo per correu electrònic
+
+---
+
+## Configuració de Perfil
 
 ### Editar Perfil
 
-1. **En dispositivos de escritorio**: Haga clic en el botón "Configuración" en la barra lateral
-2. **En dispositivos móviles**: Haga clic en su avatar en la cabecera y seleccione "Editar Perfil"
-3. Modifique la información necesaria:
-   - Datos personales
-   - Información profesional
+1. **En dispositius d'escriptori**: Feu clic al botó "Configuració" a la barra lateral
+2. **En dispositius mòbils**: Feu clic al vostre avatar a la capçalera i seleccioneu "Editar Perfil"
+3. Modifiqueu la informació necessària:
+   - Dades personals
+   - Informació professional
    - Foto de perfil
-   - Preferencias de notificaciones
-4. Haga clic en "Guardar" para aplicar los cambios
+   - Preferències de notificacions
+4. Feu clic a "Desar" per aplicar els canvis
 
-### Cambiar Contraseña
+### Canviar Contrasenya
 
-1. En la pantalla de edición de perfil, haga clic en "Cambiar Contraseña"
-2. Introduzca su contraseña actual
-3. Introduzca la nueva contraseña dos veces
-4. Haga clic en "Actualizar Contraseña"
+1. A la pantalla d'edició de perfil, feu clic a "Canviar Contrasenya"
+2. Introduïu la vostra contrasenya actual
+3. Introduïu la nova contrasenya dues vegades
+4. Feu clic a "Actualitzar Contrasenya"
 
-### Preferencias de Notificaciones
+### Preferències de Notificacions
 
-Configure cómo desea recibir notificaciones:
+Configureu com voleu rebre notificacions:
 
-- Correo electrónico
-- Notificaciones en la aplicación
-- Recordatorios de citas
-- Frecuencia de resúmenes
-
----
-
-## Preguntas Frecuentes
-
-### ¿Cómo puedo programar citas recurrentes?
-
-Al crear una nueva cita, active la opción "Cita recurrente" y configure la frecuencia (semanal, quincenal, mensual) y el número de repeticiones.
-
-### ¿Puedo acceder al sistema desde mi teléfono móvil?
-
-Sí, la aplicación está diseñada para funcionar en cualquier dispositivo con un navegador web actualizado, incluyendo teléfonos móviles y tablets.
-
-### ¿Cómo puedo exportar la información de un paciente?
-
-En la ficha del paciente, haga clic en el botón "Exportar" y seleccione el formato deseado (PDF o CSV).
-
-### ¿Es segura la información de mis pacientes?
-
-Sí, todos los datos se almacenan de forma encriptada y el acceso está protegido por autenticación segura. Cumplimos con todas las normativas de protección de datos.
-
-### ¿Puedo personalizar los formatos de los documentos?
-
-Actualmente, los formatos están predefinidos para garantizar la consistencia profesional, pero puede agregar su logotipo y datos de contacto desde la sección de configuración.
+- Correu electrònic
+- Notificacions a l'aplicació
+- Recordatoris de cites
+- Freqüència de resums
 
 ---
 
-## Solución de Problemas
+## Preguntes Freqüents
 
-### No puedo iniciar sesión
+### Com puc programar cites recurrents?
 
-- Verifique que está introduciendo el correo electrónico y contraseña correctos
-- Compruebe que el bloqueador de mayúsculas está desactivado
-- Si persiste el problema, utilice la función "¿Olvidó su contraseña?"
+En crear una nova cita, activeu l'opció "Cita recurrent" i configureu la freqüència (setmanal, quinzenal, mensual) i el nombre de repeticions.
 
-### La aplicación se carga lentamente
+### Puc accedir al sistema des del meu telèfon mòbil?
 
-- Verifique su conexión a internet
-- Cierre otras aplicaciones o pestañas que consuman muchos recursos
-- Borre la caché del navegador
+Sí, l'aplicació està dissenyada per funcionar en qualsevol dispositiu amb un navegador web actualitzat, incloent telèfons mòbils i tablets.
 
-### No puedo generar un documento PDF
+### Com puc exportar la informació d'un pacient?
 
-- Asegúrese de haber completado todos los campos obligatorios
-- Verifique que su navegador no está bloqueando ventanas emergentes
-- Si el problema persiste, intente usar otro navegador
+A la fitxa del pacient, feu clic al botó "Exportar" i seleccioneu el format desitjat (PDF o CSV).
 
-### Las notificaciones no funcionan
+### És segura la informació dels meus pacients?
 
-- Verifique la configuración de notificaciones en su perfil
-- Compruebe que su navegador permite notificaciones de la aplicación
-- Asegúrese de que su correo electrónico es correcto
+Sí, totes les dades s'emmagatzemen de forma encriptada i l'accés està protegit per autenticació segura. Complim amb totes les normatives de protecció de dades.
+
+### Puc personalitzar els formats dels documents?
+
+Actualment, els formats estan predefinits per garantir la consistència professional, però podeu afegir el vostre logotip i dades de contacte des de la secció de configuració.
+
+---
+
+## Solució de Problemes
+
+### No puc iniciar sessió
+
+- Verifiqueu que esteu introduïnt el correu electrònic i contrasenya correctes
+- Comproveu que el blocador de majúscules està desactivat
+- Si persisteix el problema, utilitzeu la funció "Heu oblidat la contrasenya?"
+
+### L'aplicació es carrega lentament
+
+- Verifiqueu la vostra connexió a internet
+- Tanqueu altres aplicacions o pestanyes que consumeixin molts recursos
+- Esborreu la memòria cau del navegador
+
+### No puc generar un document PDF
+
+- Assegureu-vos d'haver completat tots els camps obligatoris
+- Verifiqueu que el vostre navegador no està bloquejant finestres emergents
+- Si el problema persisteix, proveu d'utilitzar un altre navegador
+
+### Les notificacions no funcionen
+
+- Verifiqueu la configuració de notificacions al vostre perfil
+- Comproveu que el vostre navegador permet notificacions de l'aplicació
+- Assegureu-vos que el vostre correu electrònic és correcte
 
 ---
 
