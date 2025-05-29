@@ -49,8 +49,6 @@ Se han creado las siguientes tablas en Supabase:
 - **appointments**: Citas médicas
 - **messages**: Mensajes entre usuarios
 
-Nota: La tabla **reports** (informes médicos) ha sido eliminada del esquema.
-
 ## Migrar desde localStorage
 
 Se han reemplazado todas las funciones que usaban localStorage con llamadas a la API de Supabase:
@@ -106,7 +104,6 @@ npm run seed
    - [Pacients](#pacients)
    - [Cites](#cites)
    - [Missatges](#missatges)
-   - [Documents](#documents)
 6. [Patró de Resiliència](#patró-de-resiliència)
 7. [Subscripcions en Temps Real](#subscripcions-en-temps-real)
 8. [Polítiques de Seguretat (RLS)](#polítiques-de-seguretat-rls)
@@ -450,37 +447,6 @@ export async function markMessageAsRead(messageId) {
 }
 ```
 
-### Documents
-
-Els documents generats s'emmagatzemen a la taula `reports` i s'accedeix a través de consultes específiques a `DocumentosPage.js`:
-
-#### Carregar pacients per al selector de documents
-
-```javascript
-try {
-  const { data, error } = await supabase
-    .from('patients')
-    .select('*')
-    .order('name');
-  // Processament de dades...
-} catch (error) {
-  // Gestió d'errors...
-}
-```
-
-<!-- La funcionalidad de generación y almacenamiento de informes ha sido eliminada -->
-        patient_id: selectedPatient,
-        doctor_id: user.id,
-        report_type: formData.reportType,
-        diagnosis: formData.diagnosis,
-        treatment: formData.treatment,
-        observations: formData.observations
-      }
-    ]);
-  // Gestió de resultats i errors...
-} catch (error) {
-  // Gestió d'errors...
-}
 ```
 
 ### Polítiques per a la taula `messages`
@@ -516,8 +482,6 @@ CREATE INDEX IF NOT EXISTS idx_patients_doctor_id ON patients (doctor_id);
 CREATE INDEX IF NOT EXISTS idx_patients_name ON patients (name);
 CREATE INDEX IF NOT EXISTS idx_messages_sender_id ON messages (sender_id);
 CREATE INDEX IF NOT EXISTS idx_messages_receiver_id ON messages (receiver_id);
-CREATE INDEX IF NOT EXISTS idx_reports_patient_id ON reports (patient_id);
-CREATE INDEX IF NOT EXISTS idx_reports_doctor_id ON reports (doctor_id);
 ```
 
 ## Automatització de Timestamps
