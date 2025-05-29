@@ -4,6 +4,23 @@ import PatientAvatar from '../shared/PatientAvatar';
 import '../../styles/AppointmentsTable.css';
 
 const AppointmentsTable = ({ appointments, onStatusChange, onViewAll }) => {
+  // Filtrar citas que hayan pasado hace más de 2 días
+  const filteredAppointments = appointments.filter(appointment => {
+    // Obtener la fecha actual
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalizar a las 00:00:00
+    
+    // Obtener la fecha de la cita
+    const appointmentDate = new Date(appointment.date);
+    appointmentDate.setHours(0, 0, 0, 0); // Normalizar a las 00:00:00
+    
+    // Calcular la diferencia en días
+    const differenceInTime = today.getTime() - appointmentDate.getTime();
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    
+    // Mostrar solo citas que no sean más antiguas que 2 días
+    return differenceInDays <= 2;
+  });
   return (
     <section className="recent-appointments-section">
       <div className="section-header">
@@ -27,7 +44,7 @@ const AppointmentsTable = ({ appointments, onStatusChange, onViewAll }) => {
           </tr>
         </thead>
         <tbody>
-          {appointments.map((appointment) => (
+          {filteredAppointments.map((appointment) => (
             <tr key={appointment.id}>
               <td className="patient-cell">
                 <PatientAvatar patient={appointment.patient} />

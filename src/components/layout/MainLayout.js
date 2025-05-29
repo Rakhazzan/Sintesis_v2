@@ -40,6 +40,7 @@ const MainLayout = ({ children, activePage, onPageChange, user, onLogout, onEdit
             isDesktop={true}
             darkMode={darkMode}
             onThemeChange={toggleTheme}
+            onNavigate={onPageChange}
           />
         </>
       ) : (
@@ -50,6 +51,7 @@ const MainLayout = ({ children, activePage, onPageChange, user, onLogout, onEdit
             onBellClick={() => console.log('Notificaciones')}
             darkMode={darkMode}
             onThemeChange={toggleTheme}
+            onNavigate={onPageChange}
           />
           <BottomNav active={activePage} onChange={onPageChange} />
         </>

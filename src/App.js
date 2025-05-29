@@ -82,8 +82,8 @@ function AppContent() {
       {activePage === "inicio" && (
         <DashboardPage onNavigate={handlePageChange} />
       )}
-      {activePage === "citas" && <Citas />}
-      {activePage === "pacientes" && <PacientesPage />}
+      {activePage === "citas" && <Citas params={activePageParams} />}
+      {activePage === "pacientes" && <PacientesPage params={activePageParams} />}
       {activePage === "mensajes" && <MensajesPage params={activePageParams} />}
       {activePage === "documentos" && <DocumentosPage />}
       {activePage === "perfil" && (

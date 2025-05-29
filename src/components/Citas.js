@@ -6,7 +6,7 @@ import { getPatients } from "../services/patientService";
 import { notifyService } from "../services/notifyService";
 import ConfirmModal from "./ConfirmModal";
 
-const Citas = () => {
+const Citas = ({ params }) => {
   // Estado para guardar la fecha actual
   const [currentDate, setCurrentDate] = useState(new Date());
   // Estado para manejar la lista completa de citas
@@ -76,6 +76,32 @@ const Citas = () => {
     loadPacientes();
   }, []);
 
+  // Efecto para manejar la fecha seleccionada en la búsqueda
+  useEffect(() => {
+    // Si recibimos una fecha desde la búsqueda o navegación
+    if (params && params.selectedDate) {
+      try {
+        // Convertir la fecha de string a objeto Date
+        const dateParts = params.selectedDate.split('-');
+        if (dateParts.length === 3) {
+          const year = parseInt(dateParts[0]);
+          const month = parseInt(dateParts[1]) - 1; // Los meses en JS van de 0-11
+          const day = parseInt(dateParts[2]);
+          
+          // Crear un nuevo objeto Date con la fecha seleccionada
+          const selectedDate = new Date(year, month, day);
+          
+          // Verificar que la fecha es válida
+          if (!isNaN(selectedDate.getTime())) {
+            setCurrentDate(selectedDate);
+          }
+        }
+      } catch (error) {
+        console.error("Error al procesar la fecha seleccionada:", error);
+      }
+    }
+  }, [params]); // Este efecto se ejecuta cuando cambian los parámetros recibidos
+  
   // Cargar citas al iniciar y cuando cambia la fecha seleccionada
   useEffect(() => {
     const loadCitas = async () => {
