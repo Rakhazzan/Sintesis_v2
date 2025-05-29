@@ -113,19 +113,6 @@ CREATE POLICY "Los usuarios pueden enviar mensajes" ON messages
 CREATE POLICY "El remitente puede eliminar sus mensajes" ON messages
   FOR DELETE USING (auth.uid() = sender_id);
 
--- Tabla de informes médicos
-CREATE TABLE IF NOT EXISTS reports (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  report_id TEXT UNIQUE,
-  patient_id UUID NOT NULL REFERENCES patients ON DELETE CASCADE,
-  doctor_id UUID REFERENCES users ON DELETE SET NULL,
-  report_type TEXT NOT NULL,
-  diagnosis TEXT,
-  treatment TEXT,
-  observations TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
 -- Habilitar RLS (Row Level Security)
 ALTER TABLE reports ENABLE ROW LEVEL SECURITY;
 
