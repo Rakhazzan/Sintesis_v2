@@ -1,22 +1,34 @@
 # Llicència del Projecte Sintesis_v2
 
-## Resum de la Llicència MIT
+## Resum de la Llicència Restrictiva
 
-El projecte Sintesis_v2 es distribueix sota la **Llicència MIT**, una llicència de programari lliure permissiva que posa molt poques limitacions en la reutilització del codi. Està permesa la seva utilització dins de programari propietari sempre que totes les còpies del programari llicenciat incloguin una còpia dels termes de la Llicència MIT i l'avís de copyright.
+El projecte Sintesis_v2 es distribueix sota una **Llicència Restrictiva Personalitzada** que imposa limitacions significatives en l'ús, modificació i distribució del codi. Aquesta llicència està dissenyada per protegir els drets de l'autor i controlar l'ús del programari.
 
-## Què permet la Llicència MIT:
+## Restriccions Principals:
 
-- **Ús comercial**: Podeu utilitzar el codi en productes comercials.
-- **Modificació**: Podeu realitzar canvis al codi font.
-- **Distribució**: Podeu distribuir el codi original o modificat.
-- **Ús privat**: Podeu utilitzar el codi per a finalitats privades.
-- **Sublicència**: Podeu aplicar una llicència diferent al codi que utilitzeu.
+- **Ús comercial**: NO està permès utilitzar el codi en productes comercials sense un acord escrit específic amb el titular dels drets.
 
-## Limitacions:
+- **Modificació**: Podeu realitzar canvis al codi font NOMÉS SI:
+  - Notifiqueu al titular dels drets (Rakhazzan) sobre qualsevol modificació.
+  - Documenteu clarament totes les modificacions realitzades.
+  - Les modificacions segueixen subjectes als termes d'aquesta llicència.
 
-La llicència MIT és molt permissiva, però té una limitació important:
+- **Distribució**: Podeu distribuir el codi NOMÉS SI:
+  - Notifiqueu al titular dels drets (Rakhazzan) sobre qualsevol distribució.
+  - Incloeu una còpia completa d'aquesta llicència amb cada còpia distribuïda.
+  - Manteniu intactes tots els avisos de drets d'autor i atribucions.
 
-- **Responsabilitat**: El codi es proporciona "tal qual", sense garanties. Els autors no assumeixen cap responsabilitat pels danys o altres responsabilitats derivades de l'ús del programari.
+- **Ús privat**: NO està permès l'ús privat del programari. Totes les instàncies d'ús han de ser reportades al titular dels drets.
+
+- **Subllicència**: NO està permès sublicenciar el programari sota cap circumstància.
+
+## Notificacions Requerides:
+
+Totes les notificacions requerides per aquesta llicència han d'enviar-se a través dels canals oficials establerts pel titular dels drets.
+
+## Responsabilitat:
+
+El codi es proporciona "tal qual", sense garanties. Els autors no assumeixen cap responsabilitat pels danys o altres responsabilitats derivades de l'ús del programari.
 
 ## Text Complet de la Llicència
 

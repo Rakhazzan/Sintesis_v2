@@ -1,21 +1,39 @@
-MIT License
+LICENCIA RESTRICTIVA SINTESIS_V2
 
 Copyright (c) 2025 Rakhazzan
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+RESTRICCIONES DE USO Y DISTRIBUCIÓN
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Este software y la documentación asociada (el "Software") están protegidos por derechos de autor.
+Al usar este Software, aceptas las siguientes condiciones:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+1. USO COMERCIAL: No está permitido el uso del Software para fines comerciales, incluyendo
+   pero no limitado a la venta, alquiler, licencia o cualquier actividad que genere ingresos
+   directos o indirectos sin un acuerdo escrito específico con el titular de los derechos.
+
+2. MODIFICACIÓN: Está permitido modificar el Software únicamente bajo las siguientes condiciones:
+   a) Debes notificar al titular de los derechos (Rakhazzan) sobre cualquier modificación.
+   b) Debes documentar claramente todas las modificaciones realizadas.
+   c) Las modificaciones seguirán estando sujetas a los términos de esta licencia.
+
+3. DISTRIBUCIÓN: Está permitido distribuir el Software únicamente bajo las siguientes condiciones:
+   a) Debes notificar al titular de los derechos (Rakhazzan) sobre cualquier distribución.
+   b) Debes incluir una copia completa de esta licencia con cada copia distribuida.
+   c) Debes mantener intactos todos los avisos de derechos de autor y atribuciones.
+
+4. USO PRIVADO: No está permitido el uso privado del Software. Todas las instancias de uso
+   deben ser reportadas al titular de los derechos.
+
+5. SUBLICENCIA: No está permitido sublicenciar el Software bajo ninguna circunstancia.
+
+6. NOTIFICACIONES: Todas las notificaciones requeridas por esta licencia deben enviarse a
+   través de los canales oficiales establecidos por el titular de los derechos.
+
+DESCARGO DE RESPONSABILIDAD
+
+EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O IMPLÍCITA,
+INCLUYENDO PERO NO LIMITADO A GARANTÍAS DE COMERCIABILIDAD, IDONEIDAD PARA UN PROPÓSITO
+PARTICULAR Y NO INFRACCIÓN. EN NINGÚN CASO LOS AUTORES O TITULARES DE DERECHOS DE AUTOR
+SERÁN RESPONSABLES POR CUALQUIER RECLAMACIÓN, DAÑOS U OTRAS RESPONSABILIDADES, YA SEA EN
+UNA ACCIÓN DE CONTRATO, AGRAVIO O CUALQUIER OTRA FORMA, QUE SURJA DE, FUERA DE O EN
+CONEXIÓN CON EL SOFTWARE O EL USO U OTROS TRATOS EN EL SOFTWARE.
