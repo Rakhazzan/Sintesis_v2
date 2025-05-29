@@ -291,34 +291,34 @@ Per mitigar aquests obstacles, s'ha establert una planificació realista, s'han 
 
 El desenvolupament del projecte "Clínica Síntesi" s'ha estructurat en les següents fases principals:
 
-1. **Fase d'anàlisi i definició (2 setmanes)**:
+1. **Fase d'anàlisi i definició (2 dies)**:
    - Anàlisi de requisits
    - Estudi de mercat i solucions existents
    - Definició de l'abast del projecte
    - Elaboració del pla de treball
 
-2. **Fase de disseny (3 setmanes)**:
+2. **Fase de disseny (6 dies)**:
    - Disseny de l'arquitectura del sistema
    - Disseny de la base de dades
    - Disseny de la interfície d'usuari
    - Definició de fluxos d'interacció
    - Elaboració de prototips
 
-3. **Fase de desenvolupament (8 setmanes)**:
+3. **Fase de desenvolupament (10 dies)**:
    - Configuració de l'entorn de desenvolupament
    - Implementació del backend (API RESTful)
    - Implementació del frontend (React)
    - Integració de serveis
    - Desenvolupament de funcionalitats específiques
 
-4. **Fase de proves (2 setmanes)**:
+4. **Fase de proves (4 dies)**:
    - Proves unitàries
    - Proves d'integració
    - Proves de rendiment
    - Proves d'usabilitat
    - Correcció d'errors
 
-5. **Fase de documentació i lliurament (2 setmanes)**:
+5. **Fase de documentació i lliurament (7 dies)**:
    - Elaboració de la memòria del projecte
    - Preparació de la presentació
    - Revisió final
@@ -332,20 +332,20 @@ La planificació inicial del projecte va establir el següent calendari d'activi
 
 | Fase | Activitat | Data d'inici | Data de finalització |
 |------|-----------|--------------|----------------------|
-| Anàlisi | Anàlisi de requisits | 15/01/2025 | 22/01/2025 |
-| Anàlisi | Definició d'abast | 23/01/2025 | 29/01/2025 |
-| Disseny | Disseny d'arquitectura | 30/01/2025 | 05/02/2025 |
-| Disseny | Disseny de BD | 06/02/2025 | 12/02/2025 |
-| Disseny | Disseny d'interfície | 13/02/2025 | 19/02/2025 |
-| Desenvolupament | Configuració d'entorn | 20/02/2025 | 23/02/2025 |
-| Desenvolupament | Implementació de backend | 24/02/2025 | 16/03/2025 |
-| Desenvolupament | Implementació de frontend | 17/03/2025 | 06/04/2025 |
-| Desenvolupament | Integració | 07/04/2025 | 16/04/2025 |
-| Proves | Proves unitàries i d'integració | 17/04/2025 | 24/04/2025 |
-| Proves | Proves d'usabilitat i correcció | 25/04/2025 | 30/04/2025 |
-| Documentació | Elaboració de memòria | 01/05/2025 | 14/05/2025 |
-| Documentació | Preparació de presentació | 15/05/2025 | 21/05/2025 |
-| Lliurament | Revisió final i lliurament | 22/05/2025 | 29/05/2025 |
+| Anàlisi | Anàlisi de requisits | 28/04/2025 | 29/04/2025 |
+| Anàlisi | Definició d'abast | 30/04/2025 | 01/05/2025 |
+| Disseny | Disseny d'arquitectura | 02/05/2025 | 03/05/2025 |
+| Disseny | Disseny de BD | 04/05/2025 | 05/05/2025 |
+| Disseny | Disseny d'interfície | 06/05/2025 | 07/05/2025 |
+| Desenvolupament | Configuració d'entorn | 08/05/2025 | 09/05/2025 |
+| Desenvolupament | Implementació de backend | 10/05/2025 | 12/05/2025 |
+| Desenvolupament | Implementació de frontend | 13/05/2025 | 15/05/2025 |
+| Desenvolupament | Integració | 16/05/2025 | 17/05/2025 |
+| Proves | Proves unitàries i d'integració | 18/05/2025 | 20/05/2025 |
+| Proves | Proves d'usabilitat i correcció | 21/05/2025 | 22/05/2025 |
+| Documentació | Elaboració de memòria | 23/05/2025 | 25/05/2025 |
+| Documentació | Preparació de presentació | 26/05/2025 | 27/05/2025 |
+| Lliurament | Revisió final i lliurament | 28/05/2025 | 29/05/2025 |
 
 Aquesta planificació inicial va ser dissenyada per permetre un desenvolupament progressiu del projecte, amb temps suficient per a cada fase i marges per a possibles contratemps.
 
@@ -380,14 +380,14 @@ Després del punt de control, es va ajustar la planificació per adaptar-la a la
 
 | Fase | Activitat | Data d'inici | Data de finalització |
 |------|-----------|--------------|----------------------|
-| Desenvolupament | Finalització de backend | 15/03/2025 | 22/03/2025 |
-| Desenvolupament | Implementació de frontend | 17/03/2025 | 13/04/2025 |
-| Desenvolupament | Integració | 14/04/2025 | 23/04/2025 |
-| Proves | Proves unitàries i d'integració | 24/04/2025 | 01/05/2025 |
-| Proves | Proves d'usabilitat i correcció | 02/05/2025 | 08/05/2025 |
-| Documentació | Elaboració de memòria | 09/05/2025 | 19/05/2025 |
-| Documentació | Preparació de presentació | 20/05/2025 | 25/05/2025 |
-| Lliurament | Revisió final i lliurament | 26/05/2025 | 29/05/2025 |
+| Desenvolupament | Finalització de backend | 30/04/2025 | 04/05/2025 |
+| Desenvolupament | Implementació de frontend | 05/05/2025 | 10/05/2025 |
+| Desenvolupament | Integració | 11/05/2025 | 15/05/2025 |
+| Proves | Proves unitàries i d'integració | 16/05/2025 | 19/05/2025 |
+| Proves | Proves d'usabilitat i correcció | 20/05/2025 | 22/05/2025 |
+| Documentació | Elaboració de memòria | 23/05/2025 | 26/05/2025 |
+| Documentació | Preparació de presentació | 27/05/2025 | 28/05/2025 |
+| Lliurament | Revisió final i lliurament | 29/05/2025 | 29/05/2025 |
 
 Els principals ajustaments van incloure:
 
