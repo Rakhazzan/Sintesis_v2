@@ -1,6 +1,9 @@
 -- Schema para Supabase
 -- Este archivo contiene las definiciones de tablas para la base de datos
 
+-- Extensión para generación de UUIDs
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 -- Tabla de usuarios
 CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY REFERENCES auth.users ON DELETE CASCADE,
@@ -25,12 +28,15 @@ CREATE POLICY "Los usuarios pueden actualizar su propio perfil" ON users
 -- Tabla de pacientes
 CREATE TABLE IF NOT EXISTS patients (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  patient_id TEXT UNIQUE,
   name TEXT NOT NULL,
   email TEXT,
   phone TEXT,
-  img TEXT,
-  birthdate DATE,
-  medical_history TEXT,
+  date_of_birth DATE,
+  gender TEXT,
+  age INTEGER,
+  address TEXT,
+  medical_history JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   doctor_id UUID REFERENCES users ON DELETE SET NULL
@@ -59,7 +65,8 @@ CREATE TABLE IF NOT EXISTS appointments (
   doctor_id UUID REFERENCES users ON DELETE SET NULL,
   date DATE NOT NULL,
   time TEXT NOT NULL,
-  type TEXT,
+  duration INTEGER,
+  reason TEXT,
   status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'cancelled', 'completed')),
   notes TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -87,6 +94,7 @@ CREATE TABLE IF NOT EXISTS messages (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   sender_id UUID NOT NULL REFERENCES users ON DELETE CASCADE,
   receiver_id UUID NOT NULL REFERENCES users ON DELETE CASCADE,
+  subject TEXT,
   content TEXT NOT NULL,
   read BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT NOW()
@@ -105,13 +113,39 @@ CREATE POLICY "Los usuarios pueden enviar mensajes" ON messages
 CREATE POLICY "El remitente puede eliminar sus mensajes" ON messages
   FOR DELETE USING (auth.uid() = sender_id);
 
+-- Tabla de informes médicos
+CREATE TABLE IF NOT EXISTS reports (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  report_id TEXT UNIQUE,
+  patient_id UUID NOT NULL REFERENCES patients ON DELETE CASCADE,
+  doctor_id UUID REFERENCES users ON DELETE SET NULL,
+  report_type TEXT NOT NULL,
+  diagnosis TEXT,
+  treatment TEXT,
+  observations TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Habilitar RLS (Row Level Security)
+ALTER TABLE reports ENABLE ROW LEVEL SECURITY;
+
+-- Políticas de seguridad para informes
+CREATE POLICY "Los médicos pueden ver sus informes" ON reports
+  FOR SELECT USING (auth.uid() = doctor_id);
+  
+CREATE POLICY "Los médicos pueden crear informes" ON reports
+  FOR INSERT WITH CHECK (auth.uid() = doctor_id);
+
 -- Crear índices para mejorar el rendimiento
 CREATE INDEX IF NOT EXISTS idx_appointments_date ON appointments (date);
 CREATE INDEX IF NOT EXISTS idx_appointments_patient_id ON appointments (patient_id);
 CREATE INDEX IF NOT EXISTS idx_appointments_doctor_id ON appointments (doctor_id);
 CREATE INDEX IF NOT EXISTS idx_patients_doctor_id ON patients (doctor_id);
+CREATE INDEX IF NOT EXISTS idx_patients_name ON patients (name);
 CREATE INDEX IF NOT EXISTS idx_messages_sender_id ON messages (sender_id);
 CREATE INDEX IF NOT EXISTS idx_messages_receiver_id ON messages (receiver_id);
+CREATE INDEX IF NOT EXISTS idx_reports_patient_id ON reports (patient_id);
+CREATE INDEX IF NOT EXISTS idx_reports_doctor_id ON reports (doctor_id);
 
 -- Funciones para actualizar timestamps
 CREATE OR REPLACE FUNCTION update_updated_at()
