@@ -1,10 +1,10 @@
 # SINTESIS_V2
 
-Empowering healthcare through seamless communication and management.
+Potenciant l'atenció sanitària mitjançant una comunicació i gestió fluida.
 
 ![last commit](https://img.shields.io/badge/last%20commit-today-brightgreen) ![javascript](https://img.shields.io/badge/javascript-74.1%25-blue) ![languages](https://img.shields.io/badge/languages-4-blueviolet)
 
-Built with the tools and technologies:
+Creat amb les eines i tecnologies:
 
 ![Express](https://img.shields.io/badge/-Express-black?style=flat-square&logo=express) ![JSON](https://img.shields.io/badge/-JSON-black?style=flat-square&logo=json) ![Markdown](https://img.shields.io/badge/-Markdown-black?style=flat-square&logo=markdown) ![npm](https://img.shields.io/badge/-npm-black?style=flat-square&logo=npm) ![ENV](https://img.shields.io/badge/-.ENV-black?style=flat-square&logo=.env)
 
@@ -12,232 +12,233 @@ Built with the tools and technologies:
 
 ---
 
-## Table of Contents
+## Taula de Continguts
 
-- [Overview](#overview)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Testing](#testing)
-- [Features](#features)
-- [Technical Documentation](#technical-documentation)
-- [Project Structure](#project-structure)
-- [Code Organization](#code-organization)
-- [UI Components](#ui-components)
-- [State Management](#state-management)
-- [API Integration](#api-integration)
-- [Themes](#themes)
-- [Contributing](#contributing)
-- [License](#license)
+- [Resum](#resum)
+- [Començar](#començar)
+  - [Prerequisits](#prerequisits)
+  - [Instal·lació](#installació)
+  - [Ús](#ús)
+  - [Proves](#proves)
+- [Característiques](#característiques)
+- [Documentació Tècnica](#documentació-tècnica)
+- [Estructura del Projecte](#estructura-del-projecte)
+- [Organització del Codi](#organització-del-codi)
+- [Components UI](#components-ui)
+- [Gestió d'Estat](#gestió-destat)
+- [Integració API](#integració-api)
+- [Temes](#temes)
+- [Contribuir](#contribuir)
+- [Llicència](#llicència)
 
 ---
 
-## Overview
+## Resum
 
-Sintesis_V2 is a comprehensive patient management application designed for healthcare professionals. This platform enables efficient management of patient records, appointments, and communications in a secure and user-friendly environment.
+Sintesis_V2 és una aplicació completa de gestió de pacients dissenyada per a professionals de la salut. Aquesta plataforma permet una gestió eficient dels registres de pacients, cites i comunicacions en un entorn segur i fàcil d'utilitzar.
 
-The application features a modern, responsive interface with a focus on usability across both desktop and mobile devices. With real-time updates, customizable views, and integration with communication tools, Sintesis_V2 streamlines the daily workflow of medical professionals.
+L'aplicació compta amb una interfície moderna i responsive, centrada en la usabilitat tant en dispositius d'escriptori com mòbils. Amb actualitzacions en temps real, vistes personalitzables i integració amb eines de comunicació, Sintesis_V2 agilitza el flux de treball diari dels professionals mèdics.
 
-## Getting Started
+## Començar
 
-### Prerequisites
+### Prerequisits
 
-Before installing Sintesis_V2, ensure you have the following:
+Abans d'instal·lar Sintesis_V2, assegureu-vos de tenir el següent:
 
-- Node.js (v14.0.0 or higher)
-- npm (v6.0.0 or higher)
-- A Supabase account and project set up
-- Modern web browser (Chrome, Firefox, Safari, or Edge)
+- Node.js (v14.0.0 o superior)
+- npm (v6.0.0 o superior)
+- Un compte de Supabase i un projecte configurat
+- Navegador web modern (Chrome, Firefox, Safari o Edge)
 
-### Installation
+### Instal·lació
 
-1. Clone the repository:
+1. Clonar el repositori:
    ```bash
    git clone https://github.com/your-username/Sintesis_v2.git
    cd Sintesis_v2
    ```
 
-2. Install dependencies:
+2. Instal·lar dependències:
    ```bash
    npm install
    ```
 
-3. Set up environment variables:
-   - Create a `.env` file in the root directory
-   - Add the following variables:
+3. Configurar variables d'entorn:
+   - Crear un fitxer `.env` al directori arrel
+   - Afegir les següents variables:
      ```
      REACT_APP_SUPABASE_URL=your_supabase_url
      REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
      ```
 
-4. Start the development server:
+4. Iniciar el servidor de desenvolupament:
    ```bash
    npm start
    ```
 
-### Usage
+### Ús
 
-Access the application through your browser at `http://localhost:3000`. 
+Accediu a l'aplicació a través del vostre navegador a `http://localhost:3000`. 
 
-#### Authentication
+#### Autenticació
 
-- Use the login screen to access your account
-- New users can register through the registration form
-- Reset password functionality is available if needed
+- Utilitzeu la pantalla d'inici de sessió per accedir al vostre compte
+- Els nous usuaris poden registrar-se mitjançant el formulari de registre
+- La funcionalitat de restabliment de contrasenya està disponible si cal
 
-#### Dashboard
+#### Tauler de Control
 
-The dashboard provides an overview of your practice with:
+El tauler proporciona una visió general de la vostra pràctica amb:
 
-- Today's appointments
-- Recent patient interactions
-- Upcoming events
-- Statistics and metrics
+- Cites d'avui
+- Interaccions recents amb pacients
+- Esdeveniments propers
+- Estadístiques i mètriques
 
-#### Patient Management
+#### Gestió de Pacients
 
-- View complete patient list
-- Add new patients with comprehensive medical information
-- Search and filter patients by various criteria
-- View detailed patient profiles with medical history
+- Visualitzar la llista completa de pacients
+- Afegir nous pacients amb informació mèdica completa
+- Cercar i filtrar pacients per diversos criteris
+- Visualitzar perfils detallats de pacients amb historial mèdic
 
-#### Appointment Scheduling
+#### Programació de Cites
 
-- View appointments in calendar view (daily, weekly, monthly)
-- Schedule new appointments with collision detection
-- Manage appointment status (confirm, cancel, reschedule)
-- Set up video or phone call appointments
+- Visualitzar cites en vista de calendari (diària, setmanal, mensual)
+- Programar noves cites amb detecció de col·lisions
+- Gestionar l'estat de les cites (confirmar, cancel·lar, reprogramar)
+- Configurar cites de vídeo o trucada telefònica
 
-### Testing
+### Proves
 
-Run the test suite with:
+Executeu el conjunt de proves amb:
 
 ```bash
 npm test
 ```
 
-For end-to-end testing:
+Per a proves end-to-end:
 
 ```bash
 npm run test:e2e
 ```
 
-## Features
+## Característiques
 
-- **Patient Records Management**: Comprehensive patient profiles with medical history, contact information, and visit logs.
+- **Gestió de Registres de Pacients**: Perfils complets de pacients amb historial mèdic, informació de contacte i registres de visites.
 
-- **Appointment Scheduling**: Intuitive calendar interface for scheduling and managing appointments.
+- **Programació de Cites**: Interfície de calendari intuïtiva per programar i gestionar cites.
 
-- **Dashboard Analytics**: Visual representations of practice metrics and patient statistics.
+- **Analítiques del Tauler**: Representacions visuals de mètriques de pràctica i estadístiques de pacients.
 
-- **Communication Tools**: Integrated messaging and notification system for patient communications.
+- **Eines de Comunicació**: Sistema integrat de missatgeria i notificacions per a comunicacions amb pacients.
 
-- **Responsive Design**: Optimized for both desktop and mobile experiences.
+- **Disseny Responsive**: Optimitzat tant per a experiències d'escriptori com mòbils.
 
-- **Dark/Light Theme**: Customizable interface with theme options for user preference.
+- **Tema Clar/Fosc**: Interfície personalitzable amb opcions de tema segons preferència de l'usuari.
 
-- **Secure Authentication**: Role-based access control with secure login and session management.
+- **Autenticació Segura**: Control d'accés basat en rols amb inici de sessió segur i gestió de sessions.
 
-## Technical Documentation
+## Documentació Tècnica
 
-### Documentation for Developers
-1. [Developer Documentation](docs/documentacion_desarrollador.md) - Complete guide for developers
-2. [Supabase Integration](docs/supabase-integration.md) - Details about Supabase integration
-3. [Database Schema](docs/database-schema.md) - Detailed SQL schema documentation
+### Documentació per a Desenvolupadors
+1. [Documentació del Desenvolupador](docs/documentacion_desarrollador.md) - Guia completa per a desenvolupadors
+2. [Guia d'Instal·lació](docs/guia-instalacio.md) - Instruccions pas a pas per a instal·lar i configurar el projecte
+3. [Integració amb Supabase](docs/supabase-integration.md) - Detalls sobre la integració amb Supabase
+4. [Esquema de Base de Dades](docs/database-schema.md) - Documentació detallada de l'esquema SQL
 
-### Documentation for Users
-1. [User Manual](docs/manual_usuario.md) - End-user guide
+### Documentació per a Usuaris
+1. [Manual d'Usuari](docs/manual_usuario.md) - Guia d'ús per a usuaris finals
 
-### Technologies Used
+### Tecnologies Utilitzades
 
-Sintesis_v2 uses the following key technologies:
+Sintesis_v2 utilitza les següents tecnologies clau:
 
 - **Frontend**: React
 - **Backend**: Supabase (PostgreSQL)
-- **Authentication**: Supabase JWT system
-- **Deployment**: Netlify/Vercel
+- **Autenticació**: Sistema JWT de Supabase
+- **Desplegament**: Netlify/Vercel
 
-## Project Structure
+## Estructura del Projecte
 
-The application is organized into the following key directories:
+L'aplicació està organitzada en els següents directoris clau:
 
 ```
 src/
-├── components/       # Reusable UI components
-│   ├── dashboard/    # Dashboard-specific components
-│   ├── layout/       # Layout components (header, sidebar, etc.)
-│   └── shared/       # Shared components used across the app
-├── context/          # React context providers
-├── hooks/            # Custom React hooks
-├── pages/            # Page components
-├── services/         # API and external service integrations
-├── styles/           # CSS and styling files
-├── utils/            # Utility functions
-└── App.js            # Main application component
+├── components/       # Components UI reutilitzables
+│   ├── dashboard/    # Components específics del tauler
+│   ├── layout/       # Components de disseny (capçalera, barra lateral, etc.)
+│   └── shared/       # Components compartits utilitzats a tota l'app
+├── context/          # Proveïdors de context de React
+├── hooks/            # Hooks personalitzats de React
+├── pages/            # Components de pàgina
+├── services/         # Integracions d'API i serveis externs
+├── styles/           # Fitxers CSS i d'estil
+├── utils/            # Funcions d'utilitat
+└── App.js            # Component principal de l'aplicació
 ```
 
-## Code Organization
+## Organització del Codi
 
-The application follows these coding principles:
+L'aplicació segueix aquests principis de codificació:
 
-- **Component-Based Architecture**: UI is broken down into reusable components
-- **Context API for State Management**: Global state managed through React Context
-- **Custom Hooks**: Logic extraction into reusable hooks
-- **Service Layer**: API interactions abstracted into service modules
-- **CSS Modules**: Scoped styling to prevent conflicts
+- **Arquitectura Basada en Components**: La UI es descompon en components reutilitzables
+- **API de Context per a la Gestió d'Estat**: Estat global gestionat mitjançant React Context
+- **Hooks Personalitzats**: Extracció de lògica en hooks reutilitzables
+- **Capa de Serveis**: Interaccions amb l'API abstrets en mòduls de servei
+- **Mòduls CSS**: Estils d'àmbit limitat per evitar conflictes
 
-## UI Components
+## Components UI
 
-Key UI components include:
+Els components UI clau inclouen:
 
-- **AppointmentsTable**: Displays scheduled appointments with filtering options
-- **Calendar**: Interactive calendar for date selection and appointment viewing
-- **PatientAvatar**: Displays patient image or initials with consistent styling
-- **StatisticsChart**: Visualizes practice metrics and patient data
-- **NotificationManager**: Manages system notifications and alerts
+- **AppointmentsTable**: Mostra les cites programades amb opcions de filtratge
+- **Calendar**: Calendari interactiu per a la selecció de dates i visualització de cites
+- **PatientAvatar**: Mostra la imatge o les inicials del pacient amb un estil consistent
+- **StatisticsChart**: Visualitza mètriques de pràctica i dades de pacients
+- **NotificationManager**: Gestiona notificacions i alertes del sistema
 
-## State Management
+## Gestió d'Estat
 
-The application uses React Context API for state management through the following contexts:
+L'aplicació utilitza l'API de Context de React per a la gestió d'estat a través dels següents contextos:
 
-- **AuthContext**: Manages user authentication state and methods
-- **ThemeContext**: Handles theme preference (light/dark mode)
-- **NotificationContext**: Manages system notifications
+- **AuthContext**: Gestiona l'estat d'autenticació de l'usuari i els mètodes
+- **ThemeContext**: Gestiona la preferència de tema (mode clar/fosc)
+- **NotificationContext**: Gestiona les notificacions del sistema
 
-## API Integration
+## Integració API
 
-API interactions are managed through service modules that communicate with Supabase backend:
+Les interaccions amb l'API es gestionen a través de mòduls de servei que es comuniquen amb el backend de Supabase:
 
-- **Authentication services**: User login, registration, and profile management
-- **Patient services**: CRUD operations for patient records
-- **Appointment services**: Scheduling and management of appointments
-- **Statistics services**: Data aggregation and reporting
+- **Serveis d'autenticació**: Inici de sessió d'usuari, registre i gestió de perfil
+- **Serveis de pacients**: Operacions CRUD per a registres de pacients
+- **Serveis de cites**: Programació i gestió de cites
+- **Serveis d'estadístiques**: Agregació de dades i informes
 
-## Themes
+## Temes
 
-The application supports both light and dark themes, with a consistent color palette:
+L'aplicació admet temes clars i foscos, amb una paleta de colors consistent:
 
-- **Primary Color**: #5a4ff3 (purple)
-- **Secondary Colors**: Various complementary colors for status indicators
-- **Light Theme**: White backgrounds with dark text
-- **Dark Theme**: Dark backgrounds with light text
+- **Color Primari**: #5a4ff3 (lila)
+- **Colors Secundaris**: Diversos colors complementaris per a indicadors d'estat
+- **Tema Clar**: Fons blancs amb text fosc
+- **Tema Fosc**: Fons foscos amb text clar
 
-CSS variables are used for consistent theming across components.
+S'utilitzen variables CSS per a una tematització consistent en tots els components.
 
-## Contributing
+## Contribuir
 
-Contributions are welcome! Please follow these steps:
+Les contribucions són benvingudes! Si us plau, seguiu aquests passos:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Feu un fork del repositori
+2. Creeu una branca de funcionalitat (`git checkout -b funcionalitat/funcionalitat-impressionant`)
+3. Feu commit dels vostres canvis (`git commit -m 'Afegeix alguna funcionalitat impressionant'`)
+4. Feu push a la branca (`git push origin funcionalitat/funcionalitat-impressionant`)
+5. Obriu una Pull Request
 
-Please ensure your code follows the project's coding standards and includes appropriate tests.
+Assegureu-vos que el vostre codi segueix els estàndards de codificació del projecte i inclou les proves adequades.
 
-## License
+## Llicència
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Aquest projecte està llicenciat sota la Llicència MIT - consulteu el fitxer LICENSE per a més detalls.
 
