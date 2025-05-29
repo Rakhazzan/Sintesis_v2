@@ -119,6 +119,16 @@ Aquesta documentació descriu la integració entre Sintesis_v2 i Supabase, inclo
 
 ## Configuració
 
+### Extensió UUID
+
+Per generar identificadors únics, la base de dades utilitza l'extensió `uuid-ossp` de PostgreSQL:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+```
+
+### Connexió a Supabase
+
 La connexió amb Supabase es configura a través de variables d'entorn i s'inicialitza a l'arxiu `src/utils/supabaseUtils.js`:
 
 ```javascript
@@ -205,12 +215,13 @@ Emmagatzema informació dels usuaris del sistema.
 
 | Camp | Tipus | Descripció |
 |-------|------|-------------|
-| id | uuid | Identificador únic de l'usuari (clau primària) |
-| email | text | Correu electrònic de l'usuari |
+| id | uuid | Identificador únic de l'usuari (clau primària, vinculat a auth.users) |
+| email | text | Correu electrònic de l'usuari (ha de ser únic) |
 | name | text | Nom complet de l'usuari |
 | avatar | text | URL de la imatge de perfil |
 | preferences | jsonb | Preferències de l'usuari en format JSON |
-| created_at | timestamp | Data de creació del registre |
+| created_at | timestamptz | Data de creació del registre |
+| updated_at | timestamptz | Data d'última actualització |
 
 ### Taula `patients`
 
@@ -219,7 +230,7 @@ Emmagatzema informació dels pacients.
 | Camp | Tipus | Descripció |
 |-------|------|-------------|
 | id | uuid | Identificador únic del pacient (clau primària) |
-| patient_id | text | Codi identificador visible per a l'usuari |
+| patient_id | text | Codi identificador visible per a l'usuari (ha de ser únic) |
 | name | text | Nom complet del pacient |
 | email | text | Correu electrònic del pacient |
 | phone | text | Número de telèfon |
@@ -228,8 +239,9 @@ Emmagatzema informació dels pacients.
 | age | integer | Edat del pacient |
 | address | text | Adreça postal |
 | medical_history | jsonb | Historial mèdic en format JSON |
-| created_at | timestamp | Data de creació del registre |
-| updated_at | timestamp | Data d'última actualització |
+| created_at | timestamptz | Data de creació del registre |
+| updated_at | timestamptz | Data d'última actualització |
+| doctor_id | uuid | ID del metge assignat (clau forana a users.id) |
 
 ### Taula `appointments`
 
@@ -241,13 +253,13 @@ Emmagatzema les cites mèdiques.
 | patient_id | uuid | ID del pacient (clau forana a patients.id) |
 | doctor_id | uuid | ID del metge (clau forana a users.id) |
 | date | date | Data de la cita |
-| time | time | Hora de la cita |
+| time | text | Hora de la cita |
 | duration | integer | Durada en minuts |
 | reason | text | Motiu de la consulta |
 | status | text | Estat (confirmed, pending, cancelled, completed) |
 | notes | text | Notes addicionals |
-| created_at | timestamp | Data de creació del registre |
-| updated_at | timestamp | Data d'última actualització |
+| created_at | timestamptz | Data de creació del registre |
+| updated_at | timestamptz | Data d'última actualització |
 
 ### Taula `messages`
 
@@ -261,7 +273,7 @@ Emmagatzema els missatges entre usuaris.
 | subject | text | Assumpte del missatge |
 | content | text | Contingut del missatge |
 | read | boolean | Indica si el missatge ha estat llegit |
-| created_at | timestamp | Data de creació del missatge |
+| created_at | timestamptz | Data de creació del missatge |
 
 ### Taula `reports`
 
@@ -270,14 +282,14 @@ Emmagatzema els informes mèdics generats.
 | Camp | Tipus | Descripció |
 |-------|------|-------------|
 | id | uuid | Identificador únic de l'informe (clau primària) |
-| report_id | text | Codi identificador visible per a l'usuari (INFMED-...) |
+| report_id | text | Codi identificador visible per a l'usuari (INFMED-...), ha de ser únic |
 | patient_id | uuid | ID del pacient (clau forana a patients.id) |
 | doctor_id | uuid | ID del metge (clau forana a users.id) |
 | report_type | text | Tipus d'informe (consulta, certificat, etc.) |
 | diagnosis | text | Diagnòstic mèdic |
 | treatment | text | Tractament prescrit |
 | observations | text | Observacions addicionals |
-| created_at | timestamp | Data de creació de l'informe |
+| created_at | timestamptz | Data de creació de l'informe |
 
 ## Utilitats d'Accés a Dades
 
@@ -491,6 +503,84 @@ try {
 }
 ```
 
+### Polítiques per a la taula `messages`
+
+```sql
+-- Permetre als usuaris veure missatges en els quals participen
+CREATE POLICY "Els usuaris poden veure missatges en els quals participen" 
+  ON messages FOR SELECT 
+  USING (auth.uid() = sender_id OR auth.uid() = receiver_id);
+
+-- Permetre als usuaris enviar missatges
+CREATE POLICY "Els usuaris poden enviar missatges" 
+  ON messages FOR INSERT 
+  WITH CHECK (auth.uid() = sender_id);
+
+-- Permetre al remitent eliminar els seus missatges
+CREATE POLICY "El remitent pot eliminar els seus missatges" 
+  ON messages FOR DELETE 
+  USING (auth.uid() = sender_id);
+```
+
+### Polítiques per a la taula `reports`
+
+```sql
+-- Permetre als metges veure els seus informes
+CREATE POLICY "Els metges poden veure els seus informes" 
+  ON reports FOR SELECT 
+  USING (auth.uid() = doctor_id);
+
+-- Permetre als metges crear informes
+CREATE POLICY "Els metges poden crear informes" 
+  ON reports FOR INSERT 
+  WITH CHECK (auth.uid() = doctor_id);
+```
+
+## Índexs i Rendiment
+
+Per optimitzar el rendiment de les consultes, s'han creat diversos índexs:
+
+```sql
+CREATE INDEX IF NOT EXISTS idx_appointments_date ON appointments (date);
+CREATE INDEX IF NOT EXISTS idx_appointments_patient_id ON appointments (patient_id);
+CREATE INDEX IF NOT EXISTS idx_appointments_doctor_id ON appointments (doctor_id);
+CREATE INDEX IF NOT EXISTS idx_patients_doctor_id ON patients (doctor_id);
+CREATE INDEX IF NOT EXISTS idx_patients_name ON patients (name);
+CREATE INDEX IF NOT EXISTS idx_messages_sender_id ON messages (sender_id);
+CREATE INDEX IF NOT EXISTS idx_messages_receiver_id ON messages (receiver_id);
+CREATE INDEX IF NOT EXISTS idx_reports_patient_id ON reports (patient_id);
+CREATE INDEX IF NOT EXISTS idx_reports_doctor_id ON reports (doctor_id);
+```
+
+## Automatització de Timestamps
+
+Per mantenir automàticament les dates d'actualització, s'utilitzen triggers PostgreSQL:
+
+```sql
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_users_updated_at
+  BEFORE UPDATE ON users
+  FOR EACH ROW
+  EXECUTE PROCEDURE update_updated_at();
+
+CREATE TRIGGER update_patients_updated_at
+  BEFORE UPDATE ON patients
+  FOR EACH ROW
+  EXECUTE PROCEDURE update_updated_at();
+
+CREATE TRIGGER update_appointments_updated_at
+  BEFORE UPDATE ON appointments
+  FOR EACH ROW
+  EXECUTE PROCEDURE update_updated_at();
+```
+
 ## Patró de Resiliència
 
 L'aplicació implementa un patró de resiliència per gestionar possibles fallades en la connexió amb Supabase. Totes les funcions d'accés a dades inclouen:
@@ -548,34 +638,59 @@ const setupRealtimeSubscription = () => {
 
 ## Polítiques de Seguretat (RLS)
 
-La seguretat de les dades s'implementa mitjançant les polítiques Row Level Security (RLS) de Supabase:
+La seguretat de les dades s'implementa mitjançant les polítiques Row Level Security (RLS) de Supabase. Cada taula té RLS activat amb la següent instrucció:
+
+```sql
+ALTER TABLE nom_taula ENABLE ROW LEVEL SECURITY;
+```
+
+A continuació es detallen les polítiques per a cada taula:
 
 ### Polítiques per a la taula `patients`
 
 ```sql
--- Permetre lectura a usuaris autenticats
-CREATE POLICY "Permetre lectura de pacients a usuaris autenticats" 
+-- Permetre als metges veure els seus pacients
+CREATE POLICY "Els metges poden veure els seus pacients" 
   ON patients FOR SELECT 
-  USING (auth.role() = 'authenticated');
+  USING (auth.uid() = doctor_id);
 
--- Permetre escriptura només a usuaris amb rol 'doctor'
-CREATE POLICY "Permetre escriptura de pacients a metges" 
+-- Permetre als metges crear pacients
+CREATE POLICY "Els metges poden crear pacients" 
   ON patients FOR INSERT 
-  WITH CHECK (auth.jwt() ->> 'role' = 'doctor');
+  WITH CHECK (auth.uid() = doctor_id);
+
+-- Permetre als metges actualitzar els seus pacients
+CREATE POLICY "Els metges poden actualitzar els seus pacients" 
+  ON patients FOR UPDATE 
+  USING (auth.uid() = doctor_id);
+
+-- Permetre als metges eliminar els seus pacients
+CREATE POLICY "Els metges poden eliminar els seus pacients" 
+  ON patients FOR DELETE 
+  USING (auth.uid() = doctor_id);
 ```
 
 ### Polítiques per a la taula `appointments`
 
 ```sql
--- Permetre lectura a usuaris relacionats amb la cita
-CREATE POLICY "Usuaris poden veure les seves pròpies cites" 
+-- Permetre als metges veure les seves cites
+CREATE POLICY "Els metges poden veure les seves cites" 
   ON appointments FOR SELECT 
-  USING (auth.uid() = doctor_id OR 
-         auth.uid() IN (SELECT user_id FROM patients WHERE id = patient_id));
+  USING (auth.uid() = doctor_id);
 
--- Permetre actualització només al metge assignat
-CREATE POLICY "Metges poden actualitzar les seves cites" 
+-- Permetre als metges crear cites
+CREATE POLICY "Els metges poden crear cites" 
+  ON appointments FOR INSERT 
+  WITH CHECK (auth.uid() = doctor_id);
+
+-- Permetre als metges actualitzar les seves cites
+CREATE POLICY "Els metges poden actualitzar les seves cites" 
   ON appointments FOR UPDATE 
+  USING (auth.uid() = doctor_id);
+
+-- Permetre als metges eliminar les seves cites
+CREATE POLICY "Els metges poden eliminar les seves cites" 
+  ON appointments FOR DELETE 
   USING (auth.uid() = doctor_id);
 ```
 
