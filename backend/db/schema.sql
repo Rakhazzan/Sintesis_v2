@@ -116,12 +116,6 @@ CREATE POLICY "El remitente puede eliminar sus mensajes" ON messages
 
 
 
--- Políticas de seguridad para informes
-CREATE POLICY "Los médicos pueden ver sus informes" ON reports
-  FOR SELECT USING (auth.uid() = doctor_id);
-  
-CREATE POLICY "Los médicos pueden crear informes" ON reports
-  FOR INSERT WITH CHECK (auth.uid() = doctor_id);
 
 -- Crear índices para mejorar el rendimiento
 CREATE INDEX IF NOT EXISTS idx_appointments_date ON appointments (date);
@@ -131,8 +125,7 @@ CREATE INDEX IF NOT EXISTS idx_patients_doctor_id ON patients (doctor_id);
 CREATE INDEX IF NOT EXISTS idx_patients_name ON patients (name);
 CREATE INDEX IF NOT EXISTS idx_messages_sender_id ON messages (sender_id);
 CREATE INDEX IF NOT EXISTS idx_messages_receiver_id ON messages (receiver_id);
-CREATE INDEX IF NOT EXISTS idx_reports_patient_id ON reports (patient_id);
-CREATE INDEX IF NOT EXISTS idx_reports_doctor_id ON reports (doctor_id);
+
 
 -- Funciones para actualizar timestamps
 CREATE OR REPLACE FUNCTION update_updated_at()
