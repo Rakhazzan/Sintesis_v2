@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { gsap } from 'gsap';
 import "../components/LoginPage.css";
+import AuthBackgroundEffect from "../components/AuthBackgroundEffect";
 
 const LoginPage = ({ onLogin, onRegister, error, onResendConfirmation, lastEmail }) => {
   const [email, setEmail] = useState("");
@@ -40,6 +41,22 @@ const LoginPage = ({ onLogin, onRegister, error, onResendConfirmation, lastEmail
     }
   };
   
+  // Aplicar la clase auth-page al div root al montar el componente
+  useEffect(() => {
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+      rootElement.classList.add('auth-page');
+    }
+    
+    // Limpiar al desmontar
+    return () => {
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        rootElement.classList.remove('auth-page');
+      }
+    };
+  }, []);
+
   // Efecto para animar el mensaje de error cuando cambia
   useEffect(() => {
     if (error && errorRef.current) {
@@ -69,6 +86,7 @@ const LoginPage = ({ onLogin, onRegister, error, onResendConfirmation, lastEmail
 
   return (
     <div className="login-main">
+      <AuthBackgroundEffect />
       <h2>Iniciar sesión</h2>
       <form className="login-form" onSubmit={e => { e.preventDefault(); onLogin({ email, password }); }}>
         <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
