@@ -15,8 +15,6 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Habilitar RLS (Row Level Security)
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 
 -- Políticas de seguridad para usuarios
 CREATE POLICY "Los usuarios pueden ver su propio perfil" ON users
@@ -42,8 +40,7 @@ CREATE TABLE IF NOT EXISTS patients (
   doctor_id UUID REFERENCES users ON DELETE SET NULL
 );
 
--- Habilitar RLS (Row Level Security)
-ALTER TABLE patients ENABLE ROW LEVEL SECURITY;
+
 
 -- Políticas de seguridad para pacientes
 CREATE POLICY "Los médicos pueden ver sus pacientes" ON patients
@@ -73,8 +70,7 @@ CREATE TABLE IF NOT EXISTS appointments (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Habilitar RLS (Row Level Security)
-ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;
+
 
 -- Políticas de seguridad para citas
 CREATE POLICY "Los médicos pueden ver sus citas" ON appointments
@@ -100,8 +96,7 @@ CREATE TABLE IF NOT EXISTS messages (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Habilitar RLS (Row Level Security)
-ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+
 
 -- Políticas de seguridad para mensajes
 CREATE POLICY "Los usuarios pueden ver mensajes en los que participan" ON messages
@@ -113,8 +108,7 @@ CREATE POLICY "Los usuarios pueden enviar mensajes" ON messages
 CREATE POLICY "El remitente puede eliminar sus mensajes" ON messages
   FOR DELETE USING (auth.uid() = sender_id);
 
--- Habilitar RLS (Row Level Security)
-ALTER TABLE reports ENABLE ROW LEVEL SECURITY;
+
 
 -- Políticas de seguridad para informes
 CREATE POLICY "Los médicos pueden ver sus informes" ON reports
