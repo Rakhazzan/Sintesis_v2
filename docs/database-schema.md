@@ -27,13 +27,15 @@ CREATE TABLE IF NOT EXISTS users (
   avatar TEXT,
   preferences JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  type TEXT
 );
 ```
 
 #### Notes:
 - `id` està vinculat directament a la taula d'autenticació `auth.users` de Supabase
 - `preferences` permet emmagatzemar configuracions personalitzades en format JSON
+- `type` permet diferenciar entre els diferents tipus d'usuaris del sistema
 - Políticas RLS garanteixen que cada usuari només pot veure i modificar el seu propi perfil
 
 ### Taula `patients`
@@ -43,15 +45,14 @@ Emmagatzema la informació dels pacients.
 ```sql
 CREATE TABLE IF NOT EXISTS patients (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  patient_id TEXT UNIQUE,
   name TEXT NOT NULL,
   email TEXT,
   phone TEXT,
-  date_of_birth DATE,
+  avatar TEXT,
+  birthdate DATE,
   gender TEXT,
-  age INTEGER,
-  address TEXT,
-  medical_history JSONB DEFAULT '{}',
+  medical_condition TEXT,
+  color TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   doctor_id UUID REFERENCES users ON DELETE SET NULL
@@ -60,8 +61,10 @@ CREATE TABLE IF NOT EXISTS patients (
 
 #### Notes:
 - `id` és generat automàticament mitjançant l'extensió `uuid-ossp`
-- `patient_id` és un identificador visible per a l'usuari (ex: "PAT-001")
-- `medical_history` utilitza format JSONB per emmagatzemar historial mèdic estructurat
+- `avatar` emmagatzema l'URL de la imatge de perfil del pacient
+- `birthdate` conté la data de naixement del pacient
+- `medical_condition` emmagatzema la condició mèdica principal del pacient
+- `color` permet assignar un color personalitzat per a la visualització del pacient a la interfície
 - `doctor_id` vincula el pacient amb el seu metge principal
 - Si un metge és eliminat del sistema, els seus pacients mantenen `doctor_id = NULL`
 
@@ -75,11 +78,13 @@ CREATE TABLE IF NOT EXISTS appointments (
   patient_id UUID NOT NULL REFERENCES patients ON DELETE CASCADE,
   doctor_id UUID REFERENCES users ON DELETE SET NULL,
   date DATE NOT NULL,
-  time TEXT NOT NULL,
-  duration INTEGER,
-  reason TEXT,
+  start_time TEXT NOT NULL,
+  end_time TEXT,
+  appointment_type TEXT,
   status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'cancelled', 'completed')),
-  notes TEXT,
+  diagnosis TEXT,
+  phone_call BOOLEAN DEFAULT FALSE,
+  video_call BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -87,6 +92,10 @@ CREATE TABLE IF NOT EXISTS appointments (
 
 #### Notes:
 - `patient_id` i `doctor_id` vinculen la cita amb el pacient i el metge
+- `start_time` i `end_time` defineixen l'interval horàri de la cita
+- `appointment_type` indica el tipus de visita (ex: "Revisió", "Consulta", etc.)
+- `diagnosis` permet registrar el diagnòstic després de la cita
+- `phone_call` i `video_call` indiquen si la cita és per telèfon o vídeo
 - `status` té una restricció CHECK per garantir que només conté valors vàlids
 - Si un pacient és eliminat, totes les seves cites també s'eliminen automàticament (CASCADE)
 - Si un metge és eliminat, les seves cites romanen amb `doctor_id = NULL`
@@ -98,42 +107,26 @@ Emmagatzema els missatges entre usuaris del sistema.
 ```sql
 CREATE TABLE IF NOT EXISTS messages (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  sender_id UUID NOT NULL REFERENCES users ON DELETE CASCADE,
-  receiver_id UUID NOT NULL REFERENCES users ON DELETE CASCADE,
+  sender_id UUID NOT NULL,
+  receiver_id UUID NOT NULL,
   subject TEXT,
   content TEXT NOT NULL,
   read BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  email_sent BOOLEAN DEFAULT FALSE,
+  sender_type TEXT,
+  receiver_type TEXT
 );
 ```
 
 #### Notes:
 - Cada missatge té un remitent i un destinatari
-- Si qualsevol dels dos usuaris és eliminat, el missatge també s'elimina (CASCADE)
+- `sender_id` i `receiver_id` no estàn vinculats directament a la taula users
+- `sender_type` i `receiver_type` permeten classificar l'origen/destí (ex: "doctor", "patient")
+- `email_sent` indica si s'ha enviat notificació per correu electrònic
 - No hi ha `updated_at` perquè els missatges no es poden editar després d'enviar-se
 
-### Taula `reports`
-
-Emmagatzema els informes mèdics generats.
-
-```sql
-CREATE TABLE IF NOT EXISTS reports (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  report_id TEXT UNIQUE,
-  patient_id UUID NOT NULL REFERENCES patients ON DELETE CASCADE,
-  doctor_id UUID REFERENCES users ON DELETE SET NULL,
-  report_type TEXT NOT NULL,
-  diagnosis TEXT,
-  treatment TEXT,
-  observations TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-```
-
-#### Notes:
-- `report_id` és un identificador visible per a l'usuari (ex: "INFMED-20250529-001")
-- Si un pacient és eliminat, tots els seus informes també s'eliminen (CASCADE)
-- Si un metge és eliminat, els informes romanen amb `doctor_id = NULL`
+<!-- La tabla reports ha sido eliminada del esquema -->
 - No hi ha `updated_at` perquè els informes són documents oficials que no es modifiquen
 
 ## Relacions entre Taules
@@ -143,20 +136,15 @@ L'esquema implementa les següents relacions:
 1. **Un usuari pot tenir molts pacients** (relació 1:N entre `users` i `patients`)
 2. **Un pacient pot tenir moltes cites** (relació 1:N entre `patients` i `appointments`)
 3. **Un metge pot tenir moltes cites** (relació 1:N entre `users` i `appointments`)
-4. **Un pacient pot tenir molts informes** (relació 1:N entre `patients` i `reports`)
-5. **Un metge pot generar molts informes** (relació 1:N entre `users` i `reports`)
-6. **Els usuaris poden enviar i rebre missatges** (relacions N:M entre `users` i `messages`)
+4. **Els usuaris poden enviar i rebre missatges** (relacions N:M entre `users` i `messages`)
 
-## Polítiques de Seguretat (RLS)
+## Polítiques de Seguretat
 
-Supabase utilitza Row Level Security (RLS) per controlar l'accés a les dades a nivell de fila. Cada taula té les seves pròpies polítiques:
+Les polítiques de seguretat s'apliquen directament sense habilitar explícitament RLS.
 
 ### Per a la taula `users`
 
 ```sql
--- Habilitar RLS
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-
 -- Els usuaris poden veure el seu propi perfil
 CREATE POLICY "Los usuarios pueden ver su propio perfil" ON users
   FOR SELECT USING (auth.uid() = id);
@@ -169,9 +157,6 @@ CREATE POLICY "Los usuarios pueden actualizar su propio perfil" ON users
 ### Per a la taula `patients`
 
 ```sql
--- Habilitar RLS
-ALTER TABLE patients ENABLE ROW LEVEL SECURITY;
-
 -- Els metges poden veure els seus pacients
 CREATE POLICY "Los médicos pueden ver sus pacientes" ON patients
   FOR SELECT USING (auth.uid() = doctor_id);
@@ -209,9 +194,7 @@ CREATE INDEX IF NOT EXISTS idx_patients_name ON patients (name);
 CREATE INDEX IF NOT EXISTS idx_messages_sender_id ON messages (sender_id);
 CREATE INDEX IF NOT EXISTS idx_messages_receiver_id ON messages (receiver_id);
 
--- Índexs per a informes
-CREATE INDEX IF NOT EXISTS idx_reports_patient_id ON reports (patient_id);
-CREATE INDEX IF NOT EXISTS idx_reports_doctor_id ON reports (doctor_id);
+-- Els índexs per a informes s'han eliminat ja que la taula reports no existeix
 ```
 
 Aquests índexs milloren significativament el rendiment de les consultes més freqüents, com:

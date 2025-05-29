@@ -49,6 +49,8 @@ Se han creado las siguientes tablas en Supabase:
 - **appointments**: Citas médicas
 - **messages**: Mensajes entre usuarios
 
+Nota: La tabla **reports** (informes médicos) ha sido eliminada del esquema.
+
 ## Migrar desde localStorage
 
 Se han reemplazado todas las funciones que usaban localStorage con llamadas a la API de Supabase:
@@ -220,28 +222,27 @@ Emmagatzema informació dels usuaris del sistema.
 | name | text | Nom complet de l'usuari |
 | avatar | text | URL de la imatge de perfil |
 | preferences | jsonb | Preferències de l'usuari en format JSON |
+| type | text | Tipus d'usuari (ex: admin, metge, etc.) |
 | created_at | timestamptz | Data de creació del registre |
 | updated_at | timestamptz | Data d'última actualització |
 
 ### Taula `patients`
 
-Emmagatzema informació dels pacients.
+Emmagatzema la informació dels pacients.
 
 | Camp | Tipus | Descripció |
 |-------|------|-------------|
 | id | uuid | Identificador únic del pacient (clau primària) |
-| patient_id | text | Codi identificador visible per a l'usuari (ha de ser únic) |
 | name | text | Nom complet del pacient |
 | email | text | Correu electrònic del pacient |
-| phone | text | Número de telèfon |
-| date_of_birth | date | Data de naixement |
-| gender | text | Gènere del pacient |
-| age | integer | Edat del pacient |
-| address | text | Adreça postal |
-| medical_history | jsonb | Historial mèdic en format JSON |
-| created_at | timestamptz | Data de creació del registre |
+| phone | text | Telèfon de contacte |
+| avatar | text | URL de la imatge de perfil del pacient |
+| birthdate | date | Data de naixement |
+| gender | text | Gènere |
+| medical_condition | text | Condició mèdica principal del pacient |
+| color | text | Codi de color per a la visualització a la interfície |
+| doctor_id | uuid | ID del metge principal (clau forana a users.id) |
 | updated_at | timestamptz | Data d'última actualització |
-| doctor_id | uuid | ID del metge assignat (clau forana a users.id) |
 
 ### Taula `appointments`
 
@@ -253,11 +254,13 @@ Emmagatzema les cites mèdiques.
 | patient_id | uuid | ID del pacient (clau forana a patients.id) |
 | doctor_id | uuid | ID del metge (clau forana a users.id) |
 | date | date | Data de la cita |
-| time | text | Hora de la cita |
-| duration | integer | Durada en minuts |
-| reason | text | Motiu de la consulta |
+| start_time | text | Hora d'inici de la cita |
+| end_time | text | Hora de finalització de la cita |
+| appointment_type | text | Tipus de cita (Revisió, Consulta, etc.) |
 | status | text | Estat (confirmed, pending, cancelled, completed) |
-| notes | text | Notes addicionals |
+| diagnosis | text | Diagnòstic mèdic |
+| phone_call | boolean | Indica si la cita és per telèfon |
+| video_call | boolean | Indica si la cita és per videoconferència |
 | created_at | timestamptz | Data de creació del registre |
 | updated_at | timestamptz | Data d'última actualització |
 
@@ -268,28 +271,17 @@ Emmagatzema els missatges entre usuaris.
 | Camp | Tipus | Descripció |
 |-------|------|-------------|
 | id | uuid | Identificador únic del missatge (clau primària) |
-| sender_id | uuid | ID del remitent (clau forana a users.id) |
-| receiver_id | uuid | ID del destinatari (clau forana a users.id) |
+| sender_id | uuid | ID del remitent |
+| receiver_id | uuid | ID del destinatari |
 | subject | text | Assumpte del missatge |
 | content | text | Contingut del missatge |
 | read | boolean | Indica si el missatge ha estat llegit |
 | created_at | timestamptz | Data de creació del missatge |
+| email_sent | boolean | Indica si s'ha enviat notificació per email |
+| sender_type | text | Tipus del remitent (doctor, patient, etc.) |
+| receiver_type | text | Tipus del destinatari (doctor, patient, etc.) |
 
-### Taula `reports`
 
-Emmagatzema els informes mèdics generats.
-
-| Camp | Tipus | Descripció |
-|-------|------|-------------|
-| id | uuid | Identificador únic de l'informe (clau primària) |
-| report_id | text | Codi identificador visible per a l'usuari (INFMED-...), ha de ser únic |
-| patient_id | uuid | ID del pacient (clau forana a patients.id) |
-| doctor_id | uuid | ID del metge (clau forana a users.id) |
-| report_type | text | Tipus d'informe (consulta, certificat, etc.) |
-| diagnosis | text | Diagnòstic mèdic |
-| treatment | text | Tractament prescrit |
-| observations | text | Observacions addicionals |
-| created_at | timestamptz | Data de creació de l'informe |
 
 ## Utilitats d'Accés a Dades
 
@@ -476,19 +468,7 @@ try {
 }
 ```
 
-#### Generar i desar informe
-
-```javascript
-try {
-  // Generar ID únic per a l'informe
-  const reportId = generateReportId();
-  
-  // Desar registre de l'informe a la base de dades
-  const { data, error } = await supabase
-    .from('reports')
-    .insert([
-      {
-        report_id: reportId,
+<!-- La funcionalidad de generación y almacenamiento de informes ha sido eliminada -->
         patient_id: selectedPatient,
         doctor_id: user.id,
         report_type: formData.reportType,
@@ -522,19 +502,7 @@ CREATE POLICY "El remitent pot eliminar els seus missatges"
   USING (auth.uid() = sender_id);
 ```
 
-### Polítiques per a la taula `reports`
-
-```sql
--- Permetre als metges veure els seus informes
-CREATE POLICY "Els metges poden veure els seus informes" 
-  ON reports FOR SELECT 
-  USING (auth.uid() = doctor_id);
-
--- Permetre als metges crear informes
-CREATE POLICY "Els metges poden crear informes" 
-  ON reports FOR INSERT 
-  WITH CHECK (auth.uid() = doctor_id);
-```
+<!-- La sección de políticas para la tabla reports ha sido eliminada ya que esta tabla ya no existe -->
 
 ## Índexs i Rendiment
 
@@ -638,11 +606,7 @@ const setupRealtimeSubscription = () => {
 
 ## Polítiques de Seguretat (RLS)
 
-La seguretat de les dades s'implementa mitjançant les polítiques Row Level Security (RLS) de Supabase. Cada taula té RLS activat amb la següent instrucció:
-
-```sql
-ALTER TABLE nom_taula ENABLE ROW LEVEL SECURITY;
-```
+La seguretat de les dades s'implementa mitjançant les polítiques Row Level Security (RLS) de Supabase. Les polítiques s'apliquen directament sense necessitat d'habilitar explícitament RLS per a cada taula.
 
 A continuació es detallen les polítiques per a cada taula:
 
