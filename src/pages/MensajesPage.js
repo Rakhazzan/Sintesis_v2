@@ -2,9 +2,9 @@ import React from "react";
 import "../components/Mensajes.css";
 import Mensajes from "../components/Mensajes";
 
-const MensajesPage = () => (
+const MensajesPage = ({ params }) => (
   <div className="page-content">
-    <Mensajes />
+    <Mensajes selectedPatientId={params?.patientId} />
   </div>
 );
 

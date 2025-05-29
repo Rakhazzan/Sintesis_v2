@@ -73,7 +73,7 @@ const UpcomingAppointments = ({ appointments, onNavigate, isMobile = false }) =>
                 <button 
                   className="action-btn message" 
                   aria-label="Mensaje" 
-                  onClick={() => onNavigate("chat")}
+                  onClick={() => onNavigate("mensajes", { patientId: cita.patient.id })}
                 >
                   💬
                 </button>

@@ -25,7 +25,14 @@ function AppContent() {
     const savedScreen = sessionStorage.getItem('currentScreen');
     return savedScreen || "inicio";
   });
+  const [activePageParams, setActivePageParams] = useState(null);
   const [editingProfile, setEditingProfile] = useState(false);
+  
+  // Función para cambiar de página y manejar parámetros adicionales
+  const handlePageChange = (page, params = null) => {
+    setActivePage(page);
+    setActivePageParams(params);
+  };
   
   // Guardar la pantalla actual en sessionStorage
   useEffect(() => {
@@ -67,17 +74,17 @@ function AppContent() {
   return (
     <MainLayout 
       activePage={activePage} 
-      onPageChange={setActivePage}
+      onPageChange={handlePageChange}
       user={user}
       onLogout={logout}
       onEditProfile={() => setEditingProfile(true)}
     >
       {activePage === "inicio" && (
-        <DashboardPage onNavigate={setActivePage} />
+        <DashboardPage onNavigate={handlePageChange} />
       )}
       {activePage === "citas" && <Citas />}
       {activePage === "pacientes" && <PacientesPage />}
-      {activePage === "mensajes" && <MensajesPage />}
+      {activePage === "mensajes" && <MensajesPage params={activePageParams} />}
       {activePage === "documentos" && <DocumentosPage />}
       {activePage === "perfil" && (
         <PersonPage 

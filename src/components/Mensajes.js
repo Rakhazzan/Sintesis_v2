@@ -6,7 +6,7 @@ import { getPatients } from "../services/patientService";
 import { notifyService } from "../services/notifyService";
 import gsap from "gsap";
 
-const Mensajes = () => {
+const Mensajes = ({ selectedPatientId = null }) => {
   // Estados
   const [busqueda, setBusqueda] = useState("");
   const [mensajes, setMensajes] = useState([]);
@@ -37,8 +37,27 @@ const Mensajes = () => {
         const data = await getPatients();
         console.log('Pacientes cargados:', data.length);
         setPacientes(data);
+        
         // Después de cargar los pacientes, cargamos los mensajes
         fetchMensajes(data);
+        
+        // Si se ha proporcionado un ID de paciente, seleccionarlo y abrir modal
+        if (selectedPatientId) {
+          // Verificar si el paciente existe
+          const pacienteSeleccionado = data.find(p => p.id === selectedPatientId);
+          if (pacienteSeleccionado) {
+            // Actualizar estado para seleccionar al paciente
+            setNuevoMensaje(prevState => ({
+              ...prevState,
+              destinatarios: [selectedPatientId]
+            }));
+            
+            // Abrir el modal automáticamente después de un breve retraso
+            setTimeout(() => {
+              handleNuevoMensaje();
+            }, 300);
+          }
+        }
       } catch (error) {
         setErrorMensaje("Error al cargar pacientes. Comprueba la conexión con el servidor.");
         console.error("Error al cargar pacientes:", error);
@@ -46,7 +65,7 @@ const Mensajes = () => {
     };
 
     fetchPacientes();
-  }, [userId]); // Solo se ejecuta cuando cambia el userId
+  }, [userId, selectedPatientId]); // Se ejecuta cuando cambia el userId o selectedPatientId
   
   // Función para cargar mensajes (ahora recibe los pacientes como parámetro)
   const fetchMensajes = async (pacientesData) => {
