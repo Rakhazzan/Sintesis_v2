@@ -5,6 +5,8 @@ import { ReactComponent as FemaleIcon } from "./svg/female.svg";
 import { ReactComponent as AddIcon } from "./svg/add.svg";
 import { getAllPatients, createPatient } from "../utils/patientUtils";
 import { notifyService } from "../components/NotificationManager";
+import { classifyMedicalCondition, getContrastTextColor } from "../utils/medicalConditionUtils";
+import MedicalConditionSelector from "./MedicalConditionSelector";
 
 // Datos iniciales para desarrollo
 const pacientesIniciales = [];
@@ -61,17 +63,23 @@ const Pacientes = () => {
     cargarPacientes();
   }, []);
   
-  // Función para obtener un color según la condición médica
+  // Función para obtener un color según la condición médica usando clasificación IA
   const getRandomColor = (condition) => {
-    const colors = {
-      'Hipertensión': '#b6c5ff',
-      'Diabetes': '#ffe6a7',
-      'Cardiopatía': '#ffb6b9',
-      'Alergia': '#c7ffd8',
-      'Embarazo': '#e6d6ff'
-    };
+    // Si no hay condición, devolver un color por defecto
+    if (!condition || condition.trim() === '') {
+      return '#CFD8DC'; // Gris claro
+    }
     
-    return colors[condition] || `#${Math.floor(Math.random()*16777215).toString(16)}`;
+    // Usar la utilidad de clasificación de condiciones médicas
+    const classification = classifyMedicalCondition(condition);
+    
+    // Si se encontró una clasificación, devolver su color
+    if (classification && classification.color) {
+      return classification.color;
+    }
+    
+    // Color aleatorio como fallback
+    return `#${Math.floor(Math.random()*16777215).toString(16)}`;
   };
   
   // Función para filtrar pacientes según la categoría seleccionada
@@ -111,27 +119,35 @@ const Pacientes = () => {
   
   // Función para manejar cambios en los campos del formulario
   const handleInputChange = (e) => {
-    const { name, value, type, files } = e.target;
+    const { name, value, files } = e.target;
     
-    if (type === 'file' && files.length > 0) {
+    if (name === "avatarUpload" && files && files[0]) {
       const file = files[0];
       const reader = new FileReader();
       
       reader.onloadend = () => {
-        setNuevoPaciente(prev => ({
-          ...prev,
-          avatar: reader.result, // Base64 de la imagen
-          avatarPreview: URL.createObjectURL(file), // URL para previsualización
-          customAvatar: true // El usuario ha cargado una imagen personalizada
-        }));
+        setNuevoPaciente({
+          ...nuevoPaciente,
+          avatar: reader.result,
+          avatarPreview: reader.result,
+          customAvatar: true
+        });
       };
       
       reader.readAsDataURL(file);
+    } else if (name === "etiqueta") {
+      // Si se cambió la condición médica, actualizar automáticamente el color
+      const color = getRandomColor(value);
+      setNuevoPaciente({
+        ...nuevoPaciente,
+        [name]: value,
+        color: color
+      });
     } else {
-      setNuevoPaciente(prev => ({
-        ...prev,
+      setNuevoPaciente({
+        ...nuevoPaciente,
         [name]: value
-      }));
+      });
     }
   };
   
@@ -285,7 +301,10 @@ const Pacientes = () => {
             {paciente.etiqueta && (
               <span 
                 className="paciente-etiqueta"
-                style={{ background: paciente.color }}
+                style={{ 
+                  background: paciente.color,
+                  color: getContrastTextColor(paciente.color)
+                }}
               >
                 {paciente.etiqueta}
               </span>
@@ -389,13 +408,18 @@ const Pacientes = () => {
             
             <div className="form-group">
               <label htmlFor="etiqueta">Condición médica (opcional)</label>
-              <input 
-                type="text" 
-                id="etiqueta" 
-                name="etiqueta" 
-                value={nuevoPaciente.etiqueta} 
-                onChange={handleInputChange} 
-                placeholder="Ej. Hipertensión, Diabetes..."
+              <MedicalConditionSelector
+                value={nuevoPaciente.etiqueta}
+                onChange={(value) => {
+                  // Al seleccionar una condición, actualizar el color automáticamente
+                  const color = getRandomColor(value);
+                  setNuevoPaciente({
+                    ...nuevoPaciente,
+                    etiqueta: value,
+                    color: color
+                  });
+                }}
+                placeholder="Seleccionar o escribir condición médica"
               />
             </div>
             
