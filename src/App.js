@@ -16,6 +16,11 @@ import "./styles/global.css";
 
 function AppContent() {
   const { user, auth, loading, logout, saveProfile } = useAuth();
+  // Estado para controlar si es la primera carga de la aplicación
+  const [isFirstLoad, setIsFirstLoad] = useState(() => {
+    return !sessionStorage.getItem('hasVisitedBefore');
+  });
+  
   const [activePage, setActivePage] = useState(() => {
     const savedScreen = sessionStorage.getItem('currentScreen');
     return savedScreen || "inicio";
@@ -26,6 +31,16 @@ function AppContent() {
   useEffect(() => {
     sessionStorage.setItem('currentScreen', activePage);
   }, [activePage]);
+  
+  // Efecto para marcar que el usuario ya ha visitado la aplicación
+  // y forzar la página de login en la primera carga
+  useEffect(() => {
+    if (isFirstLoad) {
+      sessionStorage.setItem('hasVisitedBefore', 'true');
+      sessionStorage.setItem('currentScreen', 'login');
+      setIsFirstLoad(false);
+    }
+  }, [isFirstLoad]);
   
   // Inicializar el servicio de notificaciones
   useEffect(() => {
@@ -43,8 +58,8 @@ function AppContent() {
     );
   }
   
-  // Si no está autenticado, mostrar páginas de login/registro
-  if (!auth) {
+  // Si no está autenticado o es la primera carga, mostrar páginas de login/registro
+  if (!auth || isFirstLoad) {
     return <AuthPages />;
   }
   
