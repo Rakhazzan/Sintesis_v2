@@ -39,17 +39,25 @@ const Pacientes = () => {
         const pacientes = await getAllPatients();
         
         // Formatear los datos recibidos al formato que usa el componente
-        const pacientesFormateados = pacientes.map(p => ({
-          id: p.id,
-          nombre: p.name,
-          // Calculamos la edad a partir de la fecha de nacimiento
-          edad: calcularEdad(p.birthdate),
-          genero: p.gender,
-          avatar: p.avatar || `https://randomuser.me/api/portraits/${p.gender === 'Masculino' ? 'men' : 'women'}/${Math.floor(Math.random() * 70)}.jpg`,
-          etiqueta: p.medical_condition || '',
-          color: p.color || getRandomColor(p.medical_condition),
-          fechaNacimiento: p.birthdate
-        }));
+        const pacientesFormateados = pacientes.map(p => {
+          // Generar color basado en la condición médica
+          const color = p.color || getRandomColor(p.medical_condition);
+          
+          // Generar avatar con iniciales si no hay avatar personalizado
+          const avatar = p.avatar || generateInitialsAvatar(p.name, color);
+          
+          return {
+            id: p.id,
+            nombre: p.name,
+            // Calculamos la edad a partir de la fecha de nacimiento
+            edad: calcularEdad(p.birthdate),
+            genero: p.gender,
+            avatar: avatar,
+            etiqueta: p.medical_condition || '',
+            color: color,
+            fechaNacimiento: p.birthdate
+          };
+        });
         
         setListaPacientes(pacientesFormateados);
       } catch (error) {
@@ -80,6 +88,38 @@ const Pacientes = () => {
     
     // Color aleatorio como fallback
     return `#${Math.floor(Math.random()*16777215).toString(16)}`;
+  };
+  
+  // Función para generar un avatar SVG con las iniciales del nombre
+  const generateInitialsAvatar = (name, backgroundColor) => {
+    if (!name) return null;
+    
+    // Obtener iniciales (máximo 2 caracteres)
+    const initials = name
+      .split(' ')
+      .map(part => part.charAt(0).toUpperCase())
+      .slice(0, 2)
+      .join('');
+    
+    // Asegurarse de que tenemos un color de fondo válido
+    const bgColor = backgroundColor || '#CFD8DC';
+    
+    // Determinar el color del texto (blanco o negro) según el contraste
+    const textColor = getContrastTextColor(bgColor);
+    
+    // Crear el SVG
+    const svgContent = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+        <rect width="200" height="200" fill="${bgColor}"/>
+        <text x="100" y="100" font-family="Arial" font-size="80" text-anchor="middle" dominant-baseline="middle" fill="${textColor}">
+          ${initials}
+        </text>
+      </svg>
+    `;
+    
+    // Convertir el SVG a una URL de datos
+    const dataUrl = `data:image/svg+xml;base64,${btoa(svgContent)}`;
+    return dataUrl;
   };
   
   // Función para filtrar pacientes según la categoría seleccionada
@@ -121,6 +161,7 @@ const Pacientes = () => {
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
     
+    // Si el cambio es en el campo de archivo (avatar)
     if (name === "avatarUpload" && files && files[0]) {
       const file = files[0];
       const reader = new FileReader();
@@ -136,14 +177,29 @@ const Pacientes = () => {
       
       reader.readAsDataURL(file);
     } else if (name === "etiqueta") {
-      // Si se cambió la condición médica, actualizar automáticamente el color
+      // Si cambia la etiqueta, actualizamos el color automáticamente
       const color = getRandomColor(value);
       setNuevoPaciente({
         ...nuevoPaciente,
-        [name]: value,
+        etiqueta: value,
         color: color
       });
+    } else if (name === "nombre") {
+      // Si cambia el nombre y no hay avatar personalizado, actualizar el avatar con las iniciales
+      const updatedState = {
+        ...nuevoPaciente,
+        nombre: value
+      };
+      
+      if (!nuevoPaciente.customAvatar) {
+        const initialsAvatar = generateInitialsAvatar(value, nuevoPaciente.color);
+        updatedState.avatar = initialsAvatar;
+        updatedState.avatarPreview = initialsAvatar;
+      }
+      
+      setNuevoPaciente(updatedState);
     } else {
+      // Para el resto de campos, actualizamos el estado normalmente
       setNuevoPaciente({
         ...nuevoPaciente,
         [name]: value
@@ -164,33 +220,20 @@ const Pacientes = () => {
     try {
       setLoading(true);
       
-      // Usamos el avatar personalizado si existe, o generamos uno aleatorio según el género
-      let avatarUrl;
-      if (nuevoPaciente.customAvatar && nuevoPaciente.avatar) {
-        avatarUrl = nuevoPaciente.avatar; // Usamos la imagen cargada por el usuario (base64)
-      } else {
-        // Generamos un avatar aleatorio si no se cargó una imagen
-        const randomNum = Math.floor(Math.random() * 70) + 1;
-        avatarUrl = nuevoPaciente.genero === "Masculino" ? 
-          `https://randomuser.me/api/portraits/men/${randomNum}.jpg` : 
-          `https://randomuser.me/api/portraits/women/${randomNum}.jpg`;
-      }
-      
       // Preparamos los datos para la API
-      // Adaptamos a los campos que existen en la tabla de Supabase
-      const patientData = {
+      const pacienteData = {
         name: nuevoPaciente.nombre,
-        email: nuevoPaciente.email || null,
-        phone: nuevoPaciente.phone || null,
+        email: nuevoPaciente.email,
+        phone: nuevoPaciente.phone,
         birthdate: nuevoPaciente.fechaNacimiento,
         gender: nuevoPaciente.genero,
-        avatar: avatarUrl,
-        medical_condition: nuevoPaciente.etiqueta || null,
-        color: nuevoPaciente.color
+        medical_condition: nuevoPaciente.etiqueta,
+        color: nuevoPaciente.color,
+        avatar: nuevoPaciente.customAvatar ? nuevoPaciente.avatar : generateInitialsAvatar(nuevoPaciente.nombre, nuevoPaciente.color)
       };
       
       // Enviamos al backend
-      const createdPatient = await createPatient(patientData);
+      const createdPatient = await createPatient(pacienteData);
       
       // Formateamos el paciente recibido del backend
       const nuevoPacienteCompleto = {
@@ -377,7 +420,7 @@ const Pacientes = () => {
                   {nuevoPaciente.avatarPreview ? 'Cambiar imagen' : 'Subir imagen'}
                 </label>
               </div>
-              <small className="avatar-note">Si no selecciona una imagen, se generará una automáticamente.</small>
+              <small className="avatar-note">Si no selecciona una imagen, se generará un avatar con sus iniciales.</small>
             </div>
             
             <div className="form-group">
