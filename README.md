@@ -21,6 +21,7 @@ Built with the tools and technologies:
   - [Usage](#usage)
   - [Testing](#testing)
 - [Features](#features)
+- [Technical Documentation](#technical-documentation)
 - [Project Structure](#project-structure)
 - [Code Organization](#code-organization)
 - [UI Components](#ui-components)
@@ -137,6 +138,25 @@ npm run test:e2e
 - **Dark/Light Theme**: Customizable interface with theme options for user preference.
 
 - **Secure Authentication**: Role-based access control with secure login and session management.
+
+## Technical Documentation
+
+### Documentation for Developers
+1. [Developer Documentation](docs/documentacion_desarrollador.md) - Complete guide for developers
+2. [Supabase Integration](docs/supabase-integration.md) - Details about Supabase integration
+3. [Database Schema](docs/database-schema.md) - Detailed SQL schema documentation
+
+### Documentation for Users
+1. [User Manual](docs/manual_usuario.md) - End-user guide
+
+### Technologies Used
+
+Sintesis_v2 uses the following key technologies:
+
+- **Frontend**: React
+- **Backend**: Supabase (PostgreSQL)
+- **Authentication**: Supabase JWT system
+- **Deployment**: Netlify/Vercel
 
 ## Project Structure
 
