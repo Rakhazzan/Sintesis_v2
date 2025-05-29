@@ -240,5 +240,7 @@ Assegureu-vos que el vostre codi segueix els estàndards de codificació del pro
 
 ## Llicència
 
-Aquest projecte està llicenciat sota la Llicència MIT - consulteu el fitxer LICENSE per a més detalls.
+Aquest projecte està llicenciat sota la Llicència MIT - consulteu el fitxer [LICENSE](LICENSE) per a més detalls.
+
+Per a una explicació detallada de la llicència en català, vegeu [Informació de Llicència](docs/llicencia.md).
 
