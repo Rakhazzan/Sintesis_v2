@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS appointments (
 
 
 
+
 -- Políticas de seguridad para citas
 CREATE POLICY "Los médicos pueden ver sus citas" ON appointments
   FOR SELECT USING (auth.uid() = doctor_id);
