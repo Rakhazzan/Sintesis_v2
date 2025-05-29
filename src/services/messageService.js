@@ -4,7 +4,7 @@
  */
 
 import config from '../config';
-import supabase from '../utils/supabaseUtils';
+import { supabase } from '../utils/supabaseClient';
 
 const API_URL = config.apiBaseUrl;
 
@@ -147,7 +147,7 @@ export const createMessage = async (messageData) => {
         .select();
       
       if (error) throw error;
-      return data[0];
+      return data && data.length > 0 ? data[0] : message;
     } else {
       // Usar el backend en desarrollo
       const response = await fetch(`${API_URL}/messages`, {
@@ -183,7 +183,7 @@ export const markAsRead = async (messageId) => {
         .select();
       
       if (error) throw error;
-      return data[0];
+      return data && data.length > 0 ? data[0] : { id: messageId, read: true };
     } else {
       // Usar el backend en desarrollo
       const response = await fetch(`${API_URL}/messages/${messageId}/read`, {
@@ -273,16 +273,19 @@ export const sendPatientEmail = async (emailData) => {
       console.log('Simulando envío de email en producción:', emailData);
       
       // Guardar un registro del email en Supabase (opcional)
-      const { error } = await supabase
-        .from('email_logs')
-        .insert([{
-          to: emailData.to,
-          subject: emailData.subject,
-          sent_at: new Date().toISOString(),
-          status: 'pending'
-        }]);
+      try {
+        await supabase
+          .from('email_logs')
+          .insert([{
+            to: emailData.to,
+            subject: emailData.subject,
+            sent_at: new Date().toISOString(),
+            status: 'pending'
+          }]);
+      } catch (logError) {
       
-      if (error) console.warn('No se pudo registrar el email en la base de datos:', error);
+        console.warn('No se pudo registrar el email en la base de datos:', logError);
+      }
       
       // Simular un retraso de red
       await new Promise(resolve => setTimeout(resolve, 500));

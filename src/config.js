@@ -1,19 +1,39 @@
-// Configuración centralizada para manejar diferentes entornos
-const isProduction = process.env.NODE_ENV === 'production';
+/**
+ * Configuración centralizada de la aplicación
+ * Gestiona diferentes valores según el entorno (desarrollo/producción)
+ */
 
-// URLs base para las API
+const isProduction = process.env.NODE_ENV === 'production' || process.env.REACT_APP_PRODUCTION === 'true';
+
 const config = {
-  // URL base para las API
-  apiBaseUrl: isProduction 
-    ? 'https://clinica-sintesi-backend.vercel.app/api' // Cambia esto a la URL de tu backend desplegado
-    : 'http://localhost:4000/api',
+  // API base URL - En producción se usa Supabase directamente
+  apiBaseUrl: process.env.REACT_APP_API_URL || 'http://localhost:4000/api',
   
-  // Configuración de Supabase (ya existe en .env)
-  supabaseUrl: process.env.REACT_APP_SUPABASE_URL,
-  supabaseKey: process.env.REACT_APP_SUPABASE_ANON_KEY,
+  // Determina si usar Supabase directamente (en producción) o el backend (en desarrollo)
+  isDirectSupabase: isProduction,
   
-  // Otras configuraciones específicas por entorno
-  isDirectSupabase: isProduction, // Si es true, usa Supabase directamente en producción
+  // Ambiente actual
+  environment: isProduction ? 'production' : 'development',
+  
+  // Supabase config
+  supabase: {
+    url: process.env.REACT_APP_SUPABASE_URL,
+    anonKey: process.env.REACT_APP_SUPABASE_ANON_KEY
+  },
+  
+  // Configuración de notificaciones
+  notifications: {
+    duration: 5000, // duración en ms
+    position: 'top-right'
+  },
+  
+  // Configuración de la aplicación
+  app: {
+    name: 'Clínica Síntesi',
+    version: '1.0.0',
+    defaultLanguage: 'es-ES',
+    supportEmail: 'soporte@clinicasintesi.com'
+  }
 };
 
 export default config;
